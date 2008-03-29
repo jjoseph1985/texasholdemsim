@@ -10,7 +10,9 @@ Alright there will be an initial .sln file along with code that can be checked o
 Consensus was to use Microsoft Visual C++ Expression Edition (2008):
 So get and install that [http://www.microsoft.com/express/download/ here] if you haven't. (You may need the [http://www.microsoft.com/downloads/details.aspx?FamilyID=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en .net 3.5 framework],I did, so if the installer complains about not finding some setup file, do that.)
 
-For checking out and commiting to the project I recommend [http://ankhsvn.open.collab.net/ AnkhSVN] (1.03-pre-release). It integrates nicely with MSVC 2008. For setting it up and using it with our project see the "getting started" on the download page.
+~~For checking out and commiting to the project I recommend [http://ankhsvn.open.collab.net/ AnkhSVN] (1.03-pre-release)_del. It integrates nicely with MSVC 2008. For setting it up and using it with our project see the "getting started" on the download page.~~
+
+Apparently the express edition doesn't support integration of source control, so use whatever you like. TortoiseSVN works pretty well.
 
 I think Visio 2003 or SmartDraw 7 would be best for making UML diagram, but I don't really care. For the sake of compatibility lets not use ANYTHING office 2007 (that was a nightmare for my Sr. Design project).
 
