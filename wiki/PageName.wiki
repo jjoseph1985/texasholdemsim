@@ -8,8 +8,7 @@
 Alright there will be an initial .sln file along with code that can be checked out via SVN on the site by tomorrow (hopefully).
 
 Consensus was to use Microsoft Visual C++ Expression Edition (2008):
-So get and install that [http://www.microsoft.com/express/download/ here] if you haven't. (You may need the [www.microsoft.com/downloads/details.aspx?FamilyID=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en
- .net 3.5 framework], I did, so if the installer complains about not finding some setup file, do that.)
+So get and install that [http://www.microsoft.com/express/download/ here] if you haven't. (You may need the [http://www.microsoft.com/downloads/details.aspx?FamilyID=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en .net 3.5 framework],I did, so if the installer complains about not finding some setup file, do that.)
 
 For checking out and commiting to the project I recommend [http://ankhsvn.open.collab.net/ AnkhSVN] (1.03-pre-release). It integrates nicely with MSVC 2008. For setting it up and using it with our project see the "getting started" on the download page.
 
