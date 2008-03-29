@@ -1,12 +1,18 @@
-#An ASCII version of texas holdem where the computer plays itself.
+#An ASCII version of texas holdem
 
 = Texas Holdem Sim =
 
+== Updates ==
+5:03 PM 3/29/2008
+----
+Alright there will be an initial .sln file along with code that can be checked out via SVN on the site by tomorrow (hopefully).
 
+Consensus was to use Microsoft Visual C++ Expression Edition (2008):
+So get and install that [http://www.microsoft.com/express/download/ here] if you haven't. (You may need the [www.microsoft.com/downloads/details.aspx?FamilyID=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en
+ .net 3.5 framework], I did, so if the installer complains about not finding some setup file, do that.)
 
-= Details =
+For checking out and commiting to the project I recommend [http://ankhsvn.open.collab.net/ AnkhSVN] (1.03-pre-release). It integrates nicely with MSVC 2008. For setting it up and using it with our project see the "getting started" on the download page.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+I think Visio 2003 or SmartDraw 7 would be best for making UML diagram, but I don't really care. For the sake of compatibility lets not use ANYTHING office 2007 (that was a nightmare for my Sr. Design project).
+
+-Matt
