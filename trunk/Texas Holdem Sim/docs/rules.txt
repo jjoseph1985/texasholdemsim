@@ -1,0 +1,28 @@
+Texas hold'em is a community card game. Every player is dealt two cards face down, and then five community cards are dealt in the middle of the table. The five community cards may be used by every player.
+When played in casinos, texas holdem is played with a dealer button to mark who the dealer would be if the casino weren't providing one for the table. The button rotates clockwise around the table between every hand. This is important as the "dealer" is the last to act, and thus has the greatest advantage for that hand.
+ 
+Objective
+To make your best five card hand using any combination of the five cards on the board and the two in your hand.
+Note: Using all five community cards to make your best five card hand is called "playing the board"
+ 
+Forced Bets
+Ante
+Texas hold'em occasionally has an ante (usually only in tournament play) where every player must place a specified amount in the pot prior to the beginning of each hand. The ante does not count toward any future bets.
+1
+Blinds
+Texas holdem rules dictate that there be two forced bets every hand, called blinds. There is a small blind, which is 1/2 of the low limit bet size, and a big blind, which is equal to the low limit bet size. Before the hand begins, the player to the immediate left of the dealer button is forced to post the small blind, and the player to the left of that person is forced to post the big blind. These bets count towards that player's first round bet, and are considered live, meaning the player may choose to raise even if nobody else has.
+Note: In a heads up match (1 on 1), the player with the dealer button posts the small blind, and the other player posts the big blind. The player with the dealer button is the first to act before the flop, but acts after his opponent in the three betting rounds to follow.
+ 
+Betting Rounds
+There are four rounds of betting. In fixed limit Texas hold'em game, in the first two rounds of betting, all bets must be equal to the size of the low limit bet. In the last two rounds of betting, all bets must be equal to the high limit bet. If, for example, you're playing 3-6 Texas holdem, all bets in the first two rounds will be in increments of 3 dollars, and all bets in the last two rounds will be in increments of 6 dollars. A maximum of 3 raises are allowed per betting round.
+Note: In a heads up match, some poker rooms will allow more than the customary 3 raises per betting round. 5 is common, as is unlimited raises.
+
+   1. Preflop - The player to the immediate left of the dealer button is forced to post the small blind. The player to the left of him, or two to the left of the dealer button, is forced to post the big blind. Two cards are dealt to every player face down, starting with the small blind. The action begins with the player to the immediate left of the big blind, who must decide to fold, call (by putting in the low limit bet), or raise (by putting in twice the low limit bet). Action proceeds clockwise around the table. The small blind may call (assuming nobody has raised) by adding the other 1/2 of the low limit bet he was already forced to put in. The big blind may simply check (assuming nobody has raised), as he has already put in the full size of the first round bet.
+   2. The Flop - Three cards are dealt face up in the middle of the table. In this round, and in the following two rounds, the player to the immediate left of the dealer button is the first to act. Play proceeds in a clockwise manner around the table. All bets and raises must be equal to the low limit bet size.
+   3. The Turn - A fourth card is dealt face up in the middle of the table. Play proceeds as in the previous round, except now all bets and raises must be equal to the high limit bet size.
+   4. The River - A fifth and final card is dealt face up in the middle of the table. Play proceeds as in the previous round. All bets and raises must be equal to the high limit bet size. 
+
+Showdown - Anyone who has not folded after the last round of betting will now have the option of showing their hand and possibly winning the pot. The person who bet last is the first to show their hand, and then it proceeds clockwise from there, with each remaining player either choosing to show their hand, or muck it. Often times a player will muck their hand if they aren't going to win the pot, and don't want their opponents to see what they played.
+Hint: Most online poker rooms offer the option of automatically mucking your losing hands, so the other players won't see what you played. It's generally a good idea to select this.
+
+(source: http://www.thepokerproject.com/rules/holdem.php)
