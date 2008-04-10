@@ -374,7 +374,7 @@ double compPlayer::trial( State& st ) {
 
   if( st.isGameOver() ) {
     cerr << "game over" << endl;
-    return st.gainloss();
+    return st.winslosses();
   } else {
     cerr << "make s1" << endl;
     State s1( st );
