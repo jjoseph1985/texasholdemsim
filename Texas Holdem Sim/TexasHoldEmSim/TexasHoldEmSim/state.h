@@ -28,7 +28,7 @@ class State
 	void Fold();
 	void Bet();
 	void Call();
-	double gainloss();
+	double winslosses();
 	int getrnd() { return round; };
 	void setRound( int r ) { round = r; };
 	int numberPlayers() { return players.size(); };

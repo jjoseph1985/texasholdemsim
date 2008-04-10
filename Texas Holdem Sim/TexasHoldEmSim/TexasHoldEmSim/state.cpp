@@ -107,7 +107,7 @@ void State::Call()
   updateRound( true );
 }
 
-double State::gainloss()
+double State::winslosses()
 {
     return winnings;
 }

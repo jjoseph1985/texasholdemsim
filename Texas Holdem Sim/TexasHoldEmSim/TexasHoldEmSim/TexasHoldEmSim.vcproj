@@ -165,31 +165,31 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\comp.cpp"
+				RelativePath=".\comp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\game.cpp"
+				RelativePath=".\game.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\game.ptr.cpp"
+				RelativePath=".\game.ptr.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\hand.cpp"
+				RelativePath=".\hand.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\holecards.cpp"
+				RelativePath=".\holecards.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\human.cpp"
+				RelativePath=".\human.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\state.cpp"
+				RelativePath=".\state.cpp"
 				>
 			</File>
 		</Filter>
@@ -199,39 +199,39 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\card.h"
+				RelativePath=".\card.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\comp.h"
+				RelativePath=".\comp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\game.h"
+				RelativePath=".\game.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\game.ptr.h"
+				RelativePath=".\game.ptr.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\hand.h"
+				RelativePath=".\hand.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\holecards.h"
+				RelativePath=".\holecards.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\human.h"
+				RelativePath=".\human.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\Round.h"
+				RelativePath=".\Round.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\..\..\..\..\Projects\Texas Hold Em\trunk\Texas Holdem Sim\state.h"
+				RelativePath=".\state.h"
 				>
 			</File>
 		</Filter>
