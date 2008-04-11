@@ -33,12 +33,15 @@ void hand::addCard( const card& next ) {
   card temp('A','h'), temp2('A','h');
   bool insert = false;
   int i =0, j =0;
+  
   while ( i != cards.size()) {
     if(next.getnum2() > cards[i].getnum2()) {
       j =i;
       i = cards.size();
       insert = true;
-    } else {
+    } 
+    else
+    {
       i++;
     }
   }

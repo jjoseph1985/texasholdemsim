@@ -1,7 +1,7 @@
 // computer.h
 
-#ifndef _COMPUTER_H
-#define _COMPUTER_H
+#ifndef COMPUTER_H
+#define COMPUTER_H
 
 #include <string>
 #include <map>

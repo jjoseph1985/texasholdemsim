@@ -1,7 +1,7 @@
 // game.h
 
-#ifndef _GAME_H
-#define _GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 #include <vector>
 #include <string>
