@@ -8,7 +8,7 @@
 #include "game.h"
 #include "hand.h"
 #include "holecards.h"
-#include "human.h"
+//#include "human.h" -> move implementation to .cpp file if we are still using
 #include "round.h"
 #include "state.h"
 #include "anyoption.h"
@@ -19,12 +19,19 @@ string ParseCmdLine( int argc, char* argv[]);
 void InitLog(ostream& fout);
 void initKeys();
 
+// Universal variables -- change later
+vector<string> vKeys;
+map<string,string> mPairs;
+AnyOption anyOpt;
+
 int main( int argc, char ** argv )
 {
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
     //       to progress through the game if no human players are left (pretty sure).
     //       
+    //       Problem: Comp class doesn't work at the moment...
+    //
     //       http://www.nd.edu/~cseprog/proj04_331/deepgold/source/
     
     return 0;   

@@ -169,6 +169,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\card.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\comp.cpp"
 				>
 			</File>
