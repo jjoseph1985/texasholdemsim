@@ -1,4 +1,4 @@
-// computer.h
+// comp.h
 
 #ifndef COMPUTER_H
 #define COMPUTER_H

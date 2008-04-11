@@ -1,6 +1,4 @@
-//Deep Gold
-//CSE 331 
-//Coded by Daniel Mack
+// comp.cpp
 
 #include <string>
 #include <map>
@@ -10,6 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+
 #include "comp.h"
 #include "holecards.h"
 //#include "human.h"
@@ -21,9 +20,8 @@
 using namespace std;
 
 //Constructor
-
 compPlayer::compPlayer():chipCount(0), handsPlayed(0),flopsSeen(0), out(false), bust(false), betPlaced( false ), raiseMade( false ), posAtTable(0),
-				   potSize( 0 ), dealerNum( 0 )
+                         potSize(0), dealerNum(0)
 { 
   aDeck["As"] = true; bDeck[0] = "As";
   aDeck["Ks"] = true; bDeck[1] = "Ks";
@@ -81,10 +79,9 @@ compPlayer::compPlayer():chipCount(0), handsPlayed(0),flopsSeen(0), out(false), 
   aDeck["3d"] = true; bDeck[50] = "3d";
   aDeck["2d"] = true; bDeck[51] = "2d";
 
-
   initTable( weightTable );
   srand( 0 );
-}
+} // compPlayer()
 
 void compPlayer::addChips(int amt)
 {
@@ -95,45 +92,44 @@ void compPlayer::addChips(int amt)
 double compPlayer::stackSize()
 {
 	return chipCount;		
-
 }
 
 void compPlayer::setHoleCards(card a, card b)
 {
 	myCards.clear();
 	myCards.setCards(a, b);
-
 }
 
 void compPlayer::fold()
 {
     out = true;
-
 }
 
 void compPlayer::betRaise( double amt )
 {
-  if( ( ! out) && ( amt > chipCount ) && ( ! bust ) )
+  if(!out && (amt > chipCount) && !bust)
     {
-    //game.addPot(amt);				//Perform basic checks and then decrement chip count
-    chipCount -= amt;
+        //game.addPot(amt);				//Perform basic checks and then decrement chip count
+        chipCount -= amt;
     }
     else if(amt>chipCount)
     {
+        ; // MJB: do nothing
     }
-}
+}  // betRaise()
 
 void compPlayer::checkCall( double amt )
 {					//Same as in the bet raise function
     if(!out && amt>chipCount && !bust)
     {
     //game.addPot(amt);
-    chipCount -= amt;
+        chipCount -= amt;
     }
     else if(amt>chipCount)
     {
+        ; // MJB: do nothing
     }   
-}
+} // checkCall()
 
 void compPlayer::busted()
 {
@@ -142,111 +138,117 @@ void compPlayer::busted()
 
 void compPlayer::newHand()
 {
-	myCards.clear();			//A mid game initializer that sets up the computer for a new hand
+	myCards.clear();		//A mid game initializer that sets up the computer for a new hand
 	tablecards.clear();
 	myHand.clear();
-	betPlaced = false;
-	raiseMade = false;
+	betPlaced  = false;
+	raiseMade  = false;
 	posAtTable = 0;    // set this here? or allow game to set it?
-        dealerNum = 0;     //     ditto above
-	potSize = 0.0;
+    dealerNum  = 0;     //     ditto above
+	potSize    = 0.0;
 
 	map<string,bool>::iterator tmp = aDeck.begin();
-	while( tmp != aDeck.end() ) {
-	  tmp->second = true;			//Reset the deck for the simulation
-	  tmp++;
+	while( tmp != aDeck.end() )
+	{
+	    tmp->second = true;			//Reset the deck for the simulation
+	    tmp++;
 	}
-}
+} // newHand()
 
 void compPlayer::addCard(card next)
-{						//Adds a card for use in the computers hand
+{	
+    //Adds a card for use in the computers hand
 	tablecards.push_back(next);
+	
 	if( tablecards.size() == 3)
 	{
-          myHand.init( tablecards[0], tablecards[1], tablecards[2],
-		       myCards.firstCard(), myCards.secondCard() );
+        myHand.init( tablecards[0], tablecards[1], tablecards[2],
+		myCards.firstCard(), myCards.secondCard() );
 	}
 	else if (tablecards.size() > 3)
 	{
 		myHand.addCard(tablecards[tablecards.size()-1]);
 	}
+	
 	aDeck[next.whatcard()] = false;
-}
+} // addCard()
 
-void compPlayer::clearCards() {		//reset function
-  myCards.clear();
-  tablecards.clear();
-  myHand.clear();
-}
+//reset function
+void compPlayer::clearCards()
+{
+    myCards.clear();
+    tablecards.clear();
+    myHand.clear();
+} // clearCards()
 
 void compPlayer::unfold()
 {
 	out = false;
-}
+} // unfold()
 
 bool compPlayer::checkBust()
 {
 	return bust;
-}
+} // checkBust()
 
 bool compPlayer::checkFold()
 {
 	return out;
-}
+}  // checkFold()
 
 enum actionNames compPlayer::makeDec()
-{
- 
-  int dec;
-  dec = rand()%100 + 1;
-  handType current;
- 
-  
-  if( tablecards.size() == 0 ) {
-    return preflopDec();
-  } else {				//Back up for when the simulator doesn't work
-    current = myHand.getType();		//I think you can infer that it isn't working
-    if (current.getType() < 3)		//gets the best hand and adjusts weighting of 
-      {					//the random number depending on how lucrative of the hand
-	  if ( dec >= 1 && dec <25)
-	    return FOLD;
-	  else if ( dec >= 25 && dec <50)
-	    return RAISE;
-	  else if (dec >= 50 && dec < 75)
-	    return CHECK;
-	  else if (dec >= 75 && dec < 100)
-	    return CALL;
-      }
-    else  if (current.getType() < 6)
-      {
-	  if ( dec >= 1 && dec <10)
-	    return FOLD;
-	  else if ( dec >= 10  && dec <40)
-	    return RAISE;
-	  else if (dec >= 40 && dec < 65)
-	    return CHECK;
-	  else if (dec >= 65 && dec < 100)
-	    return CALL;
-      }	
-    else				//The best cards, these will never fold
-      {
-	 
-	  if ( dec >= 0  && dec <40)
-	    return RAISE;
-	  else if (dec >= 40 && dec < 55)
-	    return CHECK;
-	  else if (dec >= 55 && dec < 100)
-	    return CALL;
-      }
+{ 
+    int dec;
+    dec = rand()%100 + 1;
+    handType current;
 
 
-  }
-
-}
+    if( tablecards.size() == 0 )
+    {
+        return preflopDec();
+    } 
+    else
+    {	
+        //Back up for when the simulator doesn't work
+        current = myHand.getType();		//I think you can infer that it isn't working
+        if (current.getType() < 3)		//gets the best hand and adjusts weighting of 
+        {					//the random number depending on how lucrative of the hand
+            if ( dec >= 1 && dec <25)
+                return FOLD;
+            else if ( dec >= 25 && dec <50)
+                return RAISE;
+            else if (dec >= 50 && dec < 75)
+                return CHECK;
+            else if (dec >= 75 && dec < 100)
+                return CALL;
+        }
+        else if (current.getType() < 6)
+        {
+            if ( dec >= 1 && dec <10)
+                return FOLD;
+            else if ( dec >= 10  && dec <40)
+                return RAISE;
+            else if (dec >= 40 && dec < 65)
+                return CHECK;
+            else if (dec >= 65 && dec < 100)
+                return CALL;
+          }	
+        else  //The best cards, these will never fold
+        {
+            if ( dec >= 0  && dec <40)
+                return RAISE;
+            else if (dec >= 40 && dec < 55)
+                return CHECK;
+            else if (dec >= 55 && dec < 100)
+                return CALL;
+        }
+    }
+} // makeDec()
 
 //Partially functional as of this time
 //They are no longer called so that we can turn in fully executable code
-enum actionNames compPlayer::simulate() {
+enum actionNames compPlayer::simulate()
+{
 
   cerr << "Enter simulate()" << endl;	//Lots of debugging going on
 
@@ -259,7 +261,8 @@ enum actionNames compPlayer::simulate() {
   }
   activePlayers.push_back( -1 );
   cerr << "(middle)";
-  for(int j=1; j<dealerNum+1; j++ ){
+  for(int j=1; j<dealerNum+1; j++ )
+  {
     if( ! opposition[j]->checkBust() && ! opposition[j]->checkFold() )
       activePlayers.push_back( j );
   }
@@ -294,7 +297,7 @@ enum actionNames compPlayer::simulate() {
   } else {
     return CALL;
   }
-}
+} // simulate
 
 double compPlayer::sim( State& st ) {
 
@@ -366,7 +369,7 @@ double compPlayer::sim( State& st ) {
   ev = ev / double(NUMTRIALS);
   cerr << "  Final EV = " << ev << endl;
   return ev;
-}
+} // sim()
 
 double compPlayer::trial( State& st ) {
 
@@ -387,10 +390,10 @@ double compPlayer::trial( State& st ) {
     s3.Call();
     return ( trial( s1 ) + trial( s2 ) + trial( s3 ) ) / 3.0;
   }
-}
+} // trial()
 
 
-/* right now, we don;t consider opponent strength */
+/* right now, we don't consider opponent strength */
 /* also, decisions are deterministic */
 enum actionNames compPlayer::preflopDec() {
 
@@ -481,11 +484,12 @@ enum actionNames compPlayer::preflopDec() {
     }
   }
   return act;
-}
+} // preflopDec
 
 
-	//Find where the computer player is in the latest hand so as to better figure what to do on the flop
-enum posType compPlayer::setPosition( const int& numPlayers ) {
+//Find where the computer player is in the latest hand so as to better figure what to do on the flop
+enum posType compPlayer::setPosition( const int& numPlayers )
+{
   enum posType position;
 
   if( numPlayers == 9 ) {
@@ -557,7 +561,8 @@ enum posType compPlayer::setPosition( const int& numPlayers ) {
 }
 
 //Initialize the weight table for use in the flop 
-void compPlayer::initTable( map<string, double>& odds ) {
+void compPlayer::initTable( map<string, double>& odds )
+{
 	ifstream file;
 	file.open("odds.txt");
 	string hole, tmp;
@@ -575,49 +580,47 @@ void compPlayer::initTable( map<string, double>& odds ) {
 		b = hole[1];
 		weight = weight / 31.5;
 
-		if( hole.length() == 2 ) {
-		  tmp = a + 'h' + b + 'c';
-		  odds[tmp] = weight;
-		  tmp = a + 'h' + b + 's';
-		  odds[tmp] = weight;
-		  tmp = a + 'h' + b + 'd';
-		  odds[tmp] = weight;
+		if( hole.length() == 2 )
+		{
+		    tmp = a + 'h' + b + 'c';
+            odds[tmp] = weight;
+            tmp = a + 'h' + b + 's';
+            odds[tmp] = weight;
+            tmp = a + 'h' + b + 'd';
+            odds[tmp] = weight;
 
-		  tmp = a + 'c' + b + 'h';
-		  odds[tmp] = weight;
-		  tmp = a + 'c' + b + 's';
-		  odds[tmp] = weight;
-		  tmp = a + 'c' + b + 'd';
-		  odds[tmp] = weight;
+            tmp = a + 'c' + b + 'h';
+            odds[tmp] = weight;
+            tmp = a + 'c' + b + 's';
+            odds[tmp] = weight;
+            tmp = a + 'c' + b + 'd';
+            odds[tmp] = weight;
 
-		  tmp = a + 's' + b + 'h';
-		  odds[tmp] = weight;
-		  tmp = a + 's' + b + 'c';
-		  odds[tmp] = weight;
-		  tmp = a + 's' + b + 'd';
-		  odds[tmp] = weight;
+            tmp = a + 's' + b + 'h';
+            odds[tmp] = weight;
+            tmp = a + 's' + b + 'c';
+            odds[tmp] = weight;
+            tmp = a + 's' + b + 'd';
+            odds[tmp] = weight;
 
-		  tmp = a + 'd' + b + 'h';
-		  odds[tmp] = weight;
-		  tmp = a + 'd' + b + 'c';
-		  odds[tmp] = weight;
-		  tmp = a + 'd' + b + 's';
-		  odds[tmp] = weight;
+            tmp = a + 'd' + b + 'h';
+            odds[tmp] = weight;
+            tmp = a + 'd' + b + 'c';
+            odds[tmp] = weight;
+            tmp = a + 'd' + b + 's';
+            odds[tmp] = weight;
 
-		} else { // hole.length() == 3
-		  tmp = a + 'h' + b + 'h';
-		  odds[tmp] = weight;
-		  tmp = a + 'c' + b + 'c';
-		  odds[tmp] = weight;
-		  tmp = a + 's' + b + 's';
-		  odds[tmp] = weight;
-		  tmp = a + 'd' + b + 'd';
-		  odds[tmp] = weight;
-		}
+            } else { // hole.length() == 3
+            tmp = a + 'h' + b + 'h';
+            odds[tmp] = weight;
+            tmp = a + 'c' + b + 'c';
+            odds[tmp] = weight;
+            tmp = a + 's' + b + 's';
+            odds[tmp] = weight;
+            tmp = a + 'd' + b + 'd';
+            odds[tmp] = weight;
+            }
 	}
 	
 	file.close();
-
-
-
 }

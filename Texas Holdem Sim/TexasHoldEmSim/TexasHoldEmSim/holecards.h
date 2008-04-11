@@ -10,21 +10,18 @@
 
 using namespace std;
 
-class holeCards {
-public:
-  holeCards();
-  void setCards( const card&, const card& );
-  string getCards();
-  void clear() { data = ""; };
-  card firstCard();
-  card secondCard();
+class holeCards
+{
+    public:
+        holeCards();
+        void setCards( const card&, const card& );
+        string getCards();
+        void clear() { data = ""; };
+        card firstCard();
+        card secondCard();
 
-
-private:
-  string data;
-  
-
-};
-
+    private:
+        string data;
+}; // holeCards
 
 #endif
