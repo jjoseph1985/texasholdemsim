@@ -1,7 +1,7 @@
 // hand.h
 
-#ifndef _HAND_H
-#define _HAND_H
+#ifndef HAND_H
+#define HAND_H
 
 #include <vector>
 #include <string>

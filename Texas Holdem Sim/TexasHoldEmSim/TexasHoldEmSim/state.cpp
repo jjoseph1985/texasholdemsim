@@ -21,7 +21,7 @@ State::State(list<int> ops, double pt, double ms):pot(pt),my_share(ms),gameOver(
   }
   plturn++;
 
-    // MJB: Why are we doing this?  
+    // MJB: This doesn't make sense  
     //lastRaiser = NULL;
 }
 
@@ -157,10 +157,10 @@ void State::updateRound( bool called ) {
   }
   if( round == 4 ) {
     cerr << "   round == 4" << endl;
-    gameOver == true;
+    gameOver = true;
   } else if( compout ) {
     cerr << "   comp is out" << endl;
-    gameOver == true;
+    gameOver = true;
   } else if( players.size() == 1 && compout == false ) {
     cerr << "   only comp left" << endl;
     gameOver = true;
