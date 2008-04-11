@@ -1,11 +1,7 @@
-//Deep Gold
-//October 10, 2004
-//card.h
-//the underlying card class
-//coded by Daniel Mack
+// card.h
 
-#ifndef _CARD_H
-#define _CARD_H
+#ifndef CARD_H
+#define CARD_H
 
 #include <string>
 #include <iostream>
@@ -14,44 +10,44 @@ using namespace std;
 
 class card
 {
-    public :
+    public:
     
       card() : num('-'), suit('~') {};
 
-        card(char n, char s):num(n),suit(s){}
+      card(char n, char s):num(n),suit(s){}
     
-        string whatcard() const
-        {
-            string temp;
-            temp = temp + num;
-            temp = temp + suit;
-            return temp;
-        }
+      string whatcard() const
+      {
+          string temp;
+          temp = temp + num;
+          temp = temp + suit;
+          return temp;
+      }
     
 	void setVal( char n, char s ) {
 	  num = n;
 	  suit = s;
 	}
     
-        void setnum(char n)
-        {
+    void setnum(char n)
+    {
             num = n;
-        }
+    }
 
-        void setsuit(char s)
-        {
+    void setsuit(char s)
+    {
             suit = s;
-        }    
+     }    
 
-        char getsuit() const
-        {
+     char getsuit() const
+     {
             return suit;
-        }           
+     }           
  
-        char getnum() const
-        {
+     char getnum() const
+     {
             return num;
-        }
+     }
 	
 	  int getnum2() const
 	  {
