@@ -2,7 +2,6 @@
 #include <list>
 #include <iostream>
 
-
 using namespace std;
 
 State::State(list<int> ops, double pt, double ms):pot(pt),my_share(ms),gameOver(false), compout( false )
@@ -22,41 +21,54 @@ State::State(list<int> ops, double pt, double ms):pot(pt),my_share(ms),gameOver(
   }
   plturn++;
 
-  lastRaiser = NULL;
+    // MJB: Why are we doing this?  
+    //lastRaiser = NULL;
 }
 
-State::State(State & cpy)
+State::State(State& cpy)
 {   
     if( this != &cpy )
     {
-        pot = cpy.pot;
+        pot      = cpy.pot;
         my_share = cpy.my_share;
-        round = cpy.round;
-        compout = cpy.compout;
-	players = cpy.players;
-	table = cpy.table;
-	gameOver = cpy.gameOver;
-	compout = cpy.compout;
+        round    = cpy.round;
+        compout  = cpy.compout;
+        players  = cpy.players;
+        table    = cpy.table;
+        gameOver = cpy.gameOver;
+        compout  = cpy.compout;
 
-	list<seat>::iterator tmpItr = cpy.players.begin();
-	if( cpy.lastRaiser != NULL ) {
-	  lastRaiser = players.begin();
-          while( tmpItr != cpy.lastRaiser ) {
-	    lastRaiser++;
-   	    tmpItr++;
-	  }
-	} else {
-	  lastRaiser = NULL;
-	}
+        list<seat>::iterator tmpItr = cpy.players.begin();
+        
+        // MJB unnecessary test
+        //   
+	    //if( cpy.lastRaiser != NULL )
+	    //{
+            lastRaiser = players.begin();
 
-	plturn = players.begin();
-	tmpItr = cpy.players.begin();
-        while( tmpItr != cpy.plturn ) {
-	  plturn++;
-	  tmpItr++;
-	}
+            while( tmpItr != cpy.lastRaiser )
+            {
+                lastRaiser++;
+                tmpItr++;
+            }
+        //} 
+        
+        /*
+        else
+        {
+            lastRaiser = NULL;
+        }
+        */
+
+	    plturn = players.begin();
+	    tmpItr = cpy.players.begin();
+        
+        while( tmpItr != cpy.plturn )
+        {
+	        plturn++;
+	        tmpItr++;
+	    }
     }
-
 }
 
 void State::Fold()

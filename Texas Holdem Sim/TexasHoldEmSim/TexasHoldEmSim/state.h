@@ -41,18 +41,18 @@ class State
 	void updateRound( bool );
 	void pickWinner();
 
-	list<seat> players;
+
 	double pot;
 	double my_share;
-        vector<card> table;
+    vector<card> table;
 	int round;
 	bool compout;
+	list<seat> players;
 	list<seat>::iterator plturn;	//Turn designator for player
 	list<seat>::iterator lastRaiser;
 	double currBet;
 	bool gameOver;
-        double winnings;
+    double winnings;
 };
-
 
 #endif

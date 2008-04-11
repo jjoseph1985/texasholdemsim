@@ -181,10 +181,20 @@ bool hand::isStraight( const vector<card>& h, handType& type ) {
   return false;
 }
 
-bool hand::isFlush( const vector<card>& h, handType& type ) {
-  if( h[0].getsuit() == h[1].getsuit() == h[2].getsuit() == h[3].getsuit() == h[4].getsuit() ) {
-    type.setType( FLUSH ); // set other values in main evaluator b/c of royal straight check
-  }
+bool hand::isFlush( const vector<card>& h, handType& type ) 
+{
+    // this is stupid replace
+    if( h[0].getsuit() == h[1].getsuit() == h[2].getsuit() == h[3].getsuit() == h[4].getsuit() )
+    {
+        type.setType( FLUSH ); // set other values in main evaluator b/c of royal straight check
+        
+        //matt
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool hand::is4kind( const vector<card>& h, handType& type ) {
