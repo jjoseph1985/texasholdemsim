@@ -11,7 +11,7 @@ holeCards::holeCards()
 
 void holeCards::setCards( const card& c1, const card& c2 )
 {
-    if( c1.getnum2() > c2.getnum2() )
+    if( c1.getfacenum() > c2.getfacenum() )
         data = c1.whatcard() + c2.whatcard();
     else
         data = c2.whatcard() + c1.whatcard();
