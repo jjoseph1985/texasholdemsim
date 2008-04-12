@@ -7,7 +7,7 @@
 using namespace std;
 
 // MJB: This is incredible stupid
-compPlayer::compPlayer():chipCount(0), handsPlayed(0),flopsSeen(0), out(false), bust(false), 
+compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false), bust(false), 
                          betPlaced( false ), raiseMade( false ), posAtTable(0),
                          potSize(0), dealerNum(0)
 { 

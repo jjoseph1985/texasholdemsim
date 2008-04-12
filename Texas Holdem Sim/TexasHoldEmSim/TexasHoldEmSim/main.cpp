@@ -8,7 +8,7 @@
 #include "game.h"
 #include "hand.h"
 #include "holecards.h"
-//#include "human.h" -> move implementation to .cpp file if we are still using
+//#include "human.h"
 #include "round.h"
 #include "state.h"
 #include "anyoption.h"
@@ -91,7 +91,6 @@ string ParseCmdLine( int argc, char* argv[]) //, AnyOption& anyOpt, vector<strin
     {
         anyOpt.setFileOption((*it).c_str());
     }
-
 
     // Parse the command line, now that we know what we are looking for
     anyOpt.processCommandArgs( argc, argv );
