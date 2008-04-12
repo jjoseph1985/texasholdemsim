@@ -1,19 +1,6 @@
 // comp.cpp
 
-#include <string>
-#include <map>
-#include <vector>
-#include <string>
-#include <limits>
-#include <fstream>
-#include <iostream>
-#include <stdlib.h>
-
 #include "comp.h"
-#include "holecards.h"
-//#include "human.h"
-#include "card.h"
-#include "state.h"
 
 #define MAX_INT  32767
 

@@ -29,7 +29,7 @@ double GameFlow::currentBet()
 		}
 	}
 	return current;
-} currentBet()
+} // currentBet()
 
 // player folds
 void GameFlow::fold(int index)

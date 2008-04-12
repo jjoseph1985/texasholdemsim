@@ -1,8 +1,7 @@
 // holecards.cpp
 
-#include <string>
 #include "holecards.h"
-#include "card.h"
+
 
 holeCards::holeCards()
 {

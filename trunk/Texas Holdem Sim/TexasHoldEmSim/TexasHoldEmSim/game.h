@@ -6,6 +6,9 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <fstream>
+#include <iostream>
+
 #include "comp.h"
 #include "round.h"
 
@@ -15,7 +18,7 @@ class game
 {
 	public:
 	    // new game constructor
-	    game(struct GameFlow*);
+	    game(GameFlow*);
 
 	    // called on each new hand
 	    void init(int, const vector<int>&, int dealerNumber);
@@ -73,7 +76,7 @@ class game
 	    int activePlayer;
 	    int numCardsDealt;
 	    int handsPlayed;
-	    struct GameFlow* flow;
+	    GameFlow* flow;
 };
 
 #endif

@@ -1,15 +1,10 @@
 // game.cpp
 
-#include <vector>
-#include <string>
-#include <fstream>
 #include "game.h"
-#include "round.h"
-#include <iostream>
 
 using namespace std;
 
-game::game(struct GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
+game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
 {
 	genTable();
 } // game()
