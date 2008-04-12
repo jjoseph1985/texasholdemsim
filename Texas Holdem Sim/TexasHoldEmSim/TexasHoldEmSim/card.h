@@ -11,88 +11,19 @@ using namespace std;
 class card
 {
     public:
+        card();
+        card(char n, char s);
+        string whatcard() const;
+        void setVal(char n, char s);
+        void setnum(char n);
+        void setsuit(char s);
+        char getsuit() const;
+        char getnum() const;
+        int getnum2() const;
     
-      card() : num('-'), suit('~') {};
-
-      card(char n, char s):num(n),suit(s){}
-    
-      string whatcard() const
-      {
-          string temp;
-          temp = temp + num;
-          temp = temp + suit;
-          return temp;
-      }
-    
-	void setVal( char n, char s ) {
-	  num = n;
-	  suit = s;
-	}
-    
-    void setnum(char n)
-    {
-            num = n;
-    }
-
-    void setsuit(char s)
-    {
-            suit = s;
-     }    
-
-     char getsuit() const
-     {
-            return suit;
-     }           
- 
-     char getnum() const
-     {
-            return num;
-     }
-	
-	  int getnum2() const
-	  {
-		int temp;
-		if (num != 'T' && num != 'J' && num != 'Q' && num != 'K' && num != 'A')
-		{
-			return num-'1';
-		}
-		
-		switch(num)
-		{
-			case 'T':
-			{
-				temp  = 10;
-				break;
-			}
-			case 'J':
-			{
-				temp = 11;
-				break;
-			}
-			case 'Q':
-			{
-				temp = 12;
-				break;
-			}
-			case 'K':
-			{
-				temp = 13;
-				break;
-			}
-			case 'A':
-			{
-				temp = 14;
-				break;
-			}
-		}
-		return temp;
-	   }
-		     
-    
-    private :
-        char suit, num;
-
-
+    private:
+        char suit;
+        char num;
 };
 
 #endif

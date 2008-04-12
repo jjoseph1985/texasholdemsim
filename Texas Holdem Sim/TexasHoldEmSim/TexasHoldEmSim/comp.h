@@ -19,64 +19,62 @@ enum posType { EARLY, MIDDLE, LATE, BLINDS };
 
 const int NUMTRIALS = 4;
 
-class compPlayer {
-public:
-  compPlayer();
-  void pointToOpponents( vector<humanPlayer* > x ) { opposition = x; };
-  void addChips(int);
-  
-  double stackSize();
-  
-  void addCard(card);
-  void newHand();
-  
-  void setHoleCards(card, card);
-  void fold();
-  void betRaise( double );
-  void checkCall( double );
-  void busted();
-  void unfold();
-  bool checkBust();
-  bool checkFold();
-  void opponentBet() { betPlaced = true; };
-  void opponentRaised() { raiseMade = true; };
-  void setSeatNumber( int n ) { posAtTable = n; };
-  void setPotSize( double x ) { potSize = x; };
-  void wonHand( double n ) { chipCount += n; };
-  void clearCards();
-  void setDealer( int n ) { dealerNum = n; };
+class compPlayer
+{
+    public:
+        compPlayer();
+        void pointToOpponents( vector<humanPlayer* > x ) { opposition = x; };
+        void addChips(int);
 
-  enum actionNames makeDec();
+        double stackSize();
 
-private:
-  enum actionNames preflopDec();
-  enum posType setPosition( const int& );
-  enum actionNames simulate();
-  double sim( State& );
-  double trial( State& );
-  void initTable( map<string,double>& );
+        void addCard(card);
+        void newHand();
 
+        void setHoleCards(card, card);
+        void fold();
+        void betRaise( double );
+        void checkCall( double );
+        void busted();
+        void unfold();
+        bool checkBust();
+        bool checkFold();
+        void opponentBet() { betPlaced = true; };
+        void opponentRaised() { raiseMade = true; };
+        void setSeatNumber( int n ) { posAtTable = n; };
+        void setPotSize( double x ) { potSize = x; };
+        void wonHand( double n ) { chipCount += n; };
+        void clearCards();
+        void setDealer( int n ) { dealerNum = n; };
 
-  map<string, double> weightTable;
-  holeCards myCards;
-  vector<humanPlayer* > opposition;
-  vector<card> tablecards;
-  hand myHand;
-  double chipCount;
-  int handsPlayed;
-  int flopsSeen;
-  bool out;
-  bool bust;
-  bool betPlaced;
-  bool raiseMade;
-  int posAtTable;
-  int dealerNum;
-  double potSize;
+        enum actionNames makeDec();
 
-  map<string, bool>  aDeck;
-  map<int, string> bDeck;
+    private:
+        enum actionNames preflopDec();
+        enum posType setPosition( const int& );
+        enum actionNames simulate();
+        double sim( State& );
+        double trial( State& );
+        void initTable( map<string,double>& );
+
+        map<string, double> weightTable;
+        holeCards myCards;
+        vector<humanPlayer* > opposition;
+        vector<card> tablecards;
+        hand myHand;
+        double chipCount;
+        int handsPlayed;
+        int flopsSeen;
+        bool out;
+        bool bust;
+        bool betPlaced;
+        bool raiseMade;
+        int posAtTable;
+        int dealerNum;
+        double potSize;
+
+        map<string, bool>  aDeck;
+        map<int, string> bDeck;
 };
 
-
 #endif
-
