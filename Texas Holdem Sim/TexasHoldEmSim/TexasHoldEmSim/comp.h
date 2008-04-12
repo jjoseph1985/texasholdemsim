@@ -6,11 +6,17 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <limits>
+#include <fstream>
+#include <iostream>
+#include <stdlib.h>
+
 #include "holecards.h"
 #include "human.h"
 #include "card.h"
-#include "hand.h"
 #include "state.h"
+#include "hand.h"
+
 
 using namespace std;
 

@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\round.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\state.cpp"
 				>
 			</File>

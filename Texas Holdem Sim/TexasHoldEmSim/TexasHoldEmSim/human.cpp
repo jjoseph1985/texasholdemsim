@@ -1,9 +1,5 @@
-//Deep Gold
-//CSE 331 
-//Coded by Daniel Mack
+// human.cpp
 
-#include <fstream>
-#include <iostream>
 #include "human.h"
 
 using namespace std;

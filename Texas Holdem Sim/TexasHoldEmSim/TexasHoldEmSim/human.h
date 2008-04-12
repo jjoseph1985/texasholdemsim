@@ -5,6 +5,9 @@
 
 #include <string>
 #include <map>
+#include <fstream>
+#include <iostream>
+
 #include "holecards.h"
 
 using namespace std;

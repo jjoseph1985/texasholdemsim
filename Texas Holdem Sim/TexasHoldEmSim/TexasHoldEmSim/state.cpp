@@ -1,8 +1,7 @@
 // state.cpp
 
 #include "state.h"
-#include <list>
-#include <iostream>
+
 
 using namespace std;
 
