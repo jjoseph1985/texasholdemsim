@@ -1,3 +1,5 @@
+// round.h
+
 #ifndef ROUND_H
 #define ROUND_H
 
@@ -27,7 +29,7 @@ struct GameFlow
 	double currentBet()
 	{
 		double current = 0.0;
-		for (int i = 0; i < player.size(); i ++)
+		for (int i=0; i<player.size(); i++)
 		{
 			if (player[i].first == true && current < player[i].second)
 			{
