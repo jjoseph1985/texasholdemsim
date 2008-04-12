@@ -22,6 +22,25 @@ void humanPlayer::addChips(int amnt)
 	bust = false;
 }
 
+void humanPlayer::pointToTable( map<string, double>* mptr )
+{ 
+    weightTable = mptr; 
+} // pointToTable()
+
+void humanPlayer::wonHand( double n )
+{
+    chipCount += n; 
+}
+
+void humanPlayer::addFlopSeen()
+{
+    flopsSeen++;
+}
+
+void humanPlayer::foldBeforeFlop()
+{
+    flopsSeen--;
+}
 
 double humanPlayer::aggressiveness()
 {

@@ -18,11 +18,7 @@ class humanPlayer
         humanPlayer();
         humanPlayer(int);
         void addChips(int);
-        void pointToTable( map<string,double>* mptr )
-        { 
-            weightTable = mptr; 
-        };
-
+        void pointToTable( map<string, double>* mptr );
         double aggressiveness();
         double tightness();
 
@@ -38,14 +34,12 @@ class humanPlayer
         map<string, double>* getWeights();
         double getWgt( holeCards );
         void updateWeights();
-        void wonHand( double n ) { chipCount += n; };
-
-        void addFlopSeen() { flopsSeen++; };
-        void foldBeforeFlop() { flopsSeen--; };
+        void wonHand( double n );
+        void addFlopSeen(); 
+        void foldBeforeFlop();
 
     private:
         //void initTable( map<string, double>& );
-
         map<string, double>* weightTable;
         double chipCount;
         int handsPlayed;
