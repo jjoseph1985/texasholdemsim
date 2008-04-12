@@ -6,29 +6,27 @@ using namespace std;
 
 hand::hand(): typeValid(false) { }
 
-void hand::init(const card& o, const card& t, const card& th, const card& fr, const card& fv)
+void hand::init(const card& one, const card& two, const card& three, const card& four, const card& five)
 {   
     card temp('A','h');
-    //insert them into vector
-    cards.push_back(o);
-    cards.push_back(t);
-    cards.push_back(th);
-    cards.push_back(fr);
-    cards.push_back(fv);
+
+    cards.push_back(one);
+    cards.push_back(two);
+    cards.push_back(three);
+    cards.push_back(four);
+    cards.push_back(five);
     
-    //sort them(bubble)
+    // sort cards high to low via bubble sort
     for(int i = 0; i < cards.size(); i++)
-    {
         for(int j = 0; j < cards.size() -i; j++)
         {
             if(cards[j].getnum2() < cards[j+1].getnum2())
             {
-            temp = cards[j];
-            cards[j] = cards[j+1];
-            cards[j+1] = temp;
+                temp = cards[j];
+                cards[j] = cards[j+1];
+                cards[j+1] = temp;
             }
         }
-    }
     
     addcombo(0,1,2,3,4);
 } // init() 
@@ -38,13 +36,13 @@ void hand::addCard( const card& next )
     card temp('A','h');
     card temp2('A','h');
     bool insert = false;
-    int i =0, j =0;
+    int i = 0, j = 0;
 
     while ( i != cards.size())
     {
         if(next.getnum2() > cards[i].getnum2())
         {
-          j =i;
+          j = i;
           i = cards.size();
           insert = true;
         } 
@@ -74,7 +72,8 @@ void hand::addCard( const card& next )
     {
         cards.push_back(next);
     }        
-            
+    
+    // We now have more than 5 cards, so we have to consider all combinations        
     if( cards.size() == 6 )
     {
         addcombo(1,2,3,4,5);
@@ -105,26 +104,30 @@ void hand::addCard( const card& next )
 
 handType hand::getType()
 {
-  
-  handType best;
-  handType currType;
-  int index(0);
+    handType best;
+    handType currType;
+    int index = 0;
 
-  for(int i = 0; i < possHands.size(); ++i ) {
-    currType = typeOf( possHands[i] );
-    if( currType.beats( best ) ) {
-      best = currType;
-      index = i;
+    for(int i = 0; i < possHands.size(); ++i )
+    {
+        currType = typeOf( possHands[i] );
+
+        if( currType.beats( best ) )
+        {
+            best = currType;
+            index = i;
+        }
     }
-  }
 
-  typeValid = true;
-  return currType;  
+    typeValid = true;
+    return currType;  
 }
 
+// Check what kind of hand a player has: pair, 2 pairs, flush, etc.
 handType hand::typeOf( const vector<card>& h )
 {
     handType theType;
+    
     bool flushFlag = isFlush( h, theType );
     bool straightFlag = isStraight( h, theType );
 
@@ -157,15 +160,17 @@ handType hand::typeOf( const vector<card>& h )
     return theType;
 } // getType()
 
+// 
 void hand::addcombo( int x1, int x2, int x3, int x4, int x5 )
 {
     vector<card> p(5);
+    
     p[0] = cards[x1];
     p[1] = cards[x2];
     p[2] = cards[x3];
     p[3] = cards[x4];
     p[4] = cards[x5];
-    possHands.push_back( p );
+    possHands.push_back( p ); // MJB: This is fine. (vector of vectors)
 } // addcombo
 
 
@@ -178,58 +183,49 @@ void hand::clear()
 } // clear()
 
 
-
+// MJB: Needs to be tested
 bool hand::isStraight( const vector<card>& h, handType& type )
 {
-    if( ( h[0].getnum2() < 5 ) || ( h[4].getnum2() > 10 ) ) 
+    bool rval = false;
+
+    int n0 = h[0].getnum2() + 0;
+    int n1 = h[1].getnum2() + 1;
+    int n2 = h[2].getnum2() + 2;
+    int n3 = h[3].getnum2() + 3;
+    int n4 = h[4].getnum2() + 4;
+    int kicker = h[0].getnum2();
+
+    // MJB: Allow ace-low straight
+    if (n0 == 14)
     {
-        return false;
-    } 
-    else 
-    {
-        int n0( h[0].getnum2() );
-        int n1( h[1].getnum2() + 1 );
-        int n2( h[2].getnum2() + 2 );
-        int n3( h[3].getnum2() + 3 );
-        int n4( h[4].getnum2() + 4 );
-        if( n0 == n1 == n2 == n3 == n4 )
-        {
-            // every straight except ace-low
-            type.setType( STRAIGHT, h[0].getnum2() );
-            return true;
-        } 
-        else if ( n0 == 14 ) 
-        {
-            n0 = 1;
-            
-            if( n0 == n1 == n2 == n3 == n4 ) 
-            {
-                // ace-low straight
-                type.setType( STRAIGHT, h[1].getnum2() );
-                return true;
-            }
-        }
+        n0 = 1;
+        kicker = h[1].getnum2();
     }
     
-    return false;
-} // isStraight
+    // MJB: Should check for any straight
+    if( n0 == n1 == n2 == n3 == n4 )
+    {
+        type.setType( STRAIGHT, kicker);
+        rval = true;
+    }
+    
+    return rval;
+} // isStraight()    
 
 bool hand::isFlush( const vector<card>& h, handType& type ) 
 {
-    // this is stupid replace
+    bool rVal = false;
+    
     if( h[0].getsuit() == h[1].getsuit() == h[2].getsuit() == h[3].getsuit() == h[4].getsuit() )
     {
         type.setType( FLUSH ); // set other values in main evaluator b/c of royal straight check
-        
-        //matt
-        return true;
+        rVal = true;
     }
-    else
-    {
-        return false;
-    }
+    
+    return rVal;
 } // isFlush()
 
+// Check if 4 of a kind. Cards are already sorted.
 bool hand::is4kind( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() == h[2].getnum() == h[3].getnum() )
@@ -394,6 +390,7 @@ bool handType::beats( handType& other )
                     } 
                     else if( kick4 == other.kick4 )
                     {
+                        // MJB: Why is this here, we already checked kick2
                         if( kick2 > other.kick2 )
                         {
                             return true;
@@ -404,43 +401,44 @@ bool handType::beats( handType& other )
                         {
                             return false;
                         }
-                    }
+                    } // kick4 == 
                     else
                     {
                         return false;
-                    }
-                }
+                    } // kick4 <
+                } // kick3 ==
                 else
                 {
                     return false;
-                }
-            } 
+                } // kick3 <
+            } // kick2 == 
             else
             {
                 return false;
-            }
-        } 
+            } // kick2 <
+        } // kick1 ==
         else
         {
             return false;
-        }
-    } 
+        } // kick1 <
+    } // label == 
     else
     {
         return false;
-    }
+    } // label <
 }
 
 bool handType::ties( handType& other )
 {
-    if( label == other.label && kick1 == other.kick1 && kick2 == other.kick2 && kick3 == other.kick3 && kick4 == other.kick4 && kick5 == other.kick5 )
+    rval = false;
+    
+    if( label == other.label && kick1 == other.kick1 && kick2 == other.kick2 
+        && kick3 == other.kick3 && kick4 == other.kick4 && kick5 == other.kick5 )
     {
-        return true;
-    } 
-    else
-    {
-        return false;
+        rval = true;
     }
+    
+    return rval;
 } // ties
 
 void handType::clear()
