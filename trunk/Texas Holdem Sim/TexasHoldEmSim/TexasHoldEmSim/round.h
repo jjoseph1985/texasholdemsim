@@ -8,8 +8,9 @@
 
 using namespace std;
 
-struct GameFlow
+class GameFlow
 {
+    public:
 	// initialize with the number of players at the start of the game
 	void init(int numPlayers)
 	{
@@ -97,7 +98,5 @@ struct GameFlow
 	int raiseCount;		// 2 raises per round max, high limit last 2 rounds
 	int playersLeft; 	// decreases as players fold
 };
-
-
 
 #endif

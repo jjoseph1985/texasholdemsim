@@ -12,27 +12,35 @@ using namespace std;
 game::game(struct GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
 {
 	genTable();
-}
+} // game()
 
+// MJB: This looks like a problem, never adds computer players...
 void game::init(int num, const vector<int>& stacks , int dealerNumber)
 {
 	numPlayers = num;
+	
 	for(int n=0; n < num-1; n++)
 	{
 		humanPlayer temp;
 		humans.push_back(temp);
 	}
-	cerr << " number of humans created == " << humans.size() << endl;
+	
+	//cerr << " number of humans created == " << humans.size() << endl;
+	
 	for(int i=0; i < num-1; i++)
 	{
 		humans[i].addChips(stacks[i + 1]);
 		humans[i].pointToTable(&odds);
 	}
+	
 	drWorkman.addChips(stacks[0]);
-
 	vector<humanPlayer*> opps(humans.size());
+	
 	for(int j=0; j<humans.size(); j++)
+	{
 		opps[j] = &humans[j];
+	}
+	
 	drWorkman.pointToOpponents(opps);
 
 	hole.clear();
@@ -45,7 +53,7 @@ void game::init(int num, const vector<int>& stacks , int dealerNumber)
 	handsPlayed = 0;
 
 	newHand();
-}
+} // init()
 
 double game::stackSize(int n)
 {
@@ -53,7 +61,7 @@ double game::stackSize(int n)
 		return drWorkman.stackSize();
 	else
 		return humans[n - 1].stackSize();
-}
+} // stackSize()
 
 void game::betRaise(double amnt)
 {
@@ -73,7 +81,7 @@ void game::betRaise(double amnt)
 	{
 		activePlayer = (activePlayer + 1) % numPlayers;
 	}
-}
+} // betRaise()
 
 void game::callCheck(double amnt)
 {
@@ -90,16 +98,18 @@ void game::callCheck(double amnt)
 	{
 		activePlayer = (activePlayer + 1) % numPlayers;
 	}
-}
+} // callCheck()
 
 void game::fold()
 {
 	if(activePlayer == 0)
 	{
 		drWorkman.fold();
-	}else
+	}
+	else
 	{
 		humans[activePlayer - 1].fold();
+		
 		if(flow->roundNum == 1)
 		{
 			humans[activePlayer - 1].foldBeforeFlop();
@@ -107,12 +117,13 @@ void game::fold()
 	}
 
 	activePlayer = (activePlayer + 1) % numPlayers;
+	
 	while(flow->isFolded(activePlayer ))
 	{
 		activePlayer = (activePlayer + 1) % numPlayers;
 	} 
 
-}
+} // fold()
 
 void game::newHand()
 {
@@ -156,7 +167,7 @@ void game::newHand()
 
 	// next player is active
 	activePlayer = (b2 + 1) % numPlayers;
-}
+}  // newHand()
 
 void game::dealCard(string val)
 {
@@ -164,7 +175,7 @@ void game::dealCard(string val)
 	card card1(val[0], val[1]);
 	drWorkman.addCard(card1);
 	activePlayer = dealerNum + 1;
-}
+} // dealCard()
 
 void game::pickWinner(int n)
 {
@@ -172,7 +183,7 @@ void game::pickWinner(int n)
 		drWorkman.wonHand(potSize);
 	else
 		humans[n-1].wonHand(potSize);
-}
+}  // pickWinner()
 
 void game::addHole(string c)
 {
@@ -182,12 +193,14 @@ void game::addHole(string c)
 	{
 		drWorkman.setHoleCards(hole[0], hole[1]);
 	}
-}
+} // addHole()
 
 enum actionNames game::think()
 {
 	drWorkman.setDealer(dealerNum);
+	
 	int seatNum = (numPlayers - dealerNum) - 2;
+	
 	if(seatNum <= 0)
 	{
 		seatNum += numPlayers;
@@ -197,7 +210,7 @@ enum actionNames game::think()
 
 	return drWorkman.makeDec();
 	// output to simulation box?
-}
+} // think()
 
 void game::genTable()
 {
@@ -209,7 +222,7 @@ void game::genTable()
 
 	odds.clear();
 	
-	for (int i=0; i<169; i++)
+	for (int i = 0; i < 169; i++)
 	{
 		file >> hole;
 		file >> weight;
@@ -248,7 +261,8 @@ void game::genTable()
 			tmp = a + 'd' + b + 's';
 			odds[tmp] = weight;
 
-		}else
+		}
+		else
 		{ // hole.length() == 3
 			tmp = a + 'h' + b + 'h';
 			odds[tmp] = weight;
@@ -264,5 +278,4 @@ void game::genTable()
 	file.close();
 
 	cerr << "human weight table size = " << odds.size() << endl;
-
-}
+} // genTable()
