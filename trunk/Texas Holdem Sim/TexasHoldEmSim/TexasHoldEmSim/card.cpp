@@ -47,7 +47,7 @@ char card::getnum() const
     return num;
 } // getnum()
 
-int card::getnum2() const
+int card::getfacenum() const
 {
     int temp;
     
@@ -86,4 +86,4 @@ int card::getnum2() const
     }
     
     return temp;
-} // getnum2()
+} // getfacenum()

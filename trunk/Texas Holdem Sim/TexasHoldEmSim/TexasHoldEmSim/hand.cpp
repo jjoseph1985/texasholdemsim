@@ -20,7 +20,7 @@ void hand::init(const card& one, const card& two, const card& three, const card&
     for(int i = 0; i < cards.size(); i++)
         for(int j = 0; j < cards.size() -i; j++)
         {
-            if(cards[j].getnum2() < cards[j+1].getnum2())
+            if(cards[j].getfacenum() < cards[j+1].getfacenum())
             {
                 temp = cards[j];
                 cards[j] = cards[j+1];
@@ -40,7 +40,7 @@ void hand::addCard( const card& next )
 
     while ( i != cards.size())
     {
-        if(next.getnum2() > cards[i].getnum2())
+        if(next.getfacenum() > cards[i].getfacenum())
         {
           j = i;
           i = cards.size();
@@ -139,14 +139,14 @@ handType hand::typeOf( const vector<card>& h )
         } 
         else
         {
-            theType.setType( SFLUSH, h[0].getnum2() );
+            theType.setType( SFLUSH, h[0].getfacenum() );
         }
     } 
     else if( is4kind( h, theType ) ) {}
     else if( isFull( h, theType ) ) {}
     else if( flushFlag )
     {
-        theType.setType( FLUSH, h[0].getnum2(), h[1].getnum2(), h[2].getnum2(), h[3].getnum2(), h[4].getnum2() );
+        theType.setType( FLUSH, h[0].getfacenum(), h[1].getfacenum(), h[2].getfacenum(), h[3].getfacenum(), h[4].getfacenum() );
     } 
     else if( straightFlag ) {}
     else if( is3kind( h, theType ) ) {}
@@ -154,7 +154,7 @@ handType hand::typeOf( const vector<card>& h )
     else if( isPair( h, theType ) ) {} 
     else 
     {   // highcard
-        theType.setType( JUNK, h[0].getnum2(), h[1].getnum2(), h[2].getnum2(), h[3].getnum2(), h[4].getnum2() );
+        theType.setType( JUNK, h[0].getfacenum(), h[1].getfacenum(), h[2].getfacenum(), h[3].getfacenum(), h[4].getfacenum() );
     }
     
     return theType;
@@ -188,18 +188,18 @@ bool hand::isStraight( const vector<card>& h, handType& type )
 {
     bool rval = false;
 
-    int n0 = h[0].getnum2() + 0;
-    int n1 = h[1].getnum2() + 1;
-    int n2 = h[2].getnum2() + 2;
-    int n3 = h[3].getnum2() + 3;
-    int n4 = h[4].getnum2() + 4;
-    int kicker = h[0].getnum2();
+    int n0 = h[0].getfacenum() + 0;
+    int n1 = h[1].getfacenum() + 1;
+    int n2 = h[2].getfacenum() + 2;
+    int n3 = h[3].getfacenum() + 3;
+    int n4 = h[4].getfacenum() + 4;
+    int kicker = h[0].getfacenum();
 
     // MJB: Allow ace-low straight
     if (n0 == 14)
     {
         n0 = 1;
-        kicker = h[1].getnum2();
+        kicker = h[1].getfacenum();
     }
     
     // MJB: Should check for any straight
@@ -230,12 +230,12 @@ bool hand::is4kind( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() == h[2].getnum() == h[3].getnum() )
     {
-        type.setType( FOURKIND, h[0].getnum2(), h[4].getnum2() );
+        type.setType( FOURKIND, h[0].getfacenum(), h[4].getfacenum() );
         return true;
     } 
     else if( h[1].getnum() == h[2].getnum() == h[3].getnum() == h[4].getnum() )
     {
-        type.setType( FOURKIND, h[1].getnum2(), h[0].getnum2() );
+        type.setType( FOURKIND, h[1].getfacenum(), h[0].getfacenum() );
         return true;
     }
     
@@ -246,17 +246,17 @@ bool hand::is3kind( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() == h[2].getnum() )
     {
-        type.setType( THREEKIND, h[0].getnum2(), h[4].getnum2(), h[3].getnum2() );
+        type.setType( THREEKIND, h[0].getfacenum(), h[4].getfacenum(), h[3].getfacenum() );
         return true;
     } 
     else if( h[1].getnum() == h[2].getnum() == h[3].getnum() )
     {
-        type.setType( THREEKIND, h[1].getnum2(), h[4].getnum2(), h[0].getnum2() );
+        type.setType( THREEKIND, h[1].getfacenum(), h[4].getfacenum(), h[0].getfacenum() );
         return true;
     }
     else if( h[2].getnum() == h[3].getnum() == h[4].getnum() )
     {
-        type.setType( THREEKIND, h[2].getnum2(), h[1].getnum2(), h[0].getnum2() );
+        type.setType( THREEKIND, h[2].getfacenum(), h[1].getfacenum(), h[0].getfacenum() );
         return true;
     }
     
@@ -268,12 +268,12 @@ bool hand::isFull( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() == h[2].getnum() && h[3].getnum() == h[4].getnum() )
     {
-        type.setType( FULL, h[0].getnum2(), h[3].getnum2() );
+        type.setType( FULL, h[0].getfacenum(), h[3].getfacenum() );
         return true;
     }
     else if ( h[2].getnum() == h[3].getnum() == h[4].getnum() && h[0].getnum() == h[1].getnum() )
     {
-        type.setType( FULL, h[2].getnum2(), h[0].getnum2() );
+        type.setType( FULL, h[2].getfacenum(), h[0].getfacenum() );
         return true;
     }
     
@@ -284,17 +284,17 @@ bool hand::is2pair( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() && h[2].getnum() == h[3].getnum() )
     {
-        type.setType( TWOPAIR, h[0].getnum2(), h[2].getnum2(), h[4].getnum2() );
+        type.setType( TWOPAIR, h[0].getfacenum(), h[2].getfacenum(), h[4].getfacenum() );
         return true;
     }
     else if( h[0].getnum() == h[1].getnum() && h[4].getnum() == h[4].getnum() )
     {
-        type.setType( TWOPAIR, h[0].getnum2(), h[3].getnum2(), h[2].getnum2() );
+        type.setType( TWOPAIR, h[0].getfacenum(), h[3].getfacenum(), h[2].getfacenum() );
         return true;
     } 
     else if( h[1].getnum() == h[2].getnum() && h[3].getnum() == h[4].getnum() )
     {
-        type.setType( TWOPAIR, h[1].getnum2(), h[3].getnum2(), h[0].getnum2() );
+        type.setType( TWOPAIR, h[1].getfacenum(), h[3].getfacenum(), h[0].getfacenum() );
         return true;
     }
     return false;
@@ -304,22 +304,22 @@ bool hand::isPair( const vector<card>& h, handType& type )
 {
     if( h[0].getnum() == h[1].getnum() )
     {
-        type.setType( PAIR, h[0].getnum2(), h[2].getnum2(), h[3].getnum2(), h[4].getnum2() );
+        type.setType( PAIR, h[0].getfacenum(), h[2].getfacenum(), h[3].getfacenum(), h[4].getfacenum() );
         return true;
     }
     else if( h[1].getnum() == h[2].getnum() )
     {
-        type.setType( PAIR, h[1].getnum2(), h[0].getnum2(), h[3].getnum2(), h[4].getnum2() );
+        type.setType( PAIR, h[1].getfacenum(), h[0].getfacenum(), h[3].getfacenum(), h[4].getfacenum() );
         return true;
     }
     else if( h[2].getnum() == h[3].getnum() )
     {
-        type.setType( PAIR, h[2].getnum2(), h[0].getnum2(), h[1].getnum2(), h[4].getnum2() );
+        type.setType( PAIR, h[2].getfacenum(), h[0].getfacenum(), h[1].getfacenum(), h[4].getfacenum() );
         return true;
     }
     else if( h[3].getnum() == h[4].getnum() )
     {
-        type.setType( PAIR, h[3].getnum2(), h[0].getnum2(), h[1].getnum2(), h[2].getnum2() );
+        type.setType( PAIR, h[3].getfacenum(), h[0].getfacenum(), h[1].getfacenum(), h[2].getfacenum() );
         return true;
     }
     
