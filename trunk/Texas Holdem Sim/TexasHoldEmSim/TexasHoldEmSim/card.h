@@ -19,7 +19,7 @@ class card
         void setsuit(char s);
         char getsuit() const;
         char getnum() const;
-        int getnum2() const;
+        int  getnum2() const;
     
     private:
         char suit;

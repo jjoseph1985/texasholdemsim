@@ -17,6 +17,7 @@ string card::whatcard() const
     string temp;
     temp = temp + num;
     temp = temp + suit;
+    
     return temp;
 } // whatcard()
 
