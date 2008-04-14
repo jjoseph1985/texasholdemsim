@@ -57,7 +57,7 @@ class game
 	    void addHole(string);
 
 	    // actions that think can recommend (fold, raise, check..)
-	    enum actionNames think();
+	    enum actionNames think(); //not sure what this gay thing is???
 	    double getCurrBet(){ return currentBet; };
 	    void resetCurrBet(){ currentBet = 0; };
 
@@ -70,7 +70,7 @@ class game
 	    map<string, double> odds;
 
 	    double potSize;
-	    double currentBet; // do we need this here anymore?
+	    ////double currentBet; // do we need this here anymore?
 	    int numPlayers;
 	    int dealerNum;
 	    int activePlayer;
