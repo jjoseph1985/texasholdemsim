@@ -29,22 +29,30 @@ class compPlayer
 {
     public:
         compPlayer();
+        
+        // MJB: Was used as a Comp vs Human kind of thing, but not sure now 
         void pointToOpponents( vector<humanPlayer* > x ) { opposition = x; };
+        
+        // MJB: Adds chips to a player and resets bust
         void addChips(int);
 
+    
         double stackSize();
-
         void addCard(card);
         void newHand();
 
         void setHoleCards(card, card);
+        
+        
         void fold();
+        void unfold();        
+        bool checkFold();
+                
         void betRaise( double );
         void checkCall( double );
         void busted();
-        void unfold();
         bool checkBust();
-        bool checkFold();
+
         void opponentBet() { betPlaced = true; };
         void opponentRaised() { raiseMade = true; };
         void setSeatNumber( int n ) { posAtTable = n; };
@@ -69,18 +77,18 @@ class compPlayer
         vector<card> tablecards;
         hand myHand;
         double chipCount;
-        int handsPlayed;
-        int flopsSeen;
+        int  handsPlayed;
+        int  flopsSeen;
         bool out;
         bool bust;
         bool betPlaced;
         bool raiseMade;
-        int posAtTable;
-        int dealerNum;
+        int  posAtTable;
+        int  dealerNum;
         double potSize;
 
-        map<string, bool>  aDeck;
-        map<int, string> bDeck;
+        map<string, bool> aDeck;
+        map<int, string>  bDeck;
 };
 
 #endif

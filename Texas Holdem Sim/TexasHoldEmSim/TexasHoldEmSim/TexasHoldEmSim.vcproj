@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\round.h"
+				>
+			</File>
+			<File
 				RelativePath=".\state.h"
 				>
 			</File>

@@ -147,10 +147,10 @@ void State::Call()
     updateRound( true );
 } // Call()
 
-double State::winslosses()
+double State::amtWon()
 {
     return winnings;
-} // winslosses()
+} // amtWon()
 
 
 int State::getIndex( int n )

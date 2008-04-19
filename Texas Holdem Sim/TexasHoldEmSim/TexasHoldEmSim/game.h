@@ -17,60 +17,85 @@ using namespace std;
 class game
 {
 	public:
-	    // new game constructor
+	    // MJB: Default constructor initializes the data members to default values and 
+	    //      also generates the table of weights for hole card possibilities
 	    game(GameFlow*);
 
-	    // called on each new hand
-	    void init(int, const vector<int>&, int dealerNumber);
+	    // MJB: Called on each new hand. Initializer for a game class instance that takes arguments num
+	    //      to set the number of players in the game, stacks to set the chip count for each player,
+	    //      and dealerNumber to set the initial dealer
+	    void init(int num, const vector<int>&, int dealerNumber);
 
-	    // update the dealer number
-	    void setDealerNum(int n){ dealerNum = n; }; 
-	    int getDealerNum(){ return dealerNum; };
-	    int getActivePlayer(){ return activePlayer; };
+	    // MJB: Dealer mutator/inspector
+	    void setDealerNum(int index){ dealerNum = index; }; 
+	    int  getDealerNum(){ return dealerNum; };
+	    
+	    // MJB: player mutator/inspector
+	    int  getActivePlayer(){ return activePlayer; };
 	    void setActivePlayer(int p){activePlayer = p; };
 
-	    // get amount that one player holds in his stack
+	    // MJB: Return the amount of chips that a player has.
 	    double stackSize(int n);
 
 	    // player raises an amount
 	    void betRaise(double);
 
-	    // player calls, and places an amount in the pot
-	    void callCheck(double);
+	    // MJB: Takes an amount and call/checks for that active player placing that money in the pot.
+	    //      Moves the active player to the next eligible player.
+	    void callCheck(double amnt);
 
-	    // active player folds
+	    // MJB: Folds the active player and increment to the next eligible player
 	    void fold();
-	    void newHand();
 
-	    // n indexes player
-	    bool isFolded(int n){ return humans[n-1].checkFold(); };
-	    bool isBusted(int n){ return humans[n-1].checkBust(); };
+
+	    // MJB: Completes all necessary logic to initialize the game for a new hand. 
+	    //      i.e., The dealer is incremented to the next player,
+	    //            the blind positions are set,
+	    //            the ante is forced,
+	    //            the potSize is updated
+	    //            the active players are updated
+	    void newHand();
+	    
+	    // MJB: Check if a player has folded. (Used in determining 'active' players)
+	    bool isFolded(int index){ return humans[index-1].checkFold(); };
+	    
+	    // MJB: This is never used anywhere, but it should return whether a player is
+	    //      out of the game
+	    bool isBusted(int index){ return humans[index-1].checkBust(); };
+	    
+	    // MJB: Returns the current potsize
 	    double getPotSize() { return potSize; };
 
 	    // alert game object of new card dealt
 	    void dealCard(string);  // queen of hearts == Qh, seven of diamonds == 7d
 
-	    // alert game object of the winner
+	    // MJB: declare winner based on passed in player number
 	    void pickWinner(int n);
 
-	    // alert game object of "me"'s hole cards
+	    // MJB: takes string, parses it to create a card, and pushes it onto the hole vector. 
+	    //      If hole is size 2, then it sets the hole cards for the computer.
 	    void addHole(string);
 
-	    // actions that think can recommend (fold, raise, check..)
-	    enum actionNames think(); //not sure what this gay thing is???
+	    // MJB: processes all knowledge of the current game state and proceeds to simulate 
+	    //      and return a recommendation: fold, raise, check, call
+	    enum actionNames think();
+	    
+	    
 	    double getCurrBet(){ return currentBet; };
 	    void resetCurrBet(){ currentBet = 0; };
 
 	private:
+	
+	    // MJB: Read from text file the weights of all hole card combinations and place information into a map
 	    void genTable();
 
 	    vector<humanPlayer> humans;
-	    compPlayer drWorkman;
+	    compPlayer cPlayer;
 	    vector<card> hole;
 	    map<string, double> odds;
 
 	    double potSize;
-	    ////double currentBet; // do we need this here anymore?
+	    double currentBet; // do we need this here anymore?
 	    int numPlayers;
 	    int dealerNum;
 	    int activePlayer;

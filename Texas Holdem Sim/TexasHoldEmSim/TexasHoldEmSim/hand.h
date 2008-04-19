@@ -17,7 +17,7 @@ class handType
     public:
         handType();
         
-        // Why isn't their just a setkicker method?
+        // MJB: Why isn't their just a setkicker method?
         void setType( enum typeName tn, int a = 0, int b = 0, int c = 0, int d = 0, int e = 0 );
         enum typeName getType() {return label;};         
         bool beats( handType& );
@@ -38,20 +38,32 @@ class hand
 {
     public:
         hand();
+        
+        // MJB: takes in five cards into a cards vector and sorts them by rank
         void init(const card&, const card&, const card&, const card&, const card&);
+        
+        // MJB: add card next to the hand in order
         void addCard(const card&);
+        
+        // MJB: return a type of hand in the form of a handType
         handType getType();
+        
+        // MJB: Clears cards, handType, and possHands vectors
         void clear();
+        
+        
         bool beats( hand& );
-        bool ties( hand& ); // private maybe? beats() should probably call this
+        bool ties( hand& ); // MJB: private maybe? beats() should probably call this
 
     private:
+        // MJB: determine and return a handType
         handType typeOf( const vector<card>& );
         
-        // This just adds 5 cards to a hand, it's mainly used when trying
-        // to find the best possible hand.
+        // MJB: This just adds 5 cards to a hand, it's mainly used when trying
+        //      to find the best possible hand. (5 indeces are into a card vector)
         void addcombo( int, int, int, int, int );
         
+        // MJB: Self explanatory
         bool isStraight( const vector<card>&, handType& );
         bool isFlush( const vector<card>&, handType& );
         bool is4kind( const vector<card>&, handType& );
