@@ -14,7 +14,7 @@
 #include "holecards.h"
 #include "human.h"
 #include "card.h"
-#include "state.h"
+#include "table.h"
 #include "hand.h"
 
 
@@ -67,8 +67,8 @@ class compPlayer
         enum actionNames preflopDec();
         enum posType setPosition( const int& );
         enum actionNames simulate();
-        double sim( State& );
-        double trial( State& );
+        double sim( Table& );
+        double trial( Table& );
         void initTable( map<string,double>& );
 
         map<string, double> weightTable;
