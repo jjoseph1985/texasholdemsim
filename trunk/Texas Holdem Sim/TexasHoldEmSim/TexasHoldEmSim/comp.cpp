@@ -262,7 +262,7 @@ enum actionNames compPlayer::simulate()
 
     //cerr << "  created player list" << endl;
 
-    State s(activePlayers,potSize,0.0);
+    Table s(activePlayers,potSize,0.0);
     
     for( int k = 0; k < tablecards.size(); k++ )
     {
@@ -274,8 +274,8 @@ enum actionNames compPlayer::simulate()
     //cerr << "  initialized state" << endl;
 	    //Creates the initial states and then begins to pick options
     
-    State poss1( s );
-    State poss2( s );
+    Table poss1( s );
+    Table poss2( s );
     poss1.Bet();
     poss2.Call();
 
@@ -302,7 +302,7 @@ enum actionNames compPlayer::simulate()
     }
 } // simulate
 
-double compPlayer::sim( State& st ) {
+double compPlayer::sim( Table& st ) {
 
     //cerr << "entered sim" << endl;
 
@@ -396,7 +396,7 @@ double compPlayer::sim( State& st ) {
     
 } // sim()
 
-double compPlayer::trial( State& st )
+double compPlayer::trial( Table& st )
 {
     cerr << "enter trial" << endl;
 
@@ -408,11 +408,11 @@ double compPlayer::trial( State& st )
     else
     {
         cerr << "make s1" << endl;
-        State s1( st );
+        Table s1( st );
         cerr << "make s2" << endl;
-        State s2( st );
+        Table s2( st );
         cerr << "make s3" << endl;
-        State s3( st );
+        Table s3( st );
         s1.Fold();
         s2.Bet();
         s3.Call();
