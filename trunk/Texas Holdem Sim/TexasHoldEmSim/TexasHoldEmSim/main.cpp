@@ -15,17 +15,40 @@
 
 
 // Function declarations
-string ParseCmdLine( int argc, char* argv[]);
-void InitLog(ostream& fout);
-void initKeys();
 
-// Universal variables -- change later
-vector<string> vKeys;
-map<string,string> mPairs;
-AnyOption anyOpt;
+// MJB: Do NOT edit next 3 functions
+string ParseCmdLine( int argc, char* argv[], vector<string>& vKeys, AnyOption& anyOpt);
+void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOpt);
+void InitKeys(vector<string>& vKeys);
+// End no editing
+
 
 int main( int argc, char ** argv )
 {
+    vector<string> vKeys;
+    map<string,string> mPairs;
+    AnyOption anyOpt;
+    string outPutFile = "";
+    ofstream fout;
+
+
+    // Starting things off:
+    // 1. Parse the command line
+    // 2. Init the keys in the config file
+    // 3. Map them to their values
+    // 4. Open the output file
+    InitKeys(vKeys);
+    outPutFile = ParseCmdLine(argc, argv, vKeys, anyOpt);
+    MapKeys(mPairs, vKeys, anyOpt);
+    
+    fout.open(outPutFile.c_str());
+    if(!fout.is_open())
+    {
+        cout << "IO Error... could not open " << outPutFile;
+        exit(0);
+    }
+    
+
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
     //       to progress through the game if no human players are left (pretty sure).
@@ -33,6 +56,10 @@ int main( int argc, char ** argv )
     //       Problem: Comp class doesn't work at the moment...
     //
     //       http://www.nd.edu/~cseprog/proj04_331/deepgold/source/
+    
+    // TODO: Initialize appropriate components based upon the mPairs map.
+    
+    fout.close();
     
     return 0;   
 }
@@ -51,9 +78,9 @@ int main( int argc, char ** argv )
 //       must be specified in a user defined configuration file.
 //
 // See "anyoption.h" and/or "anyOptionDemo" for more information.
-string ParseCmdLine( int argc, char* argv[]) //, AnyOption& anyOpt, vector<string>& vKeys )
+string ParseCmdLine( int argc, char* argv[], vector<string>& vKeys, AnyOption& anyOpt) //, AnyOption& anyOpt, vector<string>& vKeys )
 {
-    initKeys();
+
     const string defaultOutputFile = "simulation.log";
     const string defaultInputFile  = "simulation.ini";
     string inputFile = "";
@@ -109,19 +136,19 @@ string ParseCmdLine( int argc, char* argv[]) //, AnyOption& anyOpt, vector<strin
     {
         // Set user defined config filename
         anyOpt.processFile(anyOpt.getValue('i'));
-        cout << "\nUsing input config file:   " << anyOpt.getValue('i');
+        cout << "\nUsing input config file:   " << anyOpt.getValue('i') << "\n";
     }
     else if( anyOpt.getValue( "input" ) != NULL )
     {
         // Set user defined config filename
         anyOpt.processFile(anyOpt.getValue("input"));
-        cout << "\nUsing input config file:   " << anyOpt.getValue("input");
+        cout << "\nUsing input config file:   " << anyOpt.getValue("input") << "\n";
     }
     else
     {
         // Set default config filename
         anyOpt.processFile(defaultInputFile.c_str());
-        cout << "\nUsing default config file: " << defaultInputFile;
+        cout << "\nUsing default config file: " << defaultInputFile << "\n";
     }
 
 
@@ -131,14 +158,14 @@ string ParseCmdLine( int argc, char* argv[]) //, AnyOption& anyOpt, vector<strin
     {
         // Set user defined config filename
         anyOpt.processFile(anyOpt.getValue('o'));
-        cout << "\nUsing output file: " << anyOpt.getValue('o');
+        cout << "\nUsing output file: " << anyOpt.getValue('o') << "\n";
         outputFile = anyOpt.getValue('o');
     }
     else if( anyOpt.getValue( "output" ) != NULL )
     {
         // Set user defined config filename
         anyOpt.processFile(anyOpt.getValue("output"));
-        cout << "\nUsing output file: " << anyOpt.getValue("output");
+        cout << "\nUsing output file: " << anyOpt.getValue("output") << "\n";
         outputFile = anyOpt.getValue("output");
     }
     else
@@ -153,12 +180,14 @@ string ParseCmdLine( int argc, char* argv[]) //, AnyOption& anyOpt, vector<strin
 } // ParseCmdLine
 
 
-void InitLog(ostream& fout)
+/*
+    MapKeys: Takes the specified configuration file keys, and maps them
+             To their specified value.
+*/
+void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOpt)
 {
-
     vector<string>::iterator vit;
     map<string,string>::iterator mit;
-
 
     /* 6. GET THE VALUES */
     // I have no idea where the off by 1 error comes from
@@ -178,12 +207,19 @@ void InitLog(ostream& fout)
         fout << mit->first << " : " << mit->second << "\n";
     }
     */
-}
+} // MapKeys()
 
 
-void initKeys()
+void InitKeys( vector<string>& vKeys)
 {
-    // And I can't initialize a vector with elements already in it because, why?
-    vKeys.push_back("");
+    // These end up being case insensitive
+    vKeys.push_back("Number of players");
+    vKeys.push_back("Player difficulty");
+    vKeys.push_back("Buy in");
+    vKeys.push_back("Big blind");
+    vKeys.push_back("Small blind");
+    vKeys.push_back("Blind timer");
+    vKeys.push_back("Dealer");
     vKeys.push_back("OFF-BY-ONE");
-} // initKeys()
+    
+} // InitKeys()

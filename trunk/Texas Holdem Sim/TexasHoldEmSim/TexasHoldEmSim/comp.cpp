@@ -184,6 +184,7 @@ bool compPlayer::checkFold()
 	return out;
 }  // checkFold()
 
+// MJB: Sudo random right now...
 enum actionNames compPlayer::makeDec()
 { 
     int dec;
@@ -402,7 +403,7 @@ double compPlayer::trial( State& st )
     if( st.isGameOver() )
     {
         cerr << "game over" << endl;
-        return st.winslosses();
+        return st.amtWon();
     }
     else
     {

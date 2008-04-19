@@ -4,23 +4,32 @@
 
 using namespace std;
 
+/* MJB: game is basically the table/dealer in our simulation. It sets up 
+        the number of players, initial chip count, odds for hole cards, etc.
+   
+   FIXME: THIS IS SEVERELY BROKEN BECAUSE IT RELIES A LOT ON HUMAN PLAYERS     
+*/
+
 game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
 {
 	genTable();
 } // game()
 
-// MJB: This looks like a problem, never adds computer players...
+// MJB: Called to start a game
+//      The constructor values are gotten from the configuration file
 void game::init(int num, const vector<int>& stacks , int dealerNumber)
 {
 	numPlayers = num;
 	
+    // MJB: No human players
+/*
 	for(int n=0; n < num-1; n++)
 	{
 		humanPlayer temp;
 		humans.push_back(temp);
 	}
 	
-	//cerr << " number of humans created == " << humans.size() << endl;
+	cerr << " number of humans created == " << humans.size() << endl;
 	
 	for(int i=0; i < num-1; i++)
 	{
@@ -28,15 +37,18 @@ void game::init(int num, const vector<int>& stacks , int dealerNumber)
 		humans[i].pointToTable(&odds);
 	}
 	
-	drWorkman.addChips(stacks[0]);
 	vector<humanPlayer*> opps(humans.size());
 	
 	for(int j=0; j<humans.size(); j++)
 	{
 		opps[j] = &humans[j];
 	}
+*/	
+
+	cPlayer.addChips(stacks[0]);	
 	
-	drWorkman.pointToOpponents(opps);
+	// MJB: WTF is this doing?
+	//cPlayer.pointToOpponents(opps);
 
 	hole.clear();
 	hole.resize(0);
@@ -53,7 +65,7 @@ void game::init(int num, const vector<int>& stacks , int dealerNumber)
 double game::stackSize(int n)
 {
 	if(n == 0)
-		return drWorkman.stackSize();
+		return cPlayer.stackSize();
 	else
 		return humans[n - 1].stackSize();
 } // stackSize()
@@ -64,7 +76,7 @@ void game::betRaise(double amnt)
 	////currentBet++;
 
 	if( activePlayer == 0 )
-		drWorkman.betRaise(amnt);
+		cPlayer.betRaise(amnt);
 	else
 		humans[activePlayer - 1].betRaise(amnt);
 
@@ -81,7 +93,7 @@ void game::betRaise(double amnt)
 void game::callCheck(double amnt)
 {
 	if(activePlayer == 0)
-		drWorkman.checkCall(amnt);
+		cPlayer.checkCall(amnt);
 	else
 		humans[activePlayer - 1].checkCall(amnt);
 
@@ -99,7 +111,7 @@ void game::fold()
 {
 	if(activePlayer == 0)
 	{
-		drWorkman.fold();
+		cPlayer.fold();
 	}
 	else
 	{
@@ -120,21 +132,27 @@ void game::fold()
 
 } // fold()
 
+// MJB: Starts off a new hand.
+// Puts everyone back in, moves blinds and dealer chip
+// and sets who bets first.
 void game::newHand()
 {
 	int b1, b2;
 
-	drWorkman.clearCards();
+	cPlayer.clearCards();
 	handsPlayed++;
-	drWorkman.unfold();
+	cPlayer.unfold();
 	hole.clear();
 	hole.resize(0);
+	
 	for(int i=0; i<numPlayers; ++i)
 	{
 		humans[i].unfold();
 		humans[i].addFlopSeen();
 	}
+	
 	dealerNum++;
+	
 	if(dealerNum == numPlayers)
 		dealerNum = 0;
 
@@ -143,7 +161,7 @@ void game::newHand()
 
 	// small blind
 	if(b1 == 0)
-		drWorkman.betRaise(.5);
+		cPlayer.betRaise(.5);
 	else
 		humans[b1].betRaise(.5);
 
@@ -151,7 +169,7 @@ void game::newHand()
 
 	// big blind
 	if(b2 == 0)
-		drWorkman.betRaise(1);
+		cPlayer.betRaise(1);
 	else
 		humans[b2].betRaise(1);
 
@@ -168,14 +186,14 @@ void game::dealCard(string val)
 {
 	numCardsDealt++;
 	card card1(val[0], val[1]);
-	drWorkman.addCard(card1);
+	cPlayer.addCard(card1);
 	activePlayer = dealerNum + 1;
 } // dealCard()
 
 void game::pickWinner(int n)
 {
 	if(n == 0)
-		drWorkman.wonHand(potSize);
+		cPlayer.wonHand(potSize);
 	else
 		humans[n-1].wonHand(potSize);
 }  // pickWinner()
@@ -186,13 +204,13 @@ void game::addHole(string c)
 	hole.push_back(card1);
 	if(hole.size() == 2)
 	{
-		drWorkman.setHoleCards(hole[0], hole[1]);
+		cPlayer.setHoleCards(hole[0], hole[1]);
 	}
 } // addHole()
 
 enum actionNames game::think()
 {
-	drWorkman.setDealer(dealerNum);
+	cPlayer.setDealer(dealerNum);
 	
 	int seatNum = (numPlayers - dealerNum) - 2;
 	
@@ -201,9 +219,9 @@ enum actionNames game::think()
 		seatNum += numPlayers;
 	}
 
-	drWorkman.setSeatNumber(seatNum);
+	cPlayer.setSeatNumber(seatNum);
 
-	return drWorkman.makeDec();
+	return cPlayer.makeDec();
 	// output to simulation box?
 } // think()
 
@@ -272,5 +290,6 @@ void game::genTable()
 	
 	file.close();
 
-	cerr << "human weight table size = " << odds.size() << endl;
+    // MJB: What does this print statement do?
+	//cerr << "human weight table size = " << odds.size() << endl;
 } // genTable()

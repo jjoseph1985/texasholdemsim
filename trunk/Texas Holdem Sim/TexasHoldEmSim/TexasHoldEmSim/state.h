@@ -26,21 +26,41 @@ class State
 {
     public:
 	    State( list<int>, double, double);
-	    State(State &);  // Copy Constructor	
+	    
+	    // Copy Constructor
+	    State(State &);
+	    
+	    // MJB: Informs state of the action taken
 	    void   Fold();
 	    void   Bet();
 	    void   Call();
-	    double winslosses();
+	    
+	    // MJB: Winner winner chicken dinner. Return winnings if any
+	    double amtWon();
+	    
+	    // MJB: Round mutator/inspector
 	    int    getrnd() { return round; };
 	    void   setRound( int r );
+	    
+	    // MJB: Return number of players (left?)
 	    int    numberPlayers();
-	    int    getIndex( int );
-	    void   setHole( int, holeCards );
+	    
+	    // MJB: Returns index into player vector for that player
+	    int    getIndex( int index);
+	    
+	    // Sets holecards for a player n
+	    void   setHole( int n, holeCards );
+	    
+	    // Deals a card matching a string
         void   dealCard( string );
+        
 	    bool   isGameOver();
 
     private:
+        // MJB: Moves to then next round of betting or ends the current hand
 	    void   updateRound( bool );
+
+        // MJB: Uses hand evaluation to determine the winner of a hand among remain players in state	    
 	    void   pickWinner();
 
 	    double currBet;

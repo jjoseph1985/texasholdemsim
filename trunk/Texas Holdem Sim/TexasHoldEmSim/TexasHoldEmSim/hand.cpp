@@ -430,7 +430,7 @@ bool handType::beats( handType& other )
 
 bool handType::ties( handType& other )
 {
-    rval = false;
+    bool rval = false;
     
     if( label == other.label && kick1 == other.kick1 && kick2 == other.kick2 
         && kick3 == other.kick3 && kick4 == other.kick4 && kick5 == other.kick5 )
