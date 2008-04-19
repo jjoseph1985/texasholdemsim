@@ -24,7 +24,7 @@ class game
 	    // MJB: Called on each new hand. Initializer for a game class instance that takes arguments num
 	    //      to set the number of players in the game, stacks to set the chip count for each player,
 	    //      and dealerNumber to set the initial dealer
-	    void init(int num, const vector<int>&, int dealerNumber);
+	    void init(int num, int dealerNumber);
 
 	    // MJB: Dealer mutator/inspector
 	    void setDealerNum(int index){ dealerNum = index; }; 
@@ -89,14 +89,13 @@ class game
 	    // MJB: Read from text file the weights of all hole card combinations and place information into a map
 	    void genTable();
 
-	    vector<humanPlayer> humans;
-	    compPlayer cPlayer;
+	    vector<compPlayer> cPlayers;
 	    vector<card> hole;
 	    map<string, double> odds;
 
 	    double potSize;
 	    double currentBet; // do we need this here anymore?
-	    int numPlayers;
+	    int numOfPlayers;
 	    int dealerNum;
 	    int activePlayer;
 	    int numCardsDealt;
