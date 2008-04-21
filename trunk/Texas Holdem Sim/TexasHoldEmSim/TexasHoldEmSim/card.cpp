@@ -23,8 +23,8 @@ string card::whatcard() const
 
 void card::setVal( char n, char s )
 {
-    num = n;
-    suit = s;
+    setnum(n);
+    setsuit(s);
 }  // setVal()
 
 void card::setnum(char n)
@@ -42,6 +42,8 @@ char card::getsuit() const
     return suit;
 } // getsuit()         
 
+
+//get num and getfacenum should be combined you idiots
 char card::getnum() const
 {
     return num;
