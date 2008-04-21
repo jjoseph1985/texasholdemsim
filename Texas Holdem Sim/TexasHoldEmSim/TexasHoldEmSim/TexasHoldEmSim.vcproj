@@ -201,7 +201,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\state.cpp"
+				RelativePath=".\table.cpp"
 				>
 			</File>
 		</Filter>
@@ -243,7 +243,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\state.h"
+				RelativePath=".\table.h"
 				>
 			</File>
 		</Filter>
