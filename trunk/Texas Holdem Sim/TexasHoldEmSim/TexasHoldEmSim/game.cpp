@@ -17,17 +17,35 @@ game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(
 
 // MJB: Called to start a game
 //      The constructor values are gotten from the configuration file
-//stacks is gay...take it away.
-void game::init(int num, int dealerNumber)
+void game::init(int num, const vector<int>& stacks , int dealerNumber)
 {
-	numOfPlayers = num;
-
-	for(int i=0; i<numOfPlayers; i++)
+	numPlayers = num;
+	
+    // MJB: No human players
+/*
+	for(int n=0; n < num-1; n++)
 	{
-		cPlayers.addChips(15);
-		//not sure yet below
-		cPlayers.pointToTable(&odds);
+		humanPlayer temp;
+		humans.push_back(temp);
 	}
+	
+	cerr << " number of humans created == " << humans.size() << endl;
+	
+	for(int i=0; i < num-1; i++)
+	{
+		humans[i].addChips(stacks[i + 1]);
+		humans[i].pointToTable(&odds);
+	}
+	
+	vector<humanPlayer*> opps(humans.size());
+	
+	for(int j=0; j<humans.size(); j++)
+	{
+		opps[j] = &humans[j];
+	}
+*/	
+
+	cPlayer.addChips(stacks[0]);	
 	
 	// MJB: WTF is this doing?
 	//cPlayer.pointToOpponents(opps);
@@ -54,46 +72,62 @@ double game::stackSize(int n)
 
 void game::betRaise(double amnt)
 {
-	cPlayers[activePlayer - 1].betRaise(amnt);
+	// depending on round, need to increment this again
+	////currentBet++;
+
+	if( activePlayer == 0 )
+		cPlayer.betRaise(amnt);
+	else
+		humans[activePlayer - 1].betRaise(amnt);
 
 	////potSize += currentBet;
 	potSize += amnt;
 
-	activePlayer = (activePlayer + 1) % numOfPlayers;
+	activePlayer = (activePlayer + 1) % numPlayers;
 	while(flow->isFolded(activePlayer))
 	{
-		activePlayer = (activePlayer + 1) % numOfPlayers;
+		activePlayer = (activePlayer + 1) % numPlayers;
 	}
 } // betRaise()
 
 void game::callCheck(double amnt)
 {
-	cPlayers[activePlayer - 1].checkCall(amnt);
+	if(activePlayer == 0)
+		cPlayer.checkCall(amnt);
+	else
+		humans[activePlayer - 1].checkCall(amnt);
 
 	////potSize += currentBet;
 	potSize += amnt;
 
-	activePlayer = (activePlayer + 1) % numOfPlayers;
+	activePlayer = (activePlayer + 1) % numPlayers;
 	while(flow->isFolded(activePlayer))
 	{
-		activePlayer = (activePlayer + 1) % numOfPlayers;
+		activePlayer = (activePlayer + 1) % numPlayers;
 	}
 } // callCheck()
 
 void game::fold()
 {
-	cPlayers[activePlayer - 1].fold();
-	
-	if(flow->roundNum == 1)
+	if(activePlayer == 0)
 	{
-		humans[activePlayer - 1].foldBeforeFlop();
+		cPlayer.fold();
+	}
+	else
+	{
+		humans[activePlayer - 1].fold();
+		
+		if(flow->roundNum == 1)
+		{
+			humans[activePlayer - 1].foldBeforeFlop();
+		}
 	}
 
-	activePlayer = (activePlayer + 1) % numOfPlayers;
+	activePlayer = (activePlayer + 1) % numPlayers;
 	
 	while(flow->isFolded(activePlayer ))
 	{
-		activePlayer = (activePlayer + 1) % numOfPlayers;
+		activePlayer = (activePlayer + 1) % numPlayers;
 	} 
 
 } // fold()
@@ -105,32 +139,39 @@ void game::newHand()
 {
 	int b1, b2;
 
+	cPlayer.clearCards();
 	handsPlayed++;
+	cPlayer.unfold();
 	hole.clear();
 	hole.resize(0);
 	
-	for(int i=0; i<numOfPlayers; ++i)
+	for(int i=0; i<numPlayers; ++i)
 	{
-		cPlayers[i].clearCards();
-		cPlayers[i].unfold();
-		cPlayers[i].addFlopSeen();
+		humans[i].unfold();
+		humans[i].addFlopSeen();
 	}
 	
 	dealerNum++;
 	
-	if(dealerNum == numOfPlayers)
+	if(dealerNum == numPlayers)
 		dealerNum = 0;
 
-	b1 = (dealerNum+1) % numOfPlayers;
-	b2 = (dealerNum+2) % numOfPlayers;
+	b1 = (dealerNum+1) % numPlayers;
+	b2 = (dealerNum+2) % numPlayers;
 
 	// small blind
-	cPlayers[b1].betRaise(.5);
+	if(b1 == 0)
+		cPlayer.betRaise(.5);
+	else
+		humans[b1].betRaise(.5);
 
 	flow->player[b1].second = .5;
 
 	// big blind
-	cPlayers[b2].betRaise(1);
+	if(b2 == 0)
+		cPlayer.betRaise(1);
+	else
+		humans[b2].betRaise(1);
 
 	flow->player[b2].second = 1.0;
 
@@ -138,10 +179,10 @@ void game::newHand()
 	////currentBet = 1;
 
 	// next player is active
-	activePlayer = (b2 + 1) % numOfPlayers;
+	activePlayer = (b2 + 1) % numPlayers;
 }  // newHand()
 
-void game::dealCards()
+void game::dealCard(string val)
 {
 	numCardsDealt++;
 	card card1(val[0], val[1]);
@@ -151,7 +192,10 @@ void game::dealCards()
 
 void game::pickWinner(int n)
 {
-	cPlayers[n-1].wonHand(potSize);
+	if(n == 0)
+		cPlayer.wonHand(potSize);
+	else
+		humans[n-1].wonHand(potSize);
 }  // pickWinner()
 
 void game::addHole(string c)
