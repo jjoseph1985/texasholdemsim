@@ -43,12 +43,13 @@ char card::getsuit() const
 } // getsuit()         
 
 
-//get num and getfacenum should be combined you idiots
+//returns name of card, ie. returns 'A' for ace, or '1' for one.
 char card::getnum() const
 {
     return num;
 } // getnum()
 
+//returns value of card, ie 14 for ace
 int card::getfacenum() const
 {
     int temp;
