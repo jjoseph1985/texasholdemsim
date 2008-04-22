@@ -24,7 +24,7 @@ class game
 	    // MJB: Called on each new hand. Initializer for a game class instance that takes arguments num
 	    //      to set the number of players in the game, stacks to set the chip count for each player,
 	    //      and dealerNumber to set the initial dealer
-	    void init(int num, const vector<int>&, int dealerNumber);
+	    void init(int numPlayers, int startMoney, int dealerNumber);
 
 	    // MJB: Dealer mutator/inspector
 	    void setDealerNum(int index){ dealerNum = index; }; 
@@ -57,14 +57,14 @@ class game
 	    void newHand();
 	    
 	    // MJB: Check if a player has folded. (Used in determining 'active' players)
-	    bool isFolded(int index){ return humans[index-1].checkFold(); };
+	    bool isFolded(int index);
 	    
 	    // MJB: This is never used anywhere, but it should return whether a player is
 	    //      out of the game
-	    bool isBusted(int index){ return humans[index-1].checkBust(); };
+	    bool isBusted(int index);
 	    
 	    // MJB: Returns the current potsize
-	    double getPotSize() { return potSize; };
+	    double getPotSize();
 
 	    // alert game object of new card dealt
 	    void dealCard(string);  // queen of hearts == Qh, seven of diamonds == 7d
@@ -81,16 +81,17 @@ class game
 	    enum actionNames think();
 	    
 	    
-	    double getCurrBet(){ return currentBet; };
-	    void resetCurrBet(){ currentBet = 0; };
+	    double getCurrBet();
+	    void resetCurrBet();
 
 	private:
 	
 	    // MJB: Read from text file the weights of all hole card combinations and place information into a map
 	    void genTable();
+        void ActivePlayerUpdate();
 
-	    vector<humanPlayer> humans;
-	    compPlayer cPlayer;
+	    //vector<humanPlayer> humans;
+	    vector<compPlayer> cPlayer;
 	    vector<card> hole;
 	    map<string, double> odds;
 
