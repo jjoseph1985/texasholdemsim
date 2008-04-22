@@ -10,7 +10,7 @@
 #include "holecards.h"
 //#include "human.h"
 #include "round.h"
-#include "table.h"
+#include "state.h"
 #include "anyoption.h"
 
 
