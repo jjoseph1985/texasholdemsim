@@ -7,7 +7,7 @@ using namespace std;
 /* MJB: game is basically the table/dealer in our simulation. It sets up 
         the number of players, initial chip count, odds for hole cards, etc.
    
-   FIXME: THIS IS SEVERELY BROKEN BECAUSE IT RELIES A LOT ON HUMAN PLAYERS     
+   Removed all the human Player stuff;
 */
 
 game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
@@ -17,35 +17,15 @@ game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(
 
 // MJB: Called to start a game
 //      The constructor values are gotten from the configuration file
-void game::init(int num, const vector<int>& stacks , int dealerNumber)
+void game::init(int numPlayers, int startMoney, int dealerNumber)
 {
-	numPlayers = num;
-	
-    // MJB: No human players
-/*
-	for(int n=0; n < num-1; n++)
-	{
-		humanPlayer temp;
-		humans.push_back(temp);
-	}
-	
-	cerr << " number of humans created == " << humans.size() << endl;
-	
-	for(int i=0; i < num-1; i++)
-	{
-		humans[i].addChips(stacks[i + 1]);
-		humans[i].pointToTable(&odds);
-	}
-	
-	vector<humanPlayer*> opps(humans.size());
-	
-	for(int j=0; j<humans.size(); j++)
-	{
-		opps[j] = &humans[j];
-	}
-*/	
+	this->numPlayers = numPlayers;
 
-	cPlayer.addChips(stacks[0]);	
+    for(int i=0; i < numPlayers; i++)
+    {
+        //cPlayers.addChips(startMoney);
+    }	
+
 	
 	// MJB: WTF is this doing?
 	//cPlayer.pointToOpponents(opps);
@@ -64,10 +44,15 @@ void game::init(int num, const vector<int>& stacks , int dealerNumber)
 
 double game::stackSize(int n)
 {
+    // activePlayer instead of n?
+    return cPlayer[n-1].stackSize();
+
+/*    
 	if(n == 0)
 		return cPlayer.stackSize();
 	else
 		return humans[n - 1].stackSize();
+*/
 } // stackSize()
 
 void game::betRaise(double amnt)
@@ -75,80 +60,70 @@ void game::betRaise(double amnt)
 	// depending on round, need to increment this again
 	////currentBet++;
 
-	if( activePlayer == 0 )
-		cPlayer.betRaise(amnt);
-	else
-		humans[activePlayer - 1].betRaise(amnt);
+	cPlayer[activePlayer - 1].betRaise(amnt);
+
 
 	////potSize += currentBet;
 	potSize += amnt;
 
-	activePlayer = (activePlayer + 1) % numPlayers;
+	ActivePlayerUpdate();
+	
 	while(flow->isFolded(activePlayer))
 	{
-		activePlayer = (activePlayer + 1) % numPlayers;
+		ActivePlayerUpdate();
 	}
 } // betRaise()
 
 void game::callCheck(double amnt)
 {
-	if(activePlayer == 0)
-		cPlayer.checkCall(amnt);
-	else
-		humans[activePlayer - 1].checkCall(amnt);
+
+	cPlayer[activePlayer - 1].checkCall(amnt);
 
 	////potSize += currentBet;
 	potSize += amnt;
 
-	activePlayer = (activePlayer + 1) % numPlayers;
+	ActivePlayerUpdate();
+	
 	while(flow->isFolded(activePlayer))
 	{
-		activePlayer = (activePlayer + 1) % numPlayers;
+		ActivePlayerUpdate();
 	}
 } // callCheck()
 
 void game::fold()
 {
-	if(activePlayer == 0)
-	{
-		cPlayer.fold();
-	}
-	else
-	{
-		humans[activePlayer - 1].fold();
+	cPlayer[activePlayer - 1].fold();
 		
-		if(flow->roundNum == 1)
-		{
-			humans[activePlayer - 1].foldBeforeFlop();
-		}
-	}
-
-	activePlayer = (activePlayer + 1) % numPlayers;
+	ActivePlayerUpdate();
 	
 	while(flow->isFolded(activePlayer ))
 	{
-		activePlayer = (activePlayer + 1) % numPlayers;
+		ActivePlayerUpdate();
 	} 
 
 } // fold()
+
+void game::ActivePlayerUpdate()
+{
+    activePlayer = (activePlayer + 1) % numPlayers;
+} // ActivePlayerUpdate
 
 // MJB: Starts off a new hand.
 // Puts everyone back in, moves blinds and dealer chip
 // and sets who bets first.
 void game::newHand()
 {
-	int b1, b2;
+	int b1;
+	int b2;
 
-	cPlayer.clearCards();
 	handsPlayed++;
-	cPlayer.unfold();
 	hole.clear();
 	hole.resize(0);
 	
 	for(int i=0; i<numPlayers; ++i)
 	{
-		humans[i].unfold();
-		humans[i].addFlopSeen();
+	    cPlayer[i].clearCards();
+		cPlayer[i].unfold();
 	}
 	
 	dealerNum++;
@@ -159,26 +134,17 @@ void game::newHand()
 	b1 = (dealerNum+1) % numPlayers;
 	b2 = (dealerNum+2) % numPlayers;
 
-	// small blind
-	if(b1 == 0)
-		cPlayer.betRaise(.5);
-	else
-		humans[b1].betRaise(.5);
-
+	// Force bet small blinds
+	cPlayer[b1].betRaise(.5);
 	flow->player[b1].second = .5;
-
-	// big blind
-	if(b2 == 0)
-		cPlayer.betRaise(1);
-	else
-		humans[b2].betRaise(1);
-
+    
+    // Force bet big blinds
+    cPlayer[b2].betRaise(1.0);
 	flow->player[b2].second = 1.0;
 
 	potSize = 1.5;
 	////currentBet = 1;
 
-	// next player is active
 	activePlayer = (b2 + 1) % numPlayers;
 }  // newHand()
 
@@ -186,31 +152,29 @@ void game::dealCard(string val)
 {
 	numCardsDealt++;
 	card card1(val[0], val[1]);
-	cPlayer.addCard(card1);
+	cPlayer[activePlayer].addCard(card1);
 	activePlayer = dealerNum + 1;
 } // dealCard()
 
 void game::pickWinner(int n)
 {
-	if(n == 0)
-		cPlayer.wonHand(potSize);
-	else
-		humans[n-1].wonHand(potSize);
+    cPlayer[n].wonHand(potSize);
 }  // pickWinner()
 
 void game::addHole(string c)
 {
 	card card1(c[0], c[1]);
 	hole.push_back(card1);
+	
 	if(hole.size() == 2)
 	{
-		cPlayer.setHoleCards(hole[0], hole[1]);
+		cPlayer[activePlayer].setHoleCards(hole[0], hole[1]);
 	}
 } // addHole()
 
 enum actionNames game::think()
 {
-	cPlayer.setDealer(dealerNum);
+	cPlayer[activePlayer].setDealer(dealerNum);
 	
 	int seatNum = (numPlayers - dealerNum) - 2;
 	
@@ -219,9 +183,9 @@ enum actionNames game::think()
 		seatNum += numPlayers;
 	}
 
-	cPlayer.setSeatNumber(seatNum);
+	cPlayer[activePlayer].setSeatNumber(seatNum);
 
-	return cPlayer.makeDec();
+	return cPlayer[activePlayer].makeDec();
 	// output to simulation box?
 } // think()
 
@@ -234,6 +198,8 @@ void game::genTable()
 	string a, b;
 
 	odds.clear();
+
+    // http://www.westonpoker.com/pokerInfo/preFlopOdds.php
 	
 	for (int i = 0; i < 169; i++)
 	{
@@ -241,50 +207,78 @@ void game::genTable()
 		file >> weight;
 		weight = weight / 31.5;
 
-		a = hole[0];
+		a = hole[0];		
 		b = hole[1];
+		
+		cout << "\nhole[0]: " << a << "\nhole[1]: b " << b;
 
 		if( hole.length() == 2 )
 		{
 			tmp = a + 'h' + b + 'c';
 			odds[tmp] = weight;
+			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 'h' + b + 's';
 			odds[tmp] = weight;
+			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 'h' + b + 'd';
-			odds[tmp] = weight;
-
+			odds[tmp] = weight;    
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 'c' + b + 'h';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
+			
 			tmp = a + 'c' + b + 's';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
+			
 			tmp = a + 'c' + b + 'd';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 's' + b + 'h';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 's' + b + 'c';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 's' + b + 'd';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 'd' + b + 'h';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 'd' + b + 'c';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			
 			tmp = a + 'd' + b + 's';
 			odds[tmp] = weight;
-
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
 		}
 		else
-		{ // hole.length() == 3
+		{ // suited cards
 			tmp = a + 'h' + b + 'h';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+
 			tmp = a + 'c' + b + 'c';
 			odds[tmp] = weight;
+			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+
 			tmp = a + 's' + b + 's';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+
 			tmp = a + 'd' + b + 'd';
 			odds[tmp] = weight;
+            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
 		}
 	}
 	
@@ -293,3 +287,27 @@ void game::genTable()
     // MJB: What does this print statement do?
 	//cerr << "human weight table size = " << odds.size() << endl;
 } // genTable()
+
+bool game::isFolded(int index)
+{
+    return cPlayer[index-1].checkFold();
+}
+
+bool game::isBusted(int index)
+{
+    return cPlayer[index-1].checkBust();
+}	    
+
+double game::getPotSize()
+{
+    return potSize;
+}
+double game::getCurrBet()
+{
+    return currentBet;
+}
+
+void game::resetCurrBet()
+{
+    currentBet = 0; 
+}
