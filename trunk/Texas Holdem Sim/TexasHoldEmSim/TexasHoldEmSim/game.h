@@ -88,7 +88,7 @@ class game
 	
 	    // MJB: Read from text file the weights of all hole card combinations and place information into a map
 	    void genTable();
-        void ActivePlayerUpdate();
+        void activePlayerUpdate();
 
 	    //vector<humanPlayer> humans;
 	    vector<compPlayer> cPlayer;

@@ -16,19 +16,20 @@ game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(
 } // game()
 
 // MJB: Called to start a game
-//      The constructor values are gotten from the configuration file
+// The constructor values are gotten from the configuration file
 void game::init(int numPlayers, int startMoney, int dealerNumber)
 {
 	this->numPlayers = numPlayers;
 
     for(int i=0; i < numPlayers; i++)
     {
-        //cPlayers.addChips(startMoney);
+        // cPlayers.addChips(startMoney);
     }	
 
 	
 	// MJB: WTF is this doing?
-	//cPlayer.pointToOpponents(opps);
+	// NE: I have no freakin clue!?!?
+	// cPlayer.pointToOpponents(opps);
 
 	hole.clear();
 	hole.resize(0);
@@ -66,11 +67,11 @@ void game::betRaise(double amnt)
 	////potSize += currentBet;
 	potSize += amnt;
 
-	ActivePlayerUpdate();
+	activePlayerUpdate();
 	
 	while(flow->isFolded(activePlayer))
 	{
-		ActivePlayerUpdate();
+		activePlayerUpdate();
 	}
 } // betRaise()
 
@@ -82,11 +83,11 @@ void game::callCheck(double amnt)
 	////potSize += currentBet;
 	potSize += amnt;
 
-	ActivePlayerUpdate();
+	activePlayerUpdate();
 	
 	while(flow->isFolded(activePlayer))
 	{
-		ActivePlayerUpdate();
+		activePlayerUpdate();
 	}
 } // callCheck()
 
@@ -94,19 +95,19 @@ void game::fold()
 {
 	cPlayer[activePlayer - 1].fold();
 		
-	ActivePlayerUpdate();
+	activePlayerUpdate();
 	
 	while(flow->isFolded(activePlayer ))
 	{
-		ActivePlayerUpdate();
+		activePlayerUpdate();
 	} 
 
 } // fold()
 
-void game::ActivePlayerUpdate()
+void game::activePlayerUpdate()
 {
     activePlayer = (activePlayer + 1) % numPlayers;
-} // ActivePlayerUpdate
+} // activePlayerUpdate
 
 // MJB: Starts off a new hand.
 // Puts everyone back in, moves blinds and dealer chip
@@ -200,6 +201,7 @@ void game::genTable()
 	odds.clear();
 
     // http://www.westonpoker.com/pokerInfo/preFlopOdds.php
+	// NE: this assumes there are 10 players...we will hard code that to make it easier...
 	
 	for (int i = 0; i < 169; i++)
 	{
@@ -210,7 +212,7 @@ void game::genTable()
 		a = hole[0];		
 		b = hole[1];
 		
-		cout << "\nhole[0]: " << a << "\nhole[1]: b " << b;
+		cout << "\nhole[0]: " << a << "\nhole[1]: " << b;
 
 		if( hole.length() == 2 )
 		{
