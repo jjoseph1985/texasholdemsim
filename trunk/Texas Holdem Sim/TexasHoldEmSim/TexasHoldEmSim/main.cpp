@@ -37,17 +37,17 @@ int main( int argc, char ** argv )
     // 2. Init the keys in the config file
     // 3. Map them to their values
     // 4. Open the output file
-    //InitKeys(vKeys);
-    //outPutFile = ParseCmdLine(argc, argv, vKeys, anyOpt);
-    //MapKeys(mPairs, vKeys, anyOpt);
-    //
-    //fout.open(outPutFile.c_str());
-    //if(!fout.is_open())
-    //{
-    //    cout << "IO Error... could not open " << outPutFile;
-    //    exit(0);
-    //}
-    //
+    InitKeys(vKeys);
+    outPutFile = ParseCmdLine(argc, argv, vKeys, anyOpt);
+    MapKeys(mPairs, vKeys, anyOpt);
+    
+    fout.open(outPutFile.c_str());
+    if(!fout.is_open())
+    {
+        cout << "IO Error... could not open " << outPutFile;
+        exit(0);
+    }
+    
 	
 	//NE: Just testing the odds table printout.
 	/*
@@ -59,15 +59,16 @@ int main( int argc, char ** argv )
 	*/
 
 	//JJ: Testing out Card and Hand
-	card card1('2','h');
-	card card2('2','s');
-	card card3('2','d');
-	card card4('1','c');
-	card card5('5','d');
-
-	hand hand1;
-	
-	hand1.init(card1,card2,card3,card4,card5);
+	//card card1('2','h');
+	//card card2('2','s');
+	//card card3('2','d');
+	//card card4('1','c');
+	//card card5('5','d');
+	//string temp = card1.whatcard();
+	//
+	//hand hand1;
+	//
+	//hand1.init(card1,card2,card3,card4,card5);
 
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things

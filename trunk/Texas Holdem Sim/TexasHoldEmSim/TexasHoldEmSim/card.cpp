@@ -7,16 +7,18 @@ card::card(): num('-'), suit('~')
 
 } // card()
 
-card::card(char n, char s):num(n),suit(s)
+card::card(char n, char s):num(n), suit(s)
 {
 
 } // card()
 
-string card::whatcard() const
+//currently prints decimal ASCII representation with character, working on a fix.
+string card::whatcard() const 
 {
     string temp;
-    temp = temp + num;
-    temp = temp + suit;
+	
+	temp.append(1,num);
+	temp.append(1,suit);
     
     return temp;
 } // whatcard()
