@@ -62,7 +62,7 @@ int main( int argc, char ** argv )
 	/*card card1('2','h');
 	card card2('2','s');
 	card card3('2','d');
-	card card4('5','c');
+	card card4('2','c');
 	card card5('5','d');
 	card card6('6', 's');
 	string temp = card1.whatcard();

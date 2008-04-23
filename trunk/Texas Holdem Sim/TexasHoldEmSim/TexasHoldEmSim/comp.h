@@ -69,7 +69,7 @@ class compPlayer
         enum actionNames simulate();
         double sim( Table& );
         double trial( Table& );
-        void initTable( map<string,double>& );
+       /* void initTable( map<string,double>& );*/
 
         map<string, double> weightTable;
         holeCards myCards;

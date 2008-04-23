@@ -388,42 +388,39 @@ bool handType::beats( handType& other )
                     } 
                     else if( kick4 == other.kick4 )
                     {
-                        // MJB: Why is this here, we already checked kick2
-                        if( kick2 > other.kick2 )
+                        if( kick5 > other.kick5 )
                         {
                             return true;
-                        //} else if( kick2 === other.kick2 ) {
-                        //  return false;
                         }
                         else
                         {
                             return false;
-                        }
-                    } // kick4 == 
+                        } // kick5
+                    } 
                     else
                     {
                         return false;
-                    } // kick4 <
-                } // kick3 ==
+                    } // kick4 
+                } 
                 else
                 {
                     return false;
-                } // kick3 <
-            } // kick2 == 
+                } // kick3 
+            } 
             else
             {
                 return false;
-            } // kick2 <
-        } // kick1 ==
+            } // kick2 
+        } 
         else
         {
             return false;
-        } // kick1 <
-    } // label == 
+        } // kick1 
+    } 
     else
     {
         return false;
-    } // label <
+    } 
 }
 
 bool handType::ties( handType& other )
