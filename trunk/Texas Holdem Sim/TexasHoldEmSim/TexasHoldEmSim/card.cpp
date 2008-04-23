@@ -49,14 +49,14 @@ char card::getnum() const
     return num;
 } // getnum()
 
-//returns value of card, ie 14 for ace
+//returns value of card, ie 14 for ace, 0 for a one
 int card::getfacenum() const
 {
     int temp;
     
     if (num != 'T' && num != 'J' && num != 'Q' && num != 'K' && num != 'A')
     {
-	    return num-'1';
+	    return num - '1';
     }
 
     switch(num)
