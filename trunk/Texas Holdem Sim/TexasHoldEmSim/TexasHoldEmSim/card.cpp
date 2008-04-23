@@ -2,17 +2,16 @@
 
 #include "card.h"
     
-card::card(): num('-'), suit('~')
+card::card()
 {
 
 } // card()
 
-card::card(char n, char s):num(n), suit(s)
+card::card(char n, char s)
 {
-
+  setVal(n,s);
 } // card()
 
-//currently prints decimal ASCII representation with character, working on a fix.
 string card::whatcard() const 
 {
     string temp;

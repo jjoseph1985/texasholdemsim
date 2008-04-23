@@ -203,7 +203,7 @@ bool hand::isStraight( const vector<card>& h, handType& type )
     }
     
     // MJB: Should check for any straight
-    if( n0 == n1 == n2 == n3 == n4 )
+    if( (n0 == n1) && (n1 == n2) && (n2 == n3) && (n3 == n4) )
     {
         type.setType( STRAIGHT, kicker);
         rval = true;
@@ -216,7 +216,7 @@ bool hand::isFlush( const vector<card>& h, handType& type )
 {
     bool rVal = false;
     
-    if( h[0].getsuit() == h[1].getsuit() == h[2].getsuit() == h[3].getsuit() == h[4].getsuit() )
+    if( (h[0].getsuit() == h[1].getsuit()) && (h[1].getsuit() == h[2].getsuit()) && (h[2].getsuit() == h[3].getsuit()) && (h[3].getsuit() == h[4].getsuit()) )
     {
         type.setType( FLUSH ); // set other values in main evaluator b/c of royal straight check
         rVal = true;
@@ -228,76 +228,77 @@ bool hand::isFlush( const vector<card>& h, handType& type )
 // Check if 4 of a kind. Cards are already sorted.
 bool hand::is4kind( const vector<card>& h, handType& type )
 {
-    if( h[0].getnum() == h[1].getnum() == h[2].getnum() == h[3].getnum() )
+	if( (h[0].getnum() == h[1].getnum()) && (h[1].getnum() == h[2].getnum()) && (h[2].getnum() == h[3].getnum()) )
     {
         type.setType( FOURKIND, h[0].getfacenum(), h[4].getfacenum() );
         return true;
     } 
-    else if( h[1].getnum() == h[2].getnum() == h[3].getnum() == h[4].getnum() )
+    else if( (h[1].getnum() == h[2].getnum()) && (h[2].getnum() == h[3].getnum()) && (h[3].getnum() == h[4].getnum()) )
     {
         type.setType( FOURKIND, h[1].getfacenum(), h[0].getfacenum() );
         return true;
     }
-    
-    return false;
+	else
+		return false;
 } // is4kind
 
 bool hand::is3kind( const vector<card>& h, handType& type )
 {
-    if( h[0].getnum() == h[1].getnum() == h[2].getnum() )
+    if( (h[0].getnum() == h[1].getnum()) && (h[1].getnum() == h[2].getnum()) )
     {
         type.setType( THREEKIND, h[0].getfacenum(), h[4].getfacenum(), h[3].getfacenum() );
         return true;
     } 
-    else if( h[1].getnum() == h[2].getnum() == h[3].getnum() )
+	else if( (h[1].getnum() == h[2].getnum()) && (h[2].getnum() == h[3].getnum()) )
     {
         type.setType( THREEKIND, h[1].getfacenum(), h[4].getfacenum(), h[0].getfacenum() );
         return true;
     }
-    else if( h[2].getnum() == h[3].getnum() == h[4].getnum() )
+    else if( (h[2].getnum() == h[3].getnum()) && (h[3].getnum() == h[4].getnum()) )
     {
         type.setType( THREEKIND, h[2].getfacenum(), h[1].getfacenum(), h[0].getfacenum() );
         return true;
     }
-    
-    return false;
+	else
+		return false;
 } // is3kind
 
 
 bool hand::isFull( const vector<card>& h, handType& type )
 {
-    if( h[0].getnum() == h[1].getnum() == h[2].getnum() && h[3].getnum() == h[4].getnum() )
+	if( (h[0].getnum() == h[1].getnum()) && (h[1].getnum() == h[2].getnum()) && (h[2].getnum() == h[3].getnum()) && (h[3].getnum() == h[4].getnum()) )
     {
         type.setType( FULL, h[0].getfacenum(), h[3].getfacenum() );
         return true;
     }
-    else if ( h[2].getnum() == h[3].getnum() == h[4].getnum() && h[0].getnum() == h[1].getnum() )
+	else if ( (h[2].getnum() == h[3].getnum()) && (h[3].getnum() == h[4].getnum()) && (h[0].getnum() == h[1].getnum()) )
     {
         type.setType( FULL, h[2].getfacenum(), h[0].getfacenum() );
         return true;
     }
-    
-    return false;
+	else
+		return false;
 } // isFull
 
 bool hand::is2pair( const vector<card>& h, handType& type )
 {
-    if( h[0].getnum() == h[1].getnum() && h[2].getnum() == h[3].getnum() )
+    if( (h[0].getnum() == h[1].getnum()) && (h[2].getnum() == h[3].getnum()) )
     {
         type.setType( TWOPAIR, h[0].getfacenum(), h[2].getfacenum(), h[4].getfacenum() );
         return true;
     }
-    else if( h[0].getnum() == h[1].getnum() && h[4].getnum() == h[4].getnum() )
+    else if( (h[0].getnum() == h[1].getnum()) && (h[4].getnum() == h[4].getnum()) )
     {
         type.setType( TWOPAIR, h[0].getfacenum(), h[3].getfacenum(), h[2].getfacenum() );
         return true;
     } 
-    else if( h[1].getnum() == h[2].getnum() && h[3].getnum() == h[4].getnum() )
+    else if( (h[1].getnum() == h[2].getnum()) && (h[3].getnum() == h[4].getnum()) )
     {
         type.setType( TWOPAIR, h[1].getfacenum(), h[3].getfacenum(), h[0].getfacenum() );
         return true;
     }
-    return false;
+	else
+		return false;
 } // is2pair()
 
 bool hand::isPair( const vector<card>& h, handType& type )
@@ -322,8 +323,8 @@ bool hand::isPair( const vector<card>& h, handType& type )
         type.setType( PAIR, h[3].getfacenum(), h[0].getfacenum(), h[1].getfacenum(), h[2].getfacenum() );
         return true;
     }
-    
-    return false;
+	else
+		return false;
 } // isPair()
 
 bool hand::beats( hand& other )
@@ -345,9 +346,6 @@ handType::handType(): label(BLANK), kick1(0),  kick2(0), kick3(0),  kick4(0),  k
 
 }
 
-/* void setType( enum typeName tn = BLANK, int a = 0, int b = 0,
-   int c = 0, int d = 0, int e = 0 ) { */
-   
 void handType::setType( enum typeName tn, int a, int b, int c, int d, int e )
 {
     label = tn;
