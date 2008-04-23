@@ -9,18 +9,26 @@ hand::hand(): typeValid(false) { }
 void hand::init(const card& one, const card& two, const card& three, const card& four, const card& five)
 {   
     card temp('A','h');
-
+  
     cards.push_back(one);
     cards.push_back(two);
     cards.push_back(three);
     cards.push_back(four);
     cards.push_back(five);
-    
+      
     // sort cards high to low via bubble sort
     for(int i = 0; i < cards.size(); i++)
-        for(int j = 0; j < cards.size() -i; j++)
+        for(int j = 0; j < cards.size()-1; j++)
         {
-            if(cards[j].getfacenum() < cards[j+1].getfacenum())
+           /* if(cards[j].getfacenum() < cards[j+1].getfacenum())
+            {
+                temp = cards[j];
+                cards[j] = cards[j+1];
+                cards[j+1] = temp;
+            }*/
+			int a = cards[j].getfacenum();
+			int b = cards[j+1].getfacenum();
+			if(a < b)
             {
                 temp = cards[j];
                 cards[j] = cards[j+1];
