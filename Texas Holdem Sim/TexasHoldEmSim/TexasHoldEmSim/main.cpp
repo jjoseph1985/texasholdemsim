@@ -59,16 +59,19 @@ int main( int argc, char ** argv )
 	*/
 
 	//JJ: Testing out Card and Hand
-	//card card1('2','h');
-	//card card2('2','s');
-	//card card3('2','d');
-	//card card4('1','c');
-	//card card5('5','d');
-	//string temp = card1.whatcard();
-	//
-	//hand hand1;
-	//
-	//hand1.init(card1,card2,card3,card4,card5);
+	/*card card1('2','h');
+	card card2('2','s');
+	card card3('2','d');
+	card card4('5','c');
+	card card5('5','d');
+	card card6('6', 's');
+	string temp = card1.whatcard();
+	
+	hand hand1;
+	
+	hand1.init(card1,card2,card3,card4,card5); 
+	hand1.addCard(card6);
+	hand1.getType();*/
 
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
