@@ -67,7 +67,7 @@ compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false),
   aDeck["3d"] = true; bDeck[50] = "3d";
   aDeck["2d"] = true; bDeck[51] = "2d";
 
-  initTable( weightTable );
+//  initTable( weightTable );
   srand( 0 );
 } // compPlayer()
 
@@ -108,7 +108,7 @@ void compPlayer::betRaise( double amt )
 
 void compPlayer::checkCall( double amt )
 {					//Same as in the bet raise function
-    if(!out && amt>chipCount && !bust)
+    if(!out && (amt > chipCount) && !bust)
     {
     //game.addPot(amt);
         chipCount -= amt;
@@ -633,68 +633,68 @@ enum posType compPlayer::setPosition( const int& numPlayers )
   
 } // setPosition()
 
-//Initialize the weight table for use in the flop 
-void compPlayer::initTable( map<string, double>& odds )
-{
-	ifstream file;
-	file.open("odds.txt");
-	string hole, tmp;
-	double weight;
-	string a, b;
+//Initialize the weight table for use in the flop , same as in game.cpp, why is it here?
+//void compPlayer::initTable( map<string, double>& odds )
+//{
+//	ifstream file;
+//	file.open("odds.txt");
+//	string hole, tmp;
+//	double weight;
+//	string a, b;
+//	
+//	odds.clear();
+//
+//	for (int i = 0; i < 169; i ++)
+//	{
+//		file >> hole;
+//		file >> weight;
+//
+//		a = hole[0];
+//		b = hole[1];
+//		weight = weight / 31.5;
+//
+//		if( hole.length() == 2 )
+//		{
+//		    tmp = a + 'h' + b + 'c';
+//            odds[tmp] = weight;
+//            tmp = a + 'h' + b + 's';
+//            odds[tmp] = weight;
+//            tmp = a + 'h' + b + 'd';
+//            odds[tmp] = weight;
+//
+//            tmp = a + 'c' + b + 'h';
+//            odds[tmp] = weight;
+//            tmp = a + 'c' + b + 's';
+//            odds[tmp] = weight;
+//            tmp = a + 'c' + b + 'd';
+//            odds[tmp] = weight;
+//
+//            tmp = a + 's' + b + 'h';
+//            odds[tmp] = weight;
+//            tmp = a + 's' + b + 'c';
+//            odds[tmp] = weight;
+//            tmp = a + 's' + b + 'd';
+//            odds[tmp] = weight;
+//
+//            tmp = a + 'd' + b + 'h';
+//            odds[tmp] = weight;
+//            tmp = a + 'd' + b + 'c';
+//            odds[tmp] = weight;
+//            tmp = a + 'd' + b + 's';
+//            odds[tmp] = weight;
+//         }
+//         else
+//         { // hole.length() == 3
+//             tmp = a + 'h' + b + 'h';
+//             odds[tmp] = weight;
+//             tmp = a + 'c' + b + 'c';
+//             odds[tmp] = weight;
+//             tmp = a + 's' + b + 's';
+//             odds[tmp] = weight;
+//             tmp = a + 'd' + b + 'd';
+//             odds[tmp] = weight;
+//         }
+//	}
 	
-	odds.clear();
-
-	for (int i = 0; i < 169; i ++)
-	{
-		file >> hole;
-		file >> weight;
-
-		a = hole[0];
-		b = hole[1];
-		weight = weight / 31.5;
-
-		if( hole.length() == 2 )
-		{
-		    tmp = a + 'h' + b + 'c';
-            odds[tmp] = weight;
-            tmp = a + 'h' + b + 's';
-            odds[tmp] = weight;
-            tmp = a + 'h' + b + 'd';
-            odds[tmp] = weight;
-
-            tmp = a + 'c' + b + 'h';
-            odds[tmp] = weight;
-            tmp = a + 'c' + b + 's';
-            odds[tmp] = weight;
-            tmp = a + 'c' + b + 'd';
-            odds[tmp] = weight;
-
-            tmp = a + 's' + b + 'h';
-            odds[tmp] = weight;
-            tmp = a + 's' + b + 'c';
-            odds[tmp] = weight;
-            tmp = a + 's' + b + 'd';
-            odds[tmp] = weight;
-
-            tmp = a + 'd' + b + 'h';
-            odds[tmp] = weight;
-            tmp = a + 'd' + b + 'c';
-            odds[tmp] = weight;
-            tmp = a + 'd' + b + 's';
-            odds[tmp] = weight;
-         }
-         else
-         { // hole.length() == 3
-             tmp = a + 'h' + b + 'h';
-             odds[tmp] = weight;
-             tmp = a + 'c' + b + 'c';
-             odds[tmp] = weight;
-             tmp = a + 's' + b + 's';
-             odds[tmp] = weight;
-             tmp = a + 'd' + b + 'd';
-             odds[tmp] = weight;
-         }
-	}
-	
-	file.close();
-} // initTable()
+//	file.close();
+//} // initTable()
