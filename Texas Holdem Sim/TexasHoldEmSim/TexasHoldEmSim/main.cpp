@@ -48,6 +48,15 @@ int main( int argc, char ** argv )
         exit(0);
     }
     
+	
+	//NE: Just testing the odds table printout.
+	/*
+	GameFlow* fl;
+	game testGame(fl);
+	//wait
+	char k;
+	cin >> k;
+	*/
 
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
