@@ -16,19 +16,11 @@ void hand::init(const card& one, const card& two, const card& three, const card&
     cards.push_back(four);
     cards.push_back(five);
       
-    // sort cards high to low via bubble sort
+    // JJ: sort cards high to low via bubble sort
     for(int i = 0; i < cards.size(); i++)
         for(int j = 0; j < cards.size()-1; j++)
         {
-           /* if(cards[j].getfacenum() < cards[j+1].getfacenum())
-            {
-                temp = cards[j];
-                cards[j] = cards[j+1];
-                cards[j+1] = temp;
-            }*/
-			int a = cards[j].getfacenum();
-			int b = cards[j+1].getfacenum();
-			if(a < b)
+            if(cards[j].getfacenum() < cards[j+1].getfacenum())
             {
                 temp = cards[j];
                 cards[j] = cards[j+1];
