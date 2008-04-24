@@ -56,7 +56,7 @@ class Table
         
 	    bool   isGameOver();
 
-		enum posType detPos( const int& );
+		enum posType setPos( const int& );
 
     private:
         // MJB: Moves to then next round of betting or ends the current hand
