@@ -193,10 +193,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\round.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\table.cpp"
 				>
 			</File>
@@ -228,10 +224,6 @@
 			</File>
 			<File
 				RelativePath=".\player.h"
-				>
-			</File>
-			<File
-				RelativePath=".\round.h"
 				>
 			</File>
 			<File
