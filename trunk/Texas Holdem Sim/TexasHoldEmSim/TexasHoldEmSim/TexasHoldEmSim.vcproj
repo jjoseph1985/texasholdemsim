@@ -173,10 +173,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\game.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\hand.cpp"
 				>
 			</File>
@@ -208,10 +204,6 @@
 			</File>
 			<File
 				RelativePath=".\card.h"
-				>
-			</File>
-			<File
-				RelativePath=".\game.h"
 				>
 			</File>
 			<File
