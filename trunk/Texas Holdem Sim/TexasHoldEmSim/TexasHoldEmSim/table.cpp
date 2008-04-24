@@ -296,7 +296,7 @@ void Table::pickWinner() {
 }
 
 //Find where the computer player is in the latest hand so as to better figure what to do on the flop
-enum posType Table::detPos( const int& numPlayers )
+enum posType Table::setPos( const int& numPlayers )
 {
     enum posType position;
 
