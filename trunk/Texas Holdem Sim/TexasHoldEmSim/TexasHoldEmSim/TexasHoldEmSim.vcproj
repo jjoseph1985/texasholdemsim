@@ -173,10 +173,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\comp.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\game.cpp"
 				>
 			</File>
@@ -189,11 +185,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\human.cpp"
+				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\main.cpp"
+				RelativePath=".\player.cpp"
 				>
 			</File>
 			<File
@@ -219,10 +215,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\comp.h"
-				>
-			</File>
-			<File
 				RelativePath=".\game.h"
 				>
 			</File>
@@ -235,7 +227,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\human.h"
+				RelativePath=".\player.h"
 				>
 			</File>
 			<File
