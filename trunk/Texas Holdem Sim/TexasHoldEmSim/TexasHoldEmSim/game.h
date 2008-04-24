@@ -35,7 +35,7 @@ class game
 	    void setActivePlayer(int p){activePlayer = p; };
 
 	    // MJB: Return the amount of chips that a player has.
-	    double stackSize(int n);
+	    double getMoney(int n);
 
 	    // player raises an amount
 	    void betRaise(double);

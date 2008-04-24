@@ -16,7 +16,7 @@ humanPlayer::humanPlayer(int cc = 0): chipCount(cc), handsPlayed(0),
   //initTable( weightTable );
 }
 
-void humanPlayer::addChips(int amnt)
+void humanPlayer::addMoney(int amnt)
 {
 	chipCount += double( amnt );
 	bust = false;
@@ -100,7 +100,7 @@ void humanPlayer::updateWeights()
 
 }
 
-double humanPlayer::stackSize()
+double humanPlayer::getMoney()
 {
 	return chipCount;
 }

@@ -34,10 +34,10 @@ class compPlayer
         void pointToOpponents( vector<humanPlayer* > x ) { opposition = x; };
         
         // MJB: Adds chips to a player and resets bust
-        void addChips(int);
+        void addMoney(int);
 
     
-        double stackSize();
+        double getMoney();
         void addCard(card);
         void newHand();
 

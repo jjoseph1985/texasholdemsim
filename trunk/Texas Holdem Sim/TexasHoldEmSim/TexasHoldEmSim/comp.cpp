@@ -71,13 +71,13 @@ compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false),
   srand( 0 );
 } // compPlayer()
 
-void compPlayer::addChips(int amt)
+void compPlayer::addMoney(int amt)
 {
 	chipCount += amt;		//For adding chips during the game
 	bust = false;
-} // addChips()
+} // addMoney()
 
-double compPlayer::stackSize()
+double compPlayer::getMoney()
 {
 	return chipCount;		
 } // chipCount()
