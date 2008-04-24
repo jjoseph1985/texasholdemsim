@@ -65,19 +65,19 @@ void Deck::ShuffleCard()
     deck.push_back("3d");
     deck.push_back("2d");	
      
-    cout<<"Card are not Shuffle"<<endl;
-    for( int card=0; card<52; card++)
-    {
-       cout<< deck[card]<<endl;
+  //  cout<<"Card are not Shuffle"<<endl;
+   // for( int card=0; card<52; card++)
+    //{
+     //  cout<< deck[card]<<endl;
 
-    }
+    //}
 
     random_shuffle(deck.begin(), deck.end());
 
-    cout<<"Card are Shuffle randomly"<<endl;
-    for( int card=0; card<52; card++)
-    {
-       cout<< deck[card]<<endl;
+    //cout<<"Card are Shuffle randomly"<<endl;
+    //for( int card=0; card<52; card++)
+    //{
+      // cout<< deck[card]<<endl;
 
-    }
+    //}
 }
