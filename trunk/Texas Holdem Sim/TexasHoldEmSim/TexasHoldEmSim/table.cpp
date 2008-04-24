@@ -220,7 +220,7 @@ void Table::DetDealer()
 {
     int pos = playerx.GetPos();
 	if (pos == 0)
-		dealerPosition = playerx.GetIndex();
+		dealerPosition = pos;
 } // DetDealer()
 
 void Table::DeclareWinner(int winner) 
