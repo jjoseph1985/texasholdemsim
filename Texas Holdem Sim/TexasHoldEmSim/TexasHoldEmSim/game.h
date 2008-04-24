@@ -9,7 +9,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "comp.h"
+#include "player.h"
 #include "round.h"
 
 using namespace std;
@@ -92,7 +92,7 @@ class game
         void activePlayerUpdate();
 
 	    //Table theMainTable;
-	    vector<compPlayer> cPlayers;
+	    vector<Player> cPlayers;
 	    vector<card> hole;
 	    map<string, double> odds;
 

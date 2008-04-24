@@ -1,7 +1,7 @@
-// comp.h
+// player
 
-#ifndef COMPUTER_H
-#define COMPUTER_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include <string>
 #include <map>
@@ -25,10 +25,10 @@ enum posType { EARLY, MIDDLE, LATE, BLINDS };
 
 const int NUMTRIALS = 4;
 
-class compPlayer
+class Player
 {
     public:
-        compPlayer();
+        Player();
         
         // MJB: Was used as a Comp vs Human kind of thing, but not sure now 
         void pointToOpponents( vector<humanPlayer* > x ) { opposition = x; };
