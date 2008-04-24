@@ -30,7 +30,7 @@ void game::init(int numOfPlayers, int startMoney, int dealerNumber)
     for(int i=0; i < numOfPlayers; i++)
     {
 		// NE: give all players their initial money amount
-        cPlayers[i].addChips(startMoney);
+        cPlayers[i].addMoney(startMoney);
     }	
 
 	// MJB: WTF is this doing?
@@ -50,19 +50,19 @@ void game::init(int numOfPlayers, int startMoney, int dealerNumber)
 
 /*-------------------------------------*/
 
-double game::stackSize(int n)
+double game::getMoney(int n)
 {
     // MJB: activePlayer instead of n?
-    return cPlayers[n-1].stackSize();
+    return cPlayers[n-1].getMoney();
 
-    // MJB: stackSize returns the current amount of $$$ a cPlayer has.
-	/*	// NE: don't know what stacksize is???
+    // MJB: getMoney returns the current amount of $$$ a cPlayer has.
+	/*	// NE: don't know what getMoney is???
 		if(n == 0)
-			return cPlayers.stackSize();
+			return cPlayers.getMoney();
 		else
-			return humans[n - 1].stackSize();
+			return humans[n - 1].getMoney();
 	*/
-} // stackSize()
+} // getMoney()
 
 /*-------------------------------------*/
 

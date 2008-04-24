@@ -17,7 +17,7 @@ class humanPlayer
     public:
         humanPlayer();
         humanPlayer(int);
-        void addChips(int);
+        void addMoney(int);
         void pointToTable( map<string, double>* mptr );
         double aggressiveness();
         double tightness();
@@ -26,7 +26,7 @@ class humanPlayer
         void betRaise(double);
         void checkCall(double);
         void busted();
-        double stackSize();
+        double getMoney();
         void unfold();
         bool checkBust();
         bool checkFold();
