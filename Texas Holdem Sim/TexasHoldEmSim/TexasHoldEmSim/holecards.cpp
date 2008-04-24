@@ -8,13 +8,20 @@ holeCards::holeCards()
     // empty 
 }
 
-//JJ: Not going to work, can't just add characters together to make a string.
 void holeCards::setCards( const card& c1, const card& c2 )
 {
     if( c1.getfacenum() > c2.getfacenum() )
-		data = c1.whatcard() + c2.whatcard();
+	{
+		data.append(c1.whatcard());
+	    data.append(c2.whatcard());
+		//data = c1.whatcard() + c2.whatcard();
+	}
     else
-        data = c2.whatcard() + c1.whatcard();
+	{
+		data.append(c2.whatcard());
+	    data.append(c1.whatcard());
+        //data = c2.whatcard() + c1.whatcard();
+	}
 }
 
 string holeCards::getCards()
