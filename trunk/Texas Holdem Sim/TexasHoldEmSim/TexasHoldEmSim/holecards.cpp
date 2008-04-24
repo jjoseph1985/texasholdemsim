@@ -36,8 +36,14 @@ card holeCards::firstCard()
     return c;
 }
 
-card holeCards::secondCard() {
+card holeCards::secondCard() 
+{
     card c;
     c.setVal( data[2],  data[3] );
     return c;
+}
+
+card holeCards::clear()
+{
+	 data = "";
 }

@@ -17,7 +17,7 @@ class holeCards
         holeCards();
         void setCards( const card&, const card& );
         string getCards();
-        void clear() { data = ""; };
+        void clear();
         card firstCard();
         card secondCard();
 
