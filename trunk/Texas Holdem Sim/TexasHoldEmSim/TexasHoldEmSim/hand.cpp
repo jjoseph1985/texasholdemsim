@@ -11,6 +11,7 @@ void hand::initHand(vector<card>& table, vector<card>& hole)
     card temp('A','h');
 
 	vector<card>::iterator i;
+	vector<card>::iterator j;
 	i=table.begin();
 	j=table.end();
 	

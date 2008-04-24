@@ -1,13 +1,13 @@
 // comp.cpp
 
-#include "comp.h"
+#include "player.h"
 
 #define MAX_INT  32767
 
 using namespace std;
 
 // MJB: This is incredible stupid
-compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false), bust(false), 
+Player::Player():chipCount(0), handsPlayed(0), flopsSeen(0), out(false), bust(false), 
                          betPlaced( false ), raiseMade( false ), potSize(0), dealerNum(0)
 { 
   aDeck["As"] = true; bDeck[0] = "As";
@@ -68,31 +68,31 @@ compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false),
 
 //  initTable( weightTable );
   srand( 0 );
-} // compPlayer()
+} // Player()
 
-void compPlayer::addMoney(int amt)
+void Player::addMoney(int amt)
 {
 	chipCount += amt;		//For adding chips during the game
 	bust = false;
 } // addMoney()
 
-double compPlayer::getMoney()
+double Player::getMoney()
 {
 	return chipCount;		
 } // chipCount()
 
-void compPlayer::setHoleCards(card a, card b)
+void Player::setHoleCards(card a, card b)
 {
 	myCards.clear();
 	myCards.setCards(a, b);
 } // setHoleCards()
 
-void compPlayer::fold()
+void Player::fold()
 {
     out = true;
 } // fold()
 
-void compPlayer::betRaise( double amt )
+void Player::betRaise( double amt )
 {
   if(!out && (amt > chipCount) && !bust)
     {
@@ -105,7 +105,7 @@ void compPlayer::betRaise( double amt )
     }
 }  // betRaise()
 
-void compPlayer::checkCall( double amt )
+void Player::checkCall( double amt )
 {					//Same as in the bet raise function
     if(!out && (amt > chipCount) && !bust)
     {
@@ -118,12 +118,12 @@ void compPlayer::checkCall( double amt )
     }   
 } // checkCall()
 
-void compPlayer::busted()
+void Player::busted()
 {
     bust = true;
 } // busted()
 
-void compPlayer::newHand()
+void Player::newHand()
 {
 	myCards.clear();		//A mid game initializer that sets up the computer for a new hand
 	tablecards.clear();
@@ -142,7 +142,7 @@ void compPlayer::newHand()
 	}
 } // newHand()
 
-void compPlayer::addCard(card next)
+void Player::addCard(card next)
 {	
     //Adds a card for use in the computers hand
 	tablecards.push_back(next);
@@ -161,30 +161,30 @@ void compPlayer::addCard(card next)
 } // addCard()
 
 //reset function
-void compPlayer::clearCards()
+void Player::clearCards()
 {
     myCards.clear();
     tablecards.clear();
     myHand.clear();
 } // clearCards()
 
-void compPlayer::unfold()
+void Player::unfold()
 {
 	out = false;
 } // unfold()
 
-bool compPlayer::checkBust()
+bool Player::checkBust()
 {
 	return bust;
 } // checkBust()
 
-bool compPlayer::checkFold()
+bool Player::checkFold()
 {
 	return out;
 }  // checkFold()
 
 // MJB: Sudo random right now...
-enum actionNames compPlayer::makeDec()
+enum actionNames Player::makeDec()
 { 
     int dec;
     dec = rand()%100 + 1;
@@ -235,7 +235,7 @@ enum actionNames compPlayer::makeDec()
 
 //Partially functional as of this time
 //They are no longer called so that we can turn in fully executable code
-enum actionNames compPlayer::simulate()
+enum actionNames Player::simulate()
 {
     // cerr << "Enter simulate()" << endl;	//Lots of debugging going on
 
@@ -301,7 +301,7 @@ enum actionNames compPlayer::simulate()
     }
 } // simulate
 
-double compPlayer::sim( Table& st ) {
+double Player::sim( Table& st ) {
 
     //cerr << "entered sim" << endl;
 
@@ -395,7 +395,7 @@ double compPlayer::sim( Table& st ) {
     
 } // sim()
 
-double compPlayer::trial( Table& st )
+double Player::trial( Table& st )
 {
     cerr << "enter trial" << endl;
 
@@ -423,7 +423,7 @@ double compPlayer::trial( Table& st )
 
 // MJB: bonus points for figuring this out...
 /* Not considering difficulty at the moment, also decision are deterministic =( */
-enum actionNames compPlayer::preflopDec() {
+enum actionNames Player::preflopDec() {
 
     int numPlayers( opposition.size() + 1 );
     enum posType position( setPosition( numPlayers ) );
@@ -544,7 +544,7 @@ enum actionNames compPlayer::preflopDec() {
 
 
 //Find where the computer player is in the latest hand so as to better figure what to do on the flop
-//enum posType compPlayer::setPosition( const int& numPlayers )
+//enum posType Player::setPosition( const int& numPlayers )
 //{
 //    enum posType position;
 //

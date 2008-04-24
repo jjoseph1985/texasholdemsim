@@ -1,6 +1,6 @@
 // game.cpp
 
-#include "comp.h"
+#include "player.h"
 #include "game.h"
 
 using namespace std;
