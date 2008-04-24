@@ -52,9 +52,10 @@ void game::init(int numOfPlayers, int startMoney, int dealerNumber)
 
 double game::stackSize(int n)
 {
-    // activePlayer instead of n?
+    // MJB: activePlayer instead of n?
     return cPlayers[n-1].stackSize();
 
+    // MJB: stackSize returns the current amount of $$$ a cPlayer has.
 	/*	// NE: don't know what stacksize is???
 		if(n == 0)
 			return cPlayers.stackSize();
@@ -108,6 +109,7 @@ void game::fold()
 void game::activePlayerUpdate()
 {
     activePlayer = (activePlayer + 1) % numOfPlayers;
+	
 	// NE: continue until person that hasn't folded is selected
 	while(flow->isFolded(activePlayer))
 	{
@@ -216,6 +218,7 @@ enum actionNames game::think()
 /*-------------------------------------*/
 
 // NE: this will genearte the table of odds
+// MJB: Wondering, how I use this?
 void game::genTable()
 {
 	ifstream file;
