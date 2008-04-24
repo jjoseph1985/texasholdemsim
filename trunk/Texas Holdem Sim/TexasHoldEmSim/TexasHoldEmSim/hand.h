@@ -39,11 +39,11 @@ class hand
     public:
         hand();
         
-        // MJB: takes in five cards into a cards vector and sorts them by rank
-        void init(const card&, const card&, const card&, const card&, const card&);
+        // MJB: takes in seven cards into a cards vector and sorts them by rank
+        void initHand(vector<card>& table, vector<card>& hole);
         
         // MJB: add card next to the hand in order
-        void addCard(const card&);
+        /*void addCard(const card&);*/
         
         // MJB: return a type of hand in the form of a handType
         handType getType();

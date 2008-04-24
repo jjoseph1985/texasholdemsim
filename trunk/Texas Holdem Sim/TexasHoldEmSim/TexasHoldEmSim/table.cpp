@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Table::Table(list<int> ops, double pt, double ms): pot(pt), my_share(ms), gameOver(false), compout(false)
+Table::Table(list<int> ops, double pt, double ms): pot(pt), my_share(ms), gameOver(false), compout(false), posAtTable(0)
 {
     list<int>::iterator i = ops.begin();
     seat temp;
@@ -294,3 +294,92 @@ void Table::pickWinner() {
         }
     }
 }
+
+//Find where the computer player is in the latest hand so as to better figure what to do on the flop
+enum posType Table::detPos( const int& numPlayers )
+{
+    enum posType position;
+
+    if( numPlayers == 9 )
+    {
+        if( posAtTable == 1 || posAtTable == 2 )
+            position = EARLY;
+        else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
+            position = MIDDLE;
+        else if( posAtTable == 6 || posAtTable == 7 )
+            position = LATE;
+        else if( posAtTable == 8 || posAtTable == 9 )
+            position = BLINDS;
+    }
+    else if( numPlayers == 8 )
+    {
+        if( posAtTable == 1 || posAtTable == 2 )
+            position = EARLY;
+        else if( posAtTable == 3 || posAtTable == 4 )
+            position = MIDDLE;
+        else if( posAtTable == 5 || posAtTable == 6 )
+            position = LATE;
+        else if( posAtTable == 7 || posAtTable == 8 )
+            position = BLINDS;
+    }
+    else if( numPlayers == 7 )
+    {
+        if( posAtTable == 1 || posAtTable == 2 )
+            position = EARLY;
+        else if( posAtTable == 3 || posAtTable == 4 )
+            position = MIDDLE;
+        else if( posAtTable == 5 )
+            position = LATE;
+        else if( posAtTable == 6 || posAtTable == 7 )
+            position = BLINDS;
+    }
+    else if( numPlayers == 6 )
+    {
+        if( posAtTable == 1 )
+            position = EARLY;
+        else if( posAtTable == 2 || posAtTable == 3 )
+            position = MIDDLE;
+        else if( posAtTable == 4 )
+            position = LATE;
+        else if( posAtTable == 5 || posAtTable == 6 )
+            position = BLINDS;
+    }
+    else if( numPlayers == 5 )
+    {
+        if( posAtTable == 1 )
+            position = EARLY;
+        else if( posAtTable == 2 )
+            position = MIDDLE;
+        
+        if( posAtTable == 3 )
+            position = LATE;
+        if( posAtTable == 4 || posAtTable == 5 )
+            position = BLINDS;
+    } 
+    else if( numPlayers == 4 ) 
+    {
+        if( posAtTable == 1 )
+            position = EARLY;
+        else if( posAtTable == 2 )
+            position = MIDDLE;
+        if( posAtTable == 3 || posAtTable == 4 )
+            position = BLINDS;
+    } 
+    else if( numPlayers == 3 )
+    {
+        if( posAtTable == 1 )
+            position = EARLY;
+        if( posAtTable == 2 || posAtTable == 3 )
+            position = BLINDS;
+    }
+    else
+    { // if( numPlayers == 2 )
+        if( posAtTable == 1 )
+            position = EARLY;
+        if( posAtTable == 2 )
+            position = BLINDS;
+    }
+
+  return position;
+  
+} // setPosition()

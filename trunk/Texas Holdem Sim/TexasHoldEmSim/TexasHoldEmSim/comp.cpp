@@ -8,8 +8,7 @@ using namespace std;
 
 // MJB: This is incredible stupid
 compPlayer::compPlayer():chipCount(0), handsPlayed(0), flopsSeen(0), out(false), bust(false), 
-                         betPlaced( false ), raiseMade( false ), posAtTable(0),
-                         potSize(0), dealerNum(0)
+                         betPlaced( false ), raiseMade( false ), potSize(0), dealerNum(0)
 { 
   aDeck["As"] = true; bDeck[0] = "As";
   aDeck["Ks"] = true; bDeck[1] = "Ks";
@@ -545,156 +544,92 @@ enum actionNames compPlayer::preflopDec() {
 
 
 //Find where the computer player is in the latest hand so as to better figure what to do on the flop
-enum posType compPlayer::setPosition( const int& numPlayers )
-{
-    enum posType position;
-
-    if( numPlayers == 9 )
-    {
-        if( posAtTable == 1 || posAtTable == 2 )
-            position = EARLY;
-        else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
-            position = MIDDLE;
-        else if( posAtTable == 6 || posAtTable == 7 )
-            position = LATE;
-        else if( posAtTable == 8 || posAtTable == 9 )
-            position = BLINDS;
-    }
-    else if( numPlayers == 8 )
-    {
-        if( posAtTable == 1 || posAtTable == 2 )
-            position = EARLY;
-        else if( posAtTable == 3 || posAtTable == 4 )
-            position = MIDDLE;
-        else if( posAtTable == 5 || posAtTable == 6 )
-            position = LATE;
-        else if( posAtTable == 7 || posAtTable == 8 )
-            position = BLINDS;
-    }
-    else if( numPlayers == 7 )
-    {
-        if( posAtTable == 1 || posAtTable == 2 )
-            position = EARLY;
-        else if( posAtTable == 3 || posAtTable == 4 )
-            position = MIDDLE;
-        else if( posAtTable == 5 )
-            position = LATE;
-        else if( posAtTable == 6 || posAtTable == 7 )
-            position = BLINDS;
-    }
-    else if( numPlayers == 6 )
-    {
-        if( posAtTable == 1 )
-            position = EARLY;
-        else if( posAtTable == 2 || posAtTable == 3 )
-            position = MIDDLE;
-        else if( posAtTable == 4 )
-            position = LATE;
-        else if( posAtTable == 5 || posAtTable == 6 )
-            position = BLINDS;
-    }
-    else if( numPlayers == 5 )
-    {
-        if( posAtTable == 1 )
-            position = EARLY;
-        else if( posAtTable == 2 )
-            position = MIDDLE;
-        
-        if( posAtTable == 3 )
-            position = LATE;
-        if( posAtTable == 4 || posAtTable == 5 )
-            position = BLINDS;
-    } 
-    else if( numPlayers == 4 ) 
-    {
-        if( posAtTable == 1 )
-            position = EARLY;
-        else if( posAtTable == 2 )
-            position = MIDDLE;
-        if( posAtTable == 3 || posAtTable == 4 )
-            position = BLINDS;
-    } 
-    else if( numPlayers == 3 )
-    {
-        if( posAtTable == 1 )
-            position = EARLY;
-        if( posAtTable == 2 || posAtTable == 3 )
-            position = BLINDS;
-    }
-    else
-    { // if( numPlayers == 2 )
-        if( posAtTable == 1 )
-            position = EARLY;
-        if( posAtTable == 2 )
-            position = BLINDS;
-    }
-
-  return position;
-  
-} // setPosition()
-
-//Initialize the weight table for use in the flop , same as in game.cpp, why is it here?
-//void compPlayer::initTable( map<string, double>& odds )
+//enum posType compPlayer::setPosition( const int& numPlayers )
 //{
-//	ifstream file;
-//	file.open("odds.txt");
-//	string hole, tmp;
-//	double weight;
-//	string a, b;
-//	
-//	odds.clear();
+//    enum posType position;
 //
-//	for (int i = 0; i < 169; i ++)
-//	{
-//		file >> hole;
-//		file >> weight;
+//    if( numPlayers == 9 )
+//    {
+//        if( posAtTable == 1 || posAtTable == 2 )
+//            position = EARLY;
+//        else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
+//            position = MIDDLE;
+//        else if( posAtTable == 6 || posAtTable == 7 )
+//            position = LATE;
+//        else if( posAtTable == 8 || posAtTable == 9 )
+//            position = BLINDS;
+//    }
+//    else if( numPlayers == 8 )
+//    {
+//        if( posAtTable == 1 || posAtTable == 2 )
+//            position = EARLY;
+//        else if( posAtTable == 3 || posAtTable == 4 )
+//            position = MIDDLE;
+//        else if( posAtTable == 5 || posAtTable == 6 )
+//            position = LATE;
+//        else if( posAtTable == 7 || posAtTable == 8 )
+//            position = BLINDS;
+//    }
+//    else if( numPlayers == 7 )
+//    {
+//        if( posAtTable == 1 || posAtTable == 2 )
+//            position = EARLY;
+//        else if( posAtTable == 3 || posAtTable == 4 )
+//            position = MIDDLE;
+//        else if( posAtTable == 5 )
+//            position = LATE;
+//        else if( posAtTable == 6 || posAtTable == 7 )
+//            position = BLINDS;
+//    }
+//    else if( numPlayers == 6 )
+//    {
+//        if( posAtTable == 1 )
+//            position = EARLY;
+//        else if( posAtTable == 2 || posAtTable == 3 )
+//            position = MIDDLE;
+//        else if( posAtTable == 4 )
+//            position = LATE;
+//        else if( posAtTable == 5 || posAtTable == 6 )
+//            position = BLINDS;
+//    }
+//    else if( numPlayers == 5 )
+//    {
+//        if( posAtTable == 1 )
+//            position = EARLY;
+//        else if( posAtTable == 2 )
+//            position = MIDDLE;
+//        
+//        if( posAtTable == 3 )
+//            position = LATE;
+//        if( posAtTable == 4 || posAtTable == 5 )
+//            position = BLINDS;
+//    } 
+//    else if( numPlayers == 4 ) 
+//    {
+//        if( posAtTable == 1 )
+//            position = EARLY;
+//        else if( posAtTable == 2 )
+//            position = MIDDLE;
+//        if( posAtTable == 3 || posAtTable == 4 )
+//            position = BLINDS;
+//    } 
+//    else if( numPlayers == 3 )
+//    {
+//        if( posAtTable == 1 )
+//            position = EARLY;
+//        if( posAtTable == 2 || posAtTable == 3 )
+//            position = BLINDS;
+//    }
+//    else
+//    { // if( numPlayers == 2 )
+//        if( posAtTable == 1 )
+//            position = EARLY;
+//        if( posAtTable == 2 )
+//            position = BLINDS;
+//    }
 //
-//		a = hole[0];
-//		b = hole[1];
-//		weight = weight / 31.5;
-//
-//		if( hole.length() == 2 )
-//		{
-//		    tmp = a + 'h' + b + 'c';
-//            odds[tmp] = weight;
-//            tmp = a + 'h' + b + 's';
-//            odds[tmp] = weight;
-//            tmp = a + 'h' + b + 'd';
-//            odds[tmp] = weight;
-//
-//            tmp = a + 'c' + b + 'h';
-//            odds[tmp] = weight;
-//            tmp = a + 'c' + b + 's';
-//            odds[tmp] = weight;
-//            tmp = a + 'c' + b + 'd';
-//            odds[tmp] = weight;
-//
-//            tmp = a + 's' + b + 'h';
-//            odds[tmp] = weight;
-//            tmp = a + 's' + b + 'c';
-//            odds[tmp] = weight;
-//            tmp = a + 's' + b + 'd';
-//            odds[tmp] = weight;
-//
-//            tmp = a + 'd' + b + 'h';
-//            odds[tmp] = weight;
-//            tmp = a + 'd' + b + 'c';
-//            odds[tmp] = weight;
-//            tmp = a + 'd' + b + 's';
-//            odds[tmp] = weight;
-//         }
-//         else
-//         { // hole.length() == 3
-//             tmp = a + 'h' + b + 'h';
-//             odds[tmp] = weight;
-//             tmp = a + 'c' + b + 'c';
-//             odds[tmp] = weight;
-//             tmp = a + 's' + b + 's';
-//             odds[tmp] = weight;
-//             tmp = a + 'd' + b + 'd';
-//             odds[tmp] = weight;
-//         }
-//	}
-	
-//	file.close();
-//} // initTable()
+//  return position;
+//  
+//} // setPosition()
+
+

@@ -65,13 +65,12 @@ class compPlayer
 
     private:
         enum actionNames preflopDec();
-        enum posType setPosition( const int& );
+        /*enum posType setPosition( const int& );*/
         enum actionNames simulate();
         double sim( Table& );
         double trial( Table& );
        /* void initTable( map<string,double>& );*/
 
-        map<string, double> weightTable;
         holeCards myCards;
         vector<humanPlayer* > opposition;
         vector<card> tablecards;
@@ -83,7 +82,7 @@ class compPlayer
         bool bust;
         bool betPlaced;
         bool raiseMade;
-        int  posAtTable;
+        /*int  posAtTable;*/
         int  dealerNum;
         double potSize;
 

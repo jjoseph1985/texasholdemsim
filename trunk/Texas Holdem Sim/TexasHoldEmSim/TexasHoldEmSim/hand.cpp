@@ -6,15 +6,17 @@ using namespace std;
 
 hand::hand(): typeValid(false) { }
 
-void hand::init(const card& one, const card& two, const card& three, const card& four, const card& five)
+void hand::initHand(vector<card>& table, vector<card>& hole)
 {   
     card temp('A','h');
-  
-    cards.push_back(one);
-    cards.push_back(two);
-    cards.push_back(three);
-    cards.push_back(four);
-    cards.push_back(five);
+
+	vector<card>::iterator i;
+	i=table.begin();
+	j=table.end();
+	
+	cards.assign(i,j);
+	cards.push_back(hole[0]);
+	cards.push_back(hole[1]);
       
     // JJ: sort cards high to low via bubble sort
     for(int i = 0; i < cards.size(); i++)
@@ -29,78 +31,93 @@ void hand::init(const card& one, const card& two, const card& three, const card&
         }
     
     addcombo(0,1,2,3,4);
+	addcombo(2,3,4,5,6);
+    addcombo(1,3,4,5,6);
+    addcombo(1,2,4,5,6);
+    addcombo(1,2,3,5,6);
+    addcombo(1,2,3,4,6);
+    addcombo(0,3,4,5,6);
+    addcombo(0,2,4,5,6);
+    addcombo(0,2,3,5,6);
+	addcombo(0,2,3,4,6);
+	addcombo(0,1,4,5,6);
+	addcombo(0,1,3,5,6);
+	addcombo(0,1,3,4,6);
+	addcombo(0,1,2,5,6);
+	addcombo(0,1,2,4,6);
+	addcombo(0,1,2,3,6);
 } // init() 
 
-void hand::addCard( const card& next )
-{
-    card temp('A','h');
-    card temp2('A','h');
-    bool insert = false;
-    int i = 0, j = 0;
-
-    while ( i != cards.size())
-    {
-        if(next.getfacenum() > cards[i].getfacenum())
-        {
-          j = i;
-          i = cards.size();
-          insert = true;
-        } 
-        else
-        {
-            i++;
-        }
-    }
-
-    if( insert )
-    {
-        temp = cards[j];
-        cards[j] = next;
-        j++;
-    
-        while(j != cards.size()-1)
-        {
-            temp2 = cards[j];
-            cards[j] = temp;
-            temp = temp2;
-            j++;
-        } 
-
-        cards.push_back(temp);
-    } 
-    else
-    {
-        cards.push_back(next);
-    }        
-    
-    // We now have more than 5 cards, so we have to consider all combinations        
-    if( cards.size() == 6 )
-    {
-        addcombo(1,2,3,4,5);
-        addcombo(0,2,3,4,5);
-        addcombo(0,1,3,4,5);
-        addcombo(0,1,2,4,5);
-        addcombo(0,1,2,3,5);
-    } 
-    else if( cards.size() == 7 )
-    {
-        addcombo(2,3,4,5,6);
-        addcombo(1,3,4,5,6);
-        addcombo(1,2,4,5,6);
-        addcombo(1,2,3,5,6);
-        addcombo(1,2,3,4,6);
-        addcombo(0,3,4,5,6);
-        addcombo(0,2,4,5,6);
-        addcombo(0,2,3,5,6);
-        addcombo(0,2,3,4,6);
-        addcombo(0,1,4,5,6);
-        addcombo(0,1,3,5,6);
-        addcombo(0,1,3,4,6);
-        addcombo(0,1,2,5,6);
-        addcombo(0,1,2,4,6);
-        addcombo(0,1,2,3,6);
-    }
-} // addCard()
+//void hand::addCard( const card& next )
+//{
+//    card temp('A','h');
+//    card temp2('A','h');
+//    bool insert = false;
+//    int i = 0, j = 0;
+//
+//    while ( i != cards.size())
+//    {
+//        if(next.getfacenum() > cards[i].getfacenum())
+//        {
+//          j = i;
+//          i = cards.size();
+//          insert = true;
+//        } 
+//        else
+//        {
+//            i++;
+//        }
+//    }
+//
+//    if( insert )
+//    {
+//        temp = cards[j];
+//        cards[j] = next;
+//        j++;
+//    
+//        while(j != cards.size()-1)
+//        {
+//            temp2 = cards[j];
+//            cards[j] = temp;
+//            temp = temp2;
+//            j++;
+//        } 
+//
+//        cards.push_back(temp);
+//    } 
+//    else
+//    {
+//        cards.push_back(next);
+//    }        
+//    
+//    // We now have more than 5 cards, so we have to consider all combinations        
+//    if( cards.size() == 6 )
+//    {
+//        addcombo(1,2,3,4,5);
+//        addcombo(0,2,3,4,5);
+//        addcombo(0,1,3,4,5);
+//        addcombo(0,1,2,4,5);
+//        addcombo(0,1,2,3,5);
+//    } 
+//    else if( cards.size() == 7 )
+//    {
+//        addcombo(2,3,4,5,6);
+//        addcombo(1,3,4,5,6);
+//        addcombo(1,2,4,5,6);
+//        addcombo(1,2,3,5,6);
+//        addcombo(1,2,3,4,6);
+//        addcombo(0,3,4,5,6);
+//        addcombo(0,2,4,5,6);
+//        addcombo(0,2,3,5,6);
+//        addcombo(0,2,3,4,6);
+//        addcombo(0,1,4,5,6);
+//        addcombo(0,1,3,5,6);
+//        addcombo(0,1,3,4,6);
+//        addcombo(0,1,2,5,6);
+//        addcombo(0,1,2,4,6);
+//        addcombo(0,1,2,3,6);
+//    }
+//} // addCard()
 
 handType hand::getType()
 {
