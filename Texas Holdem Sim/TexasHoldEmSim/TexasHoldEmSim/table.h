@@ -11,15 +11,6 @@
 #include "player.h"
 using namespace std;
 
-class seat
-{
-    public:
-     holeCards cards;
-        double amtBet;
-        int    index;
-}; // seat
-
-
 class Table
 {
     public:
