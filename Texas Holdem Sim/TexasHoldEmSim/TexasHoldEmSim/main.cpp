@@ -69,7 +69,7 @@ int main( int argc, char ** argv )
 	
 	hand hand1;
 	
-	hand1.init(card1,card2,card3,card4,card5); 
+	hand1.initHand(card1,card2,card3,card4,card5); 
 	hand1.addCard(card6);
 	hand1.getType();*/
 

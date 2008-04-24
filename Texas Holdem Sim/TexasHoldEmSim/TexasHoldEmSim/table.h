@@ -56,6 +56,8 @@ class Table
         
 	    bool   isGameOver();
 
+		enum posType detPos( const int& );
+
     private:
         // MJB: Moves to then next round of betting or ends the current hand
 	    void   updateRound( bool );
@@ -69,6 +71,7 @@ class Table
 	    double pot;
 	    double my_share;
 	    int    round;
+		int  posAtTable;
 	    bool   compout; // MJB don't need this
         vector<card> table;
 	    list<seat>   players;
