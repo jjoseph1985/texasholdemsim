@@ -24,7 +24,7 @@ class game
 	    // MJB: Called on each new hand. Initializer for a game class instance that takes arguments num
 	    //      to set the number of players in the game, stacks to set the chip count for each player,
 	    //      and dealerNumber to set the initial dealer
-	    void init(int numPlayers, int startMoney, int dealerNumber);
+	    void init(int numOfPlayers, int startMoney, int dealerNumber);
 
 	    // MJB: Dealer mutator/inspector
 	    void setDealerNum(int index){ dealerNum = index; }; 
@@ -67,10 +67,11 @@ class game
 	    double getPotSize();
 
 	    // alert game object of new card dealt
-	    void dealCard(string);  // queen of hearts == Qh, seven of diamonds == 7d
+	    void dealCards(string);  // queen of hearts == Qh, seven of diamonds == 7d
 
 	    // MJB: declare winner based on passed in player number
-	    void pickWinner(int n);
+		// NE: nope, give winner the money!
+	    void givePotToWinner(int n);
 
 	    // MJB: takes string, parses it to create a card, and pushes it onto the hole vector. 
 	    //      If hole is size 2, then it sets the hole cards for the computer.
@@ -90,17 +91,17 @@ class game
 	    void genTable();
         void activePlayerUpdate();
 
-	    //vector<humanPlayer> humans;
-	    vector<compPlayer> cPlayer;
+	    //Table theMainTable;
+	    vector<compPlayer> cPlayers;
 	    vector<card> hole;
 	    map<string, double> odds;
 
-	    double potSize;
-	    double currentBet; // do we need this here anymore?
-	    int numPlayers;
+	    double potSize;		//NE: total amount of money on the table
+	    double currentBet;	// do we need this here anymore?
+							//NE: yes, to keep track of the bet
+	    int numOfPlayers;
 	    int dealerNum;
-	    int activePlayer;
-	    int numCardsDealt;
+	    int activePlayer;	//NE: the player who is currently betting
 	    int handsPlayed;
 	    GameFlow* flow;
 };

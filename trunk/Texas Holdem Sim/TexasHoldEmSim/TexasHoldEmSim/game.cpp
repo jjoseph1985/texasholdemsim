@@ -1,5 +1,6 @@
 // game.cpp
 
+#include "comp.h"
 #include "game.h"
 
 using namespace std;
@@ -7,29 +8,34 @@ using namespace std;
 /* MJB: game is basically the table/dealer in our simulation. It sets up 
         the number of players, initial chip count, odds for hole cards, etc.
    
-   Removed all the human Player stuff;
+   Removed all the human Player stuff
+   Changed some function names
 */
 
-game::game(GameFlow* gf): potSize(0), currentBet(0), numPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), numCardsDealt(0), flow(gf)
+/*-------------------------------------*/
+
+game::game(GameFlow* gf): potSize(0), currentBet(0), numOfPlayers(0), handsPlayed(0), dealerNum(1), activePlayer(1), flow(gf)
 {
 	genTable();
 } // game()
 
+/*-------------------------------------*/
+
 // MJB: Called to start a game
 // The constructor values are gotten from the configuration file
-void game::init(int numPlayers, int startMoney, int dealerNumber)
+void game::init(int numOfPlayers, int startMoney, int dealerNumber)
 {
-	this->numPlayers = numPlayers;
+	this->numOfPlayers = numOfPlayers;
 
-    for(int i=0; i < numPlayers; i++)
+    for(int i=0; i < numOfPlayers; i++)
     {
-        // cPlayers.addChips(startMoney);
+		// NE: give all players their initial money amount
+        cPlayers[i].addChips(startMoney);
     }	
 
-	
 	// MJB: WTF is this doing?
 	// NE: I have no freakin clue!?!?
-	// cPlayer.pointToOpponents(opps);
+	// cPlayers.pointToOpponents(opps);
 
 	hole.clear();
 	hole.resize(0);
@@ -37,130 +43,145 @@ void game::init(int numPlayers, int startMoney, int dealerNumber)
 	currentBet = 0;
 	dealerNum = dealerNumber - 1;
 	activePlayer = 1;
-	numCardsDealt = 0;
 	handsPlayed = 0;
 
 	newHand();
 } // init()
 
+/*-------------------------------------*/
+
 double game::stackSize(int n)
 {
     // activePlayer instead of n?
-    return cPlayer[n-1].stackSize();
+    return cPlayers[n-1].stackSize();
 
-/*    
-	if(n == 0)
-		return cPlayer.stackSize();
-	else
-		return humans[n - 1].stackSize();
-*/
+	/*	// NE: don't know what stacksize is???
+		if(n == 0)
+			return cPlayers.stackSize();
+		else
+			return humans[n - 1].stackSize();
+	*/
 } // stackSize()
+
+/*-------------------------------------*/
 
 void game::betRaise(double amnt)
 {
 	// depending on round, need to increment this again
 	////currentBet++;
 
-	cPlayer[activePlayer - 1].betRaise(amnt);
+	cPlayers[activePlayer - 1].betRaise(amnt);
 
-
-	////potSize += currentBet;
-	potSize += amnt;
+	potSize += currentBet;	// NE: adds what they owe
+	potSize += amnt;		// NE: adds what their raise is
 
 	activePlayerUpdate();
-	
-	while(flow->isFolded(activePlayer))
-	{
-		activePlayerUpdate();
-	}
+
 } // betRaise()
+
+/*-------------------------------------*/
 
 void game::callCheck(double amnt)
 {
 
-	cPlayer[activePlayer - 1].checkCall(amnt);
+	cPlayers[activePlayer - 1].checkCall(amnt);
 
-	////potSize += currentBet;
-	potSize += amnt;
+	potSize += currentBet;	// NE: adds what they owe
+	potSize += amnt;		// NE: adds 
 
 	activePlayerUpdate();
 	
-	while(flow->isFolded(activePlayer))
-	{
-		activePlayerUpdate();
-	}
 } // callCheck()
+
+/*-------------------------------------*/
 
 void game::fold()
 {
-	cPlayer[activePlayer - 1].fold();
+	cPlayers[activePlayer - 1].fold();
 		
 	activePlayerUpdate();
-	
-	while(flow->isFolded(activePlayer ))
-	{
-		activePlayerUpdate();
-	} 
 
 } // fold()
 
+/*-------------------------------------*/
+
 void game::activePlayerUpdate()
 {
-    activePlayer = (activePlayer + 1) % numPlayers;
+    activePlayer = (activePlayer + 1) % numOfPlayers;
+	// NE: continue until person that hasn't folded is selected
+	while(flow->isFolded(activePlayer))
+	{
+		activePlayer = (activePlayer + 1) % numOfPlayers;
+	}
 } // activePlayerUpdate
+
+/*-------------------------------------*/
 
 // MJB: Starts off a new hand.
 // Puts everyone back in, moves blinds and dealer chip
 // and sets who bets first.
 void game::newHand()
 {
-	int b1;
-	int b2;
+	int smallBlind;
+	int bigBlind;
 
 	handsPlayed++;
 	hole.clear();
 	hole.resize(0);
 	
-	for(int i=0; i<numPlayers; ++i)
+	for(int i=0; i<numOfPlayers; ++i)
 	{
-	    cPlayer[i].clearCards();
-		cPlayer[i].unfold();
+	    cPlayers[i].clearCards();
+		cPlayers[i].unfold();
 	}
 	
 	dealerNum++;
 	
-	if(dealerNum == numPlayers)
+	if(dealerNum == numOfPlayers)
 		dealerNum = 0;
 
-	b1 = (dealerNum+1) % numPlayers;
-	b2 = (dealerNum+2) % numPlayers;
+	smallBlind = (dealerNum+1) % numOfPlayers;
+	bigBlind = (dealerNum+2) % numOfPlayers;
 
 	// Force bet small blinds
-	cPlayer[b1].betRaise(.5);
-	flow->player[b1].second = .5;
+	cPlayers[smallBlind].betRaise(.5);
+	flow->player[smallBlind].second = .5;
     
     // Force bet big blinds
-    cPlayer[b2].betRaise(1.0);
-	flow->player[b2].second = 1.0;
+    cPlayers[bigBlind].betRaise(1.0);
+	flow->player[bigBlind].second = 1.0;
 
 	potSize = 1.5;
 	////currentBet = 1;
 
-	activePlayer = (b2 + 1) % numPlayers;
+	activePlayer = (bigBlind + 1) % numOfPlayers;
 }  // newHand()
 
-void game::dealCard(string val)
+/*-------------------------------------*/
+
+void game::dealCards(string val)
 {
-	numCardsDealt++;
-	card card1(val[0], val[1]);
-	cPlayer[activePlayer].addCard(card1);
+	for(int i=0; i<numOfPlayers; i++)
+	{
+		//card dealtCard = theMainTable.getACard();
+		//cPlayers[i].addCard(dealtCard);
+	}
+	for(int i=0; i<numOfPlayers; i++)
+	{
+		//card dealtCard = theMainTable.getACard();
+		//cPlayers[i].addCard(dealtCard);
+	}
 	activePlayer = dealerNum + 1;
 } // dealCard()
 
-void game::pickWinner(int n)
+/*-------------------------------------*/
+
+void game::givePotToWinner(int n)
 {
-    cPlayer[n].wonHand(potSize);
+    cPlayers[n].wonHand(potSize);
 }  // pickWinner()
+
+/*-------------------------------------*/
 
 void game::addHole(string c)
 {
@@ -169,27 +190,32 @@ void game::addHole(string c)
 	
 	if(hole.size() == 2)
 	{
-		cPlayer[activePlayer].setHoleCards(hole[0], hole[1]);
+		cPlayers[activePlayer].setHoleCards(hole[0], hole[1]);
 	}
 } // addHole()
 
+/*-------------------------------------*/
+
 enum actionNames game::think()
 {
-	cPlayer[activePlayer].setDealer(dealerNum);
+	cPlayers[activePlayer].setDealer(dealerNum);
 	
-	int seatNum = (numPlayers - dealerNum) - 2;
+	int seatNum = (numOfPlayers - dealerNum) - 2;
 	
 	if(seatNum <= 0)
 	{
-		seatNum += numPlayers;
+		seatNum += numOfPlayers;
 	}
 
-	cPlayer[activePlayer].setSeatNumber(seatNum);
+	cPlayers[activePlayer].setSeatNumber(seatNum);
 
-	return cPlayer[activePlayer].makeDec();
+	return cPlayers[activePlayer].makeDec();
 	// output to simulation box?
 } // think()
 
+/*-------------------------------------*/
+
+// NE: this will genearte the table of odds
 void game::genTable()
 {
 	ifstream file;
@@ -290,24 +316,35 @@ void game::genTable()
 	//cerr << "human weight table size = " << odds.size() << endl;
 } // genTable()
 
+/*-------------------------------------*/
+
 bool game::isFolded(int index)
 {
-    return cPlayer[index-1].checkFold();
+    return cPlayers[index-1].checkFold();
 }
+
+/*-------------------------------------*/
 
 bool game::isBusted(int index)
 {
-    return cPlayer[index-1].checkBust();
+    return cPlayers[index-1].checkBust();
 }	    
+
+/*-------------------------------------*/
 
 double game::getPotSize()
 {
     return potSize;
 }
+
+/*-------------------------------------*/
+
 double game::getCurrBet()
 {
     return currentBet;
 }
+
+/*-------------------------------------*/
 
 void game::resetCurrBet()
 {
