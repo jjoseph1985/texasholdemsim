@@ -1,15 +1,17 @@
 #include "deck.h"
 
-void Deck::Deck(){}
+void Deck::Deck(vector<card>& deck)
+{
+
+}
 
 void Deck::ShuffleCard()
 {
     srand ( time(NULL) );
 
-
     // vector<string>deck; // Intializes the vector card
 
-    deck.push_back("As"); //populate the vector with cards of spade
+    deck.push_back(card card1('A','S')); //populate the vector with cards of spade
     deck.push_back("Ks");
     deck.push_back("Qs");
     deck.push_back("Js");
