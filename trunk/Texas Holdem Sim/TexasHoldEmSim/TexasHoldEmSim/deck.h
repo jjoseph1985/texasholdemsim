@@ -12,7 +12,11 @@ using namespace std;
 class Deck
 {
 	public:
-		Deck(vector<card>& deck);
+		Deck();
+		
+		void Clear();
 		void ShuffleCard();
+		
+		vector<card> deck;
 };
 #endif
