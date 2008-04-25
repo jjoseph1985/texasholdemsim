@@ -18,12 +18,12 @@ class Table
     public:
 	    Table();    
 
-        Deck deck1;
+        Deck deck1(vector<card> deck);
 		void Init();
-    	enum posType setPos(int numPlayers);
+    	void setPos(int numPlayers);
 		void OddsTable(); 
 		void NewRound();
-		void DealCard(enum round whatRound);
+		void DealCard(int whatRound);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
