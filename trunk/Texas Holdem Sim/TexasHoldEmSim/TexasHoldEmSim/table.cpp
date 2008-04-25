@@ -28,6 +28,7 @@ void Table::Init()
 {
 	numPlayers = playerList.size();
 	SetPos(numPlayers);	
+	
 }
 
 //needs to be rewritten, doesn't actually assign position
@@ -40,7 +41,7 @@ void Table::SetPos(int numPlayers)
 	//	for(;it!= it.end();it++)
 	//	{
 	//		if(it==0)
-	//			playerList[0].SetPos(0);
+	//			player1.SetPos(0);
 	//			
 	//	}
 	//	/* if( posAtTable == 1 || posAtTable == 2 )
