@@ -7,10 +7,11 @@
 #include <iostream>
 #include <map>
 
-#include "player.h"
+
 #include "card.h"
 #include "hand.h"
 #include "deck.h"
+#include "player.h"
 
 using namespace std;
 
@@ -18,7 +19,6 @@ class Table
 {
     public:
 	    Table();    
-
         Deck deck1(vector<card> deck);
 		void Init();
     	void setPos(int numPlayers);
@@ -38,7 +38,7 @@ class Table
 	    enum round { HOLECARDS, FLOP, TURN, RIVER };
 		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 		map<string, double> odds;
-		//vector <Player> ct; // WTF I CAN MAKE ONE IN MAIN?????
+		vector<Player> playerList; 
 }; // Table
 
 #endif

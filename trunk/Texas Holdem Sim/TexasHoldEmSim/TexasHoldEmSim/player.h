@@ -12,7 +12,6 @@
 #include <stdlib.h>
 
 #include "card.h"
-#include "table.h"
 #include "hand.h"
 
 using namespace std;
