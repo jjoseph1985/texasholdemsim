@@ -4,33 +4,54 @@
 
 Table::Table() 
 {
-
+	Player player1(25);
+	Player player2(25);
+	Player player3(25);
+	Player player4(25);
+	Player player5(25);
+	Player player6(25);
+	Player player7(25);
+	Player player8(25);
+	Player player9(25);
+	playerList.push_back(player1);
+	playerList.push_back(player2);
+	playerList.push_back(player3);
+	playerList.push_back(player4);
+	playerList.push_back(player5);
+	playerList.push_back(player6);
+	playerList.push_back(player7);
+	playerList.push_back(player8);
+	playerList.push_back(player9);
 }
 
-void Table::Init(vector<Player>& playerList)
+void Table::Init()
 {
 	numPlayers = playerList.size();
-	SetPos(numPlayers);
+	SetPos(numPlayers);	
 }
 
 //needs to be rewritten, doesn't actually assign position
-void Table::SetPos(int numPlayers )
+void Table::SetPos(int numPlayers)
 {
-	/*vector<Player> iterator it;*/
-	if( numPlayers == 9 )
-    {
-	/*it.begin();
-	it.*/
-		
-		/* if( posAtTable == 1 || posAtTable == 2 )
-            position = EARLY;
-        else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
-            position = MIDDLE;
-        else if( posAtTable == 6 || posAtTable == 7 )
-            position = LATE;
-        else if( posAtTable == 8 || posAtTable == 9 )
-            position = BLINDS;*/
-    }
+	//vector<Player>iterator it;
+	//it.begin();
+	//if( numPlayers == 9 )
+ //   {
+	//	for(;it!= it.end();it++)
+	//	{
+	//		if(it==0)
+	//			playerList[0].SetPos(0);
+	//			
+	//	}
+	//	/* if( posAtTable == 1 || posAtTable == 2 )
+ //           position = EARLY;
+ //       else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
+ //           position = MIDDLE;
+ //       else if( posAtTable == 6 || posAtTable == 7 )
+ //           position = LATE;
+ //       else if( posAtTable == 8 || posAtTable == 9 )
+ //           position = BLINDS;*/
+ //   }
     //else if( numPlayers == 8 )
     //{
     //    if( posAtTable == 1 || posAtTable == 2 )

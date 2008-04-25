@@ -20,8 +20,8 @@ void InitKeys(vector<string>& vKeys);
 int main( int argc, char ** argv )
 {
     vector<string> vKeys;
-	vector<Player> players;
     map<string,string> mPairs;
+	Table table;
     AnyOption anyOpt;
     string outPutFile = "";
     ofstream fout;
@@ -53,27 +53,10 @@ int main( int argc, char ** argv )
 	char k;
 	cin >> k;
 	*/
-	Player player1(25);
-	Player player2(25);
-	Player player3(25);
-	Player player4(25);
-	Player player5(25);
-	Player player6(25);
-	Player player7(25);
-	Player player8(25);
-	Player player9(25);
-	players.push_back(player1);
-	players.push_back(player2);
-	players.push_back(player3);
-	players.push_back(player4);
-	players.push_back(player5);
-	players.push_back(player6);
-	players.push_back(player7);
-	players.push_back(player8);
-	players.push_back(player9);
-	//Table::Init(players);
-	
-    // TODO: Write the main application so that the sim starts and plays itself.
+	table.Init();
+
+    
+	// TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
     //       to progress through the game if no human players are left (pretty sure).
     //       
