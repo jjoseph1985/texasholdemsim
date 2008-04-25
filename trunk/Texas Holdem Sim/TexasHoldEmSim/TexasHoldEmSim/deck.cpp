@@ -7,113 +7,113 @@ Deck::Deck()
     
     card c1('A', 'S');
     deck.push_back(c1);
-    card c1('K', 'S');     // SPADE CARDS 
+    card c2('K', 'S');     // SPADE CARDS 
     deck.push_back(c1);
-    card c1('Q', 'S');
+    card c3('Q', 'S');
     deck.push_back(c1);
-    card c1('J', 'S');
+    card c4('J', 'S');
     deck.push_back(c1);
-    card c1('T', 'S');
+    card c5('T', 'S');
     deck.push_back(c1);
-    card c1('9', 'S');
+    card c6('9', 'S');
     deck.push_back(c1);
-    card c1('8', 'S');
+    card c7('8', 'S');
     deck.push_back(c1);
-    card c1('7', 'S');
+    card c8('7', 'S');
     deck.push_back(c1);
-    card c1('6', 'S');
+    card c9('6', 'S');
     deck.push_back(c1);
-    card c1('5', 'S');
+    card c10('5', 'S');
     deck.push_back(c1);
-    card c1('4', 'S');
+    card c11('4', 'S');
     deck.push_back(c1);
-    card c1('3', 'S');
+    card c12('3', 'S');
     deck.push_back(c1);
-    card c1('2', 'S');
+    card c13('2', 'S');
     deck.push_back(c1);
     
 
-    card c1('A', 'H');
+    card c14('A', 'H');
     deck.push_back(c1);
-    card c1('K', 'H');     // Heart CARDS 
+    card c15('K', 'H');     // Heart CARDS 
     deck.push_back(c1);
-    card c1('Q', 'H');
+    card c16('Q', 'H');
     deck.push_back(c1);
-    card c1('J', 'H');
+    card c17('J', 'H');
     deck.push_back(c1);
-    card c1('T', 'H');
+    card c18('T', 'H');
     deck.push_back(c1);
-    card c1('9', 'H');
+    card c19('9', 'H');
     deck.push_back(c1);
-    card c1('8', 'H');
+    card c20('8', 'H');
     deck.push_back(c1);
-    card c1('7', 'H');
+    card c21('7', 'H');
     deck.push_back(c1);
-    card c1('6', 'H');
+    card c22('6', 'H');
     deck.push_back(c1);
-    card c1('5', 'H');
+    card c23('5', 'H');
     deck.push_back(c1);
-    card c1('4', 'H');
+    card c24('4', 'H');
     deck.push_back(c1);
-    card c1('3', 'H');
+    card c25('3', 'H');
     deck.push_back(c1);
-    card c1('2', 'H');
+    card c26('2', 'H');
     deck.push_back(c1);
 
 
-    card c1('A', 'C');
+    card c27('A', 'C');
     deck.push_back(c1);
-    card c1('K', 'C');     // CLUB CARDS 
+    card c28('K', 'C');     // CLUB CARDS 
     deck.push_back(c1);
-    card c1('Q', 'C');
+    card c29('Q', 'C');
     deck.push_back(c1);
-    card c1('J', 'C');
+    card c30('J', 'C');
     deck.push_back(c1);
-    card c1('T', 'C');
+    card c31('T', 'C');
     deck.push_back(c1);
-    card c1('9', 'C');
+    card c32('9', 'C');
     deck.push_back(c1);
-    card c1('8', 'C');
+    card c33('8', 'C');
     deck.push_back(c1);
-    card c1('7', 'C');
+    card c34('7', 'C');
     deck.push_back(c1);
-    card c1('6', 'C');
+    card c35('6', 'C');
     deck.push_back(c1);
-    card c1('5', 'C');
+    card c36('5', 'C');
     deck.push_back(c1);
-    card c1('4', 'C');
+    card c37('4', 'C');
     deck.push_back(c1);
-    card c1('3', 'C');
+    card c38('3', 'C');
     deck.push_back(c1);
-    card c1('2', 'C');
+    card c39('2', 'C');
     deck.push_back(c1);
 
     
-    card c1('A', 'D');
+    card c40('A', 'D');
     deck.push_back(c1);
-    card c1('K', 'D');     // Dimamond CARDS 
+    card c41('K', 'D');     // Dimamond CARDS 
     deck.push_back(c1);
-    card c1('Q', 'D');
+    card c42('Q', 'D');
     deck.push_back(c1);
-    card c1('J', 'D');
+    card c43('J', 'D');
     deck.push_back(c1);
-    card c1('T', 'D');
+    card c44('T', 'D');
     deck.push_back(c1);
-    card c1('9', 'D');
+    card c45('9', 'D');
     deck.push_back(c1);
-    card c1('8', 'D');
+    card c46('8', 'D');
     deck.push_back(c1);
-    card c1('7', 'D');
+    card c47('7', 'D');
     deck.push_back(c1);
-    card c1('6', 'D');
+    card c48('6', 'D');
     deck.push_back(c1);
-    card c1('5', 'D');
+    card c49('5', 'D');
     deck.push_back(c1);
-    card c1('4', 'D');
+    card c50('4', 'D');
     deck.push_back(c1);
-    card c1('3', 'D');
+    card c51('3', 'D');
     deck.push_back(c1);
-    card c1('2', 'D');
+    card c52('2', 'D');
     deck.push_back(c1);
 
     
