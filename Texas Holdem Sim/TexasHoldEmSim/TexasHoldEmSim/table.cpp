@@ -34,11 +34,43 @@ void Table::Init()
 //needs to be rewritten, doesn't actually assign position
 void Table::SetPos(int numPlayers)
 {
-	//vector<Player>iterator it;
-	//it.begin();
+
+	vector<Player>::iterator iter;
+	iter = playerList.begin();
+	
+	int foo = iter->GetPos();
+	iter->SetPos(1);
+	
+	switch(numPlayers)
+	{
+	    case 2:
+	        break;
+	    
+	    case 3:
+	        break;
+	        
+	    case 4:
+	        break;
+	    
+	    case 5:
+	        break;
+	        
+	    case 6:
+	        break;
+	    
+	    case 7:
+	        break;	        	        
+	
+	    case 8:
+	        break;
+	    
+	    case 9:
+	        break;	
+	}
+	
 	//if( numPlayers == 9 )
- //   {
-	//	for(;it!= it.end();it++)
+    //{
+		//for(iter; iter!=playerList.end(); iter++)
 	//	{
 	//		if(it==0)
 	//			player1.SetPos(0);
