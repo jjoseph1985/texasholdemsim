@@ -1,21 +1,18 @@
 #include "deck.h"
 
-void Deck::Deck(vector<card>& deck)
+Deck::Deck()
 {
+    // Change so all cards get added like this
+    card c1('K', 'S');
+    deck.push_back(c1);
 
-}
-
-void Deck::ShuffleCard()
-{
-    srand( time(NULL) );
-
-    // vector<string>deck; // Intializes the vector card
-
-    deck.push_back(card  card1('A', 'S')); //Add Spades
+ 
+ /*
+    Can't add cards like this:
     deck.push_back(card  card2('K', 'S'));
     deck.push_back(card  card3('Q', 'S'));
     deck.push_back(card  card4('J', 'S'));
-    deck.push_back(card  card5('10','S'));
+    deck.push_back(card  card5('T', 'S'));
     deck.push_back(card  card6('9', 'S'));
     deck.push_back(card  card7('8', 'S'));
     deck.push_back(card  card8('7', 'S'));
@@ -29,7 +26,7 @@ void Deck::ShuffleCard()
     deck.push_back(card card15('K', 'H'));
     deck.push_back(card card16('Q', 'H'));
     deck.push_back(card card17('J', 'H'));
-    deck.push_back(card card18('10','H'));
+    deck.push_back(card card18('T', 'H'));
     deck.push_back(card card19('9', 'H'));
     deck.push_back(card card20('8', 'H'));
     deck.push_back(card card21('7', 'H'));
@@ -43,21 +40,7 @@ void Deck::ShuffleCard()
     deck.push_back(card card28('K', 'C'));
     deck.push_back(card card29('Q', 'C'));
     deck.push_back(card card30('J', 'C'));
-    deck.push_back(card card31('10','C'));
-    deck.push_back(card card32('9', 'C'));
-    deck.push_back(card card33('8', 'C'));
-    deck.push_back(card card34('7', 'C'));
-    deck.push_back(card card35('6', 'C'));
-    deck.push_back(card card36('5', 'C'));
-    deck.push_back(card card37('4', 'C'));
-    deck.push_back(card card38('3', 'C'));
-    deck.push_back(card card39('2', 'C'));
-
-    deck.push_back(card card27('A', 'C')); // Add Clubs
-    deck.push_back(card card28('K', 'C'));
-    deck.push_back(card card29('Q', 'C'));
-    deck.push_back(card card30('J', 'C'));
-    deck.push_back(card card31('10','C'));
+    deck.push_back(card card31('T', 'C'));
     deck.push_back(card card32('9', 'C'));
     deck.push_back(card card33('8', 'C'));
     deck.push_back(card card34('7', 'C'));
@@ -71,7 +54,7 @@ void Deck::ShuffleCard()
     deck.push_back(card card41('K', 'D'));
     deck.push_back(card card42('Q', 'D'));
     deck.push_back(card card43('J', 'D'));
-    deck.push_back(card card44('10','D'));
+    deck.push_back(card card44('T', 'D'));
     deck.push_back(card card45('9', 'D'));
     deck.push_back(card card46('8', 'D'));
     deck.push_back(card card47('7', 'D'));
@@ -80,6 +63,16 @@ void Deck::ShuffleCard()
     deck.push_back(card card50('4', 'D'));
     deck.push_back(card card51('3', 'D'));
     deck.push_back(card card52('2', 'D'));
+    */
+}
 
+void Deck::ShuffleCard()
+{
+    srand( time(NULL) );
     random_shuffle(deck.begin(), deck.end());
+}
+
+void Deck::Clear()
+{
+    deck.clear();
 }
