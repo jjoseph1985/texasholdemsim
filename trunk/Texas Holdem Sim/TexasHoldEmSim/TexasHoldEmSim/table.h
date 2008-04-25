@@ -5,10 +5,11 @@
 
 #include <vector>
 #include <iostream>
+#include <map>
 
+#include "player.h"
 #include "card.h"
 #include "hand.h"
-#include "player.h"
 #include "deck.h"
 
 using namespace std;
@@ -29,6 +30,8 @@ class Table
 	    void DeclareWinner(int winner);
 		bool Eligible();
 		void CheckTime();
+		Player c;
+        		
 
     private:
 	    bool limitAction;
@@ -37,7 +40,7 @@ class Table
 	    enum round { HOLECARDS, FLOP, TURN, RIVER };
 		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 		map<string, double> odds;
-		vector<Player> playerList;
+		//vector <Player> ct; // WTF I CAN MAKE ONE IN MAIN?????
 }; // Table
 
 #endif

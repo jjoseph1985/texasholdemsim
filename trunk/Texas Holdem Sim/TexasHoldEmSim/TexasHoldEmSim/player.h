@@ -20,8 +20,8 @@ using namespace std;
 class Player
 {
   public:
+        Player();
         Player(double m);
-       ~Player();
         
         void AddMoney(double amt);
       double GetMoney();
