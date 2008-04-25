@@ -25,15 +25,15 @@ int main( int argc, char ** argv )
     string outPutFile = "";
     ofstream fout;
     
-    vector<Player> blah;
-    Player p(1);
+    //vector<Player> blah;
+    //Player p(1);
 
     // Starting things off:
     // 1. Parse the command line
     // 2. Init the keys in the config file
     // 3. Map them to their values
     // 4. Open the output file
-    InitKeys(vKeys);
+    /*InitKeys(vKeys);
     outPutFile = ParseCmdLine(argc, argv, vKeys, anyOpt);
     MapKeys(mPairs, vKeys, anyOpt);
     
@@ -42,7 +42,7 @@ int main( int argc, char ** argv )
     {
         cout << "IO Error... could not open " << outPutFile;
         exit(0);
-    }
+    }*/
 	
 	//NE: Just testing the odds table printout.
 	/*
@@ -54,19 +54,14 @@ int main( int argc, char ** argv )
 	*/
 
 	//JJ: Testing out Card and Hand
-	/*card card1('2','h');
-	card card2('2','s');
-	card card3('2','d');
-	card card4('2','c');
-	card card5('5','d');
-	card card6('6', 's');
-	string temp = card1.whatcard();
+	//card card1('2','h');
+	//card card2('2','s');
+	//card card3('2','d');
+	//card card4('2','c');
+	//card card5('5','d');
+	//card card6('6', 's');
+	//string temp = card1.whatcard();
 	
-	hand hand1;
-	
-	hand1.initHand(card1,card2,card3,card4,card5); 
-	hand1.addCard(card6);
-	hand1.getType();*/
 
     // TODO: Write the main application so that the sim starts and plays itself.
     //       Because it is currently gui driven they are using QT related things
