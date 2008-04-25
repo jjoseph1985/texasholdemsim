@@ -181,10 +181,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\holecards.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -216,10 +212,6 @@
 			</File>
 			<File
 				RelativePath=".\hand.h"
-				>
-			</File>
-			<File
-				RelativePath=".\holecards.h"
 				>
 			</File>
 			<File
