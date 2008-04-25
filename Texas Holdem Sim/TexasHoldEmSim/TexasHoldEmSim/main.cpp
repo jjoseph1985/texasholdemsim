@@ -5,19 +5,16 @@
 
 #include "card.h"
 #include "player.h"
-#include "game.h"
 #include "hand.h"
 #include "table.h"
 #include "anyoption.h"
 #include "deck.h"
 
 // Function declarations
-
-// MJB: Do NOT edit next 3 functions
 string ParseCmdLine( int argc, char* argv[], vector<string>& vKeys, AnyOption& anyOpt);
 void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOpt);
 void InitKeys(vector<string>& vKeys);
-// End no editing
+
 
 
 int main( int argc, char ** argv )
@@ -28,6 +25,8 @@ int main( int argc, char ** argv )
     string outPutFile = "";
     ofstream fout;
     
+    vector<Player> blah;
+    Player p(1);
 
     // Starting things off:
     // 1. Parse the command line

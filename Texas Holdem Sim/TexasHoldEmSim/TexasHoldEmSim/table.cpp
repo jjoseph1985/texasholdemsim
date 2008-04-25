@@ -215,7 +215,7 @@ void Table::NextAction()
 
 void Table::DetDealer()
 {
-    int pos; //= playerx.GetPos();
+    int pos = 0; //= playerx.GetPos();
 	if (pos == 0)
 		dealerPosition = pos;
 } // DetDealer()
@@ -227,7 +227,7 @@ void Table::DeclareWinner(int winner)
 
 bool Table::Eligible()
 {
-
+    return true;
 }
 
 void CheckTime()
