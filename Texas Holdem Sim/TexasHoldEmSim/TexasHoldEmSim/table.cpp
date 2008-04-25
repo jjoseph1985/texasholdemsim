@@ -203,7 +203,7 @@ void Table::NewRound()
 	deck1.ShuffleCard();
 }
 
-void Table::DealCard( round whatRound )
+void Table::DealCard( enum round whatRound )
 {
     card c;
     c.setVal( s[0], s[1] );
