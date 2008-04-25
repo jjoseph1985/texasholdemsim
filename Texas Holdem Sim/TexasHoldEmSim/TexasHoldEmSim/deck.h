@@ -8,18 +8,15 @@
 #include <ctime>
 #include <algorithm>
 #include <functional>
+#include "card.h"
 
 
 using namespace std;
 
 class Deck
 {
-public:
-    Deck();
-    void ShuffleCard();
-    vector<string> deck;
-
+	public:
+		Deck(vector<card>& deck);
+		void ShuffleCard();
 };
-
-
 #endif

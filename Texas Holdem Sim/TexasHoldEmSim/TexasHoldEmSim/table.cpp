@@ -200,7 +200,7 @@ void Table::OddsTable()
 void Table::NewRound()
 {
     pot = 0.0;
-	
+	deck1.ShuffleCard();
 }
 
 void Table::DealCard( round whatRound )

@@ -12,7 +12,7 @@
 #include "round.h"
 #include "state.h"
 #include "anyoption.h"
-
+#include "deck.h"
 
 // Function declarations
 
@@ -30,7 +30,7 @@ int main( int argc, char ** argv )
     AnyOption anyOpt;
     string outPutFile = "";
     ofstream fout;
-
+    
 
     // Starting things off:
     // 1. Parse the command line
@@ -47,7 +47,6 @@ int main( int argc, char ** argv )
         cout << "IO Error... could not open " << outPutFile;
         exit(0);
     }
-    
 	
 	//NE: Just testing the odds table printout.
 	/*

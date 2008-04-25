@@ -9,13 +9,16 @@
 #include "card.h"
 #include "hand.h"
 #include "player.h"
+#include "deck.h"
+
 using namespace std;
 
 class Table
 {
     public:
 	    Table();    
-        
+
+        Deck deck1;
 		void Init();
     	enum posType setPos(int numPlayers);
 		void OddsTable(); 
@@ -34,7 +37,6 @@ class Table
 	    enum round { holecards, flop, turn, river };
 		enum posAtTable{ dealer, small blind, big blind, early, middle, late };
 		map<string, double> odds;
-        vector<card> deck;
 		vector<player> playerList;
 }; // Table
 
