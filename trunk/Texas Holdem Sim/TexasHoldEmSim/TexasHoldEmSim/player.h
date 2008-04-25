@@ -11,21 +11,16 @@
 #include <iostream>
 #include <stdlib.h>
 
-
 #include "card.h"
 #include "table.h"
 #include "hand.h"
 
-
 using namespace std;
-
-enum actionNames { FOLD, RAISE, CHECK, BET, CALL };
-enum posType { EARLY, MIDDLE, LATE, BLINDS };
 
 class Player
 {
   public:
-        Player();
+        Player::Player(double m)
        ~Player();
         
         void AddMoney(double amt);
@@ -47,13 +42,14 @@ class Player
  
   private:
         vector<card> holeCards;
-        vector<card> tablecards;
+        vector<card> tableCards;
         hand myHand;
+      
       double money;
-
         bool fold;
         bool bust;
         bool allIn;
+        int  pos;
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     

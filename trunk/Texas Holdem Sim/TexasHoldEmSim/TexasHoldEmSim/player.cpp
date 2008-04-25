@@ -1,85 +1,113 @@
-// comp.cpp
+// player.cpp
 
 #include "player.h"
 
-#define MAX_INT  32767
-
 using namespace std;
 
-// MJB: This is incredible stupid
-Player::Player():chipCount(0), handsPlayed(0), flopsSeen(0), out(false), bust(false), 
-                         betPlaced( false ), raiseMade( false ), potSize(0), dealerNum(0)
+
+Player::Player(double m): money(m), pos(-1), fold(false), bust(false), allIn(false)
 { 
-  aDeck["As"] = true; bDeck[0] = "As";
-  aDeck["Ks"] = true; bDeck[1] = "Ks";
-  aDeck["Qs"] = true; bDeck[2] = "Qs";
-  aDeck["Js"] = true; bDeck[3] = "Js";
-  aDeck["Ts"] = true; bDeck[4] = "Ts";
-  aDeck["9s"] = true; bDeck[5] = "9s";
-  aDeck["8s"] = true; bDeck[6] = "8s";
-  aDeck["7s"] = true; bDeck[7] = "7s";
-  aDeck["6s"] = true; bDeck[8] = "6s";
-  aDeck["5s"] = true; bDeck[9] = "5s";
-  aDeck["4s"] = true; bDeck[10] = "4s";
-  aDeck["3s"] = true; bDeck[11] = "3s";
-  aDeck["2s"] = true; bDeck[12] = "2s";		//Intializes the deck for simulation purposes
 
-  aDeck["Ah"] = true; bDeck[13] = "Ah";
-  aDeck["Kh"] = true; bDeck[14] = "Kh";
-  aDeck["Qh"] = true; bDeck[15] = "Qh";
-  aDeck["Jh"] = true; bDeck[16] = "Jh";
-  aDeck["Th"] = true; bDeck[17] = "Th";
-  aDeck["9h"] = true; bDeck[18] = "9h";
-  aDeck["8h"] = true; bDeck[19] = "8h";
-  aDeck["7h"] = true; bDeck[20] = "7h";
-  aDeck["6h"] = true; bDeck[21] = "6h";
-  aDeck["5h"] = true; bDeck[22] = "5h";
-  aDeck["4h"] = true; bDeck[23] = "4h";
-  aDeck["3h"] = true; bDeck[24] = "3h";
-  aDeck["2h"] = true; bDeck[25] = "2h";
-
-  aDeck["Ac"] = true; bDeck[26] = "Ac";
-  aDeck["Kc"] = true; bDeck[27] = "Kc";
-  aDeck["Qc"] = true; bDeck[28] = "Qc";
-  aDeck["Jc"] = true; bDeck[29] = "Jc";
-  aDeck["Tc"] = true; bDeck[30] = "Tc";
-  aDeck["9c"] = true; bDeck[31] = "9c";
-  aDeck["8c"] = true; bDeck[32] = "8c";
-  aDeck["7c"] = true; bDeck[33] = "7c";
-  aDeck["6c"] = true; bDeck[34] = "6c";
-  aDeck["5c"] = true; bDeck[35] = "5c";
-  aDeck["4c"] = true; bDeck[36] = "4c";
-  aDeck["3c"] = true; bDeck[37] = "3c";
-  aDeck["2c"] = true; bDeck[38] = "2c";
-
-  aDeck["Ad"] = true; bDeck[39] = "Ad";
-  aDeck["Kd"] = true; bDeck[40] = "Kd";
-  aDeck["Qd"] = true; bDeck[41] = "Qd";
-  aDeck["Jd"] = true; bDeck[42] = "Jd";
-  aDeck["Td"] = true; bDeck[43] = "Td";
-  aDeck["9d"] = true; bDeck[44] = "9d";
-  aDeck["8d"] = true; bDeck[45] = "8d";
-  aDeck["7d"] = true; bDeck[46] = "7d";
-  aDeck["6d"] = true; bDeck[47] = "6d";
-  aDeck["5d"] = true; bDeck[48] = "5d";
-  aDeck["4d"] = true; bDeck[49] = "4d";
-  aDeck["3d"] = true; bDeck[50] = "3d";
-  aDeck["2d"] = true; bDeck[51] = "2d";
-
-//  initTable( weightTable );
-  srand( 0 );
 } // Player()
 
-void Player::addMoney(int amt)
-{
-	chipCount += amt;		//For adding chips during the game
-	bust = false;
-} // addMoney()
 
-double Player::getMoney()
+Player::~Player()
 {
-	return chipCount;		
-} // chipCount()
+
+} // ~Player()
+
+        
+void Player::AddMoney(double amt)
+{
+    money += amt;
+} // AddMoney()
+
+
+double Player::GetMoney()
+{
+    return money;
+} // GetMoney()
+
+
+hand Player::ShowHand()
+{
+    return myHand;
+} // ShowHand()
+
+
+void Player::AddCard(card c, int loc)
+{
+    if(loc == HOLECARDS)
+    {
+        holeCards.push_back(c);   
+    }
+    else if(loc == TABLECARDS)
+    {
+        tableCards.push_back(c);
+    }
+} // AddCard()
+
+
+void Player::ClearCards()
+{
+    myHand.clear();
+    tableCards.clear();
+    holeCards.clear();
+} // ClearCard()
+
+
+double Player::Action(bool limitAction)
+{
+    if(limitAction)
+    {
+    
+    }
+    else
+    {
+    
+    }
+} // Action()
+
+bool Player::DidFold()
+{
+    return fold;
+} // DidFold()
+
+
+bool Player::DidBust()
+{
+    return bust;
+} // DidBust()
+
+
+bool Player::DidAllIn()
+{
+    return allIn;
+} // DidAllIn()
+
+
+void Player::Reset()
+{
+    bust  = false;
+    fold  = false;
+    allIn = false;
+
+} // Reset()
+
+
+void Player::SetPos(int p)
+{
+    pos = p;
+} // SetPos()
+
+
+int Player::GetPos()
+{
+    return pos;
+} // GetPos()
+
+
+/************************/
 
 void Player::setHoleCards(card a, card b)
 {
