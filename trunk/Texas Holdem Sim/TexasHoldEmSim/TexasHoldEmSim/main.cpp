@@ -4,11 +4,9 @@
 #include <iostream>
 
 #include "card.h"
-#include "comp.h"
+#include "player.h"
 #include "game.h"
 #include "hand.h"
-#include "holecards.h"
-//#include "human.h"
 #include "round.h"
 #include "state.h"
 #include "anyoption.h"
