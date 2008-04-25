@@ -7,8 +7,7 @@
 #include "player.h"
 #include "game.h"
 #include "hand.h"
-#include "round.h"
-#include "state.h"
+#include "table.h"
 #include "anyoption.h"
 #include "deck.h"
 
