@@ -8,6 +8,8 @@
 
 using namespace std;
 
+enum {HOLECARDS, TABLECARDS};
+
 class card
 {
     public:
@@ -20,8 +22,7 @@ class card
         char getsuit() const;
         char getnum() const;
         int  getfacenum() const;
-		enum {HOLECARDS, TABLECARDS};
-
+		
     private:
         char suit;
         char num;
