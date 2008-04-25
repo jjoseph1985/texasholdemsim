@@ -30,8 +30,6 @@ class Table
 	    void DeclareWinner(int winner);
 		bool Eligible();
 		void CheckTime();
-		Player c;
-        		
 
     private:
 	    bool limitAction;
