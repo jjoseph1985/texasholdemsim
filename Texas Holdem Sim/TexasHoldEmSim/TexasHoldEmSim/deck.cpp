@@ -2,68 +2,125 @@
 
 Deck::Deck()
 {
-    // Change so all cards get added like this
-    card c1('K', 'S');
+   
+    
+    
+    card c1('A', 'S');
+    deck.push_back(c1);
+    card c1('K', 'S');     // SPADE CARDS 
+    deck.push_back(c1);
+    card c1('Q', 'S');
+    deck.push_back(c1);
+    card c1('J', 'S');
+    deck.push_back(c1);
+    card c1('T', 'S');
+    deck.push_back(c1);
+    card c1('9', 'S');
+    deck.push_back(c1);
+    card c1('8', 'S');
+    deck.push_back(c1);
+    card c1('7', 'S');
+    deck.push_back(c1);
+    card c1('6', 'S');
+    deck.push_back(c1);
+    card c1('5', 'S');
+    deck.push_back(c1);
+    card c1('4', 'S');
+    deck.push_back(c1);
+    card c1('3', 'S');
+    deck.push_back(c1);
+    card c1('2', 'S');
+    deck.push_back(c1);
+    
+
+    card c1('A', 'H');
+    deck.push_back(c1);
+    card c1('K', 'H');     // Heart CARDS 
+    deck.push_back(c1);
+    card c1('Q', 'H');
+    deck.push_back(c1);
+    card c1('J', 'H');
+    deck.push_back(c1);
+    card c1('T', 'H');
+    deck.push_back(c1);
+    card c1('9', 'H');
+    deck.push_back(c1);
+    card c1('8', 'H');
+    deck.push_back(c1);
+    card c1('7', 'H');
+    deck.push_back(c1);
+    card c1('6', 'H');
+    deck.push_back(c1);
+    card c1('5', 'H');
+    deck.push_back(c1);
+    card c1('4', 'H');
+    deck.push_back(c1);
+    card c1('3', 'H');
+    deck.push_back(c1);
+    card c1('2', 'H');
     deck.push_back(c1);
 
- 
- /*
-    Can't add cards like this:
-    deck.push_back(card  card2('K', 'S'));
-    deck.push_back(card  card3('Q', 'S'));
-    deck.push_back(card  card4('J', 'S'));
-    deck.push_back(card  card5('T', 'S'));
-    deck.push_back(card  card6('9', 'S'));
-    deck.push_back(card  card7('8', 'S'));
-    deck.push_back(card  card8('7', 'S'));
-    deck.push_back(card  card9('6', 'S'));
-    deck.push_back(card card10('5', 'S'));
-    deck.push_back(card card11('4', 'S'));
-    deck.push_back(card card12('3', 'S'));
-    deck.push_back(card card13('2', 'S'));
 
-    deck.push_back(card card14('A', 'H')); // Add Hearts
-    deck.push_back(card card15('K', 'H'));
-    deck.push_back(card card16('Q', 'H'));
-    deck.push_back(card card17('J', 'H'));
-    deck.push_back(card card18('T', 'H'));
-    deck.push_back(card card19('9', 'H'));
-    deck.push_back(card card20('8', 'H'));
-    deck.push_back(card card21('7', 'H'));
-    deck.push_back(card card22('6', 'H'));
-    deck.push_back(card card23('5', 'H'));
-    deck.push_back(card card24('4', 'H'));
-    deck.push_back(card card25('3', 'H'));
-    deck.push_back(card card26('2', 'H'));
+    card c1('A', 'C');
+    deck.push_back(c1);
+    card c1('K', 'C');     // CLUB CARDS 
+    deck.push_back(c1);
+    card c1('Q', 'C');
+    deck.push_back(c1);
+    card c1('J', 'C');
+    deck.push_back(c1);
+    card c1('T', 'C');
+    deck.push_back(c1);
+    card c1('9', 'C');
+    deck.push_back(c1);
+    card c1('8', 'C');
+    deck.push_back(c1);
+    card c1('7', 'C');
+    deck.push_back(c1);
+    card c1('6', 'C');
+    deck.push_back(c1);
+    card c1('5', 'C');
+    deck.push_back(c1);
+    card c1('4', 'C');
+    deck.push_back(c1);
+    card c1('3', 'C');
+    deck.push_back(c1);
+    card c1('2', 'C');
+    deck.push_back(c1);
 
-    deck.push_back(card card27('A', 'C')); // Add Clubs
-    deck.push_back(card card28('K', 'C'));
-    deck.push_back(card card29('Q', 'C'));
-    deck.push_back(card card30('J', 'C'));
-    deck.push_back(card card31('T', 'C'));
-    deck.push_back(card card32('9', 'C'));
-    deck.push_back(card card33('8', 'C'));
-    deck.push_back(card card34('7', 'C'));
-    deck.push_back(card card35('6', 'C'));
-    deck.push_back(card card36('5', 'C'));
-    deck.push_back(card card37('4', 'C'));
-    deck.push_back(card card38('3', 'C'));
-    deck.push_back(card card39('2', 'C'));
     
-    deck.push_back(card card40('A', 'D')); // Add Diamonds
-    deck.push_back(card card41('K', 'D'));
-    deck.push_back(card card42('Q', 'D'));
-    deck.push_back(card card43('J', 'D'));
-    deck.push_back(card card44('T', 'D'));
-    deck.push_back(card card45('9', 'D'));
-    deck.push_back(card card46('8', 'D'));
-    deck.push_back(card card47('7', 'D'));
-    deck.push_back(card card48('6', 'D'));
-    deck.push_back(card card49('5', 'D'));
-    deck.push_back(card card50('4', 'D'));
-    deck.push_back(card card51('3', 'D'));
-    deck.push_back(card card52('2', 'D'));
-    */
+    card c1('A', 'D');
+    deck.push_back(c1);
+    card c1('K', 'D');     // Dimamond CARDS 
+    deck.push_back(c1);
+    card c1('Q', 'D');
+    deck.push_back(c1);
+    card c1('J', 'D');
+    deck.push_back(c1);
+    card c1('T', 'D');
+    deck.push_back(c1);
+    card c1('9', 'D');
+    deck.push_back(c1);
+    card c1('8', 'D');
+    deck.push_back(c1);
+    card c1('7', 'D');
+    deck.push_back(c1);
+    card c1('6', 'D');
+    deck.push_back(c1);
+    card c1('5', 'D');
+    deck.push_back(c1);
+    card c1('4', 'D');
+    deck.push_back(c1);
+    card c1('3', 'D');
+    deck.push_back(c1);
+    card c1('2', 'D');
+    deck.push_back(c1);
+
+    
+
+
+ 
+ 
 }
 
 void Deck::ShuffleCard()
