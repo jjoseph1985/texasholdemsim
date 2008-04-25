@@ -23,7 +23,7 @@ class Table
     	enum posType setPos(int numPlayers);
 		void OddsTable(); 
 		void NewRound();
-		void DealCard(round whatRound);
+		void DealCard(enum round whatRound);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
@@ -34,10 +34,10 @@ class Table
 	    bool limitAction;
 	    double pot;
 		int numPlayers, dealerPosition;
-	    enum round { holecards, flop, turn, river };
-		enum posAtTable{ dealer, small blind, big blind, early, middle, late };
+	    enum round { HOLECARDS, FLOP, TURN, RIVER };
+		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 		map<string, double> odds;
-		vector<player> playerList;
+		vector<Player> playerList;
 }; // Table
 
 #endif
