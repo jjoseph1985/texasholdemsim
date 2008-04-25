@@ -20,8 +20,8 @@ class Table
     public:
 	    Table();    
         Deck deck1(vector<card> deck);
-		void Init();
-    	void setPos(int numPlayers);
+		void Init(vector<Player>& playerList);
+    	void SetPos(int numPlayers);
 		void OddsTable(); 
 		void NewRound();
 		void DealCard(int whatRound);
@@ -38,7 +38,7 @@ class Table
 	    enum round { HOLECARDS, FLOP, TURN, RIVER };
 		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 		map<string, double> odds;
-		vector<Player> playerList; 
+		
 }; // Table
 
 #endif

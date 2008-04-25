@@ -7,28 +7,30 @@ Table::Table()
 
 }
 
-void Table::Init()
+void Table::Init(vector<Player>& playerList)
 {
-	//numPlayers = playerList.Length();
-
+	numPlayers = playerList.size();
+	SetPos(numPlayers);
 }
 
 //needs to be rewritten, doesn't actually assign position
-void Table::setPos(int numPlayers )
+void Table::SetPos(int numPlayers )
 {
-    //enum posType position;
-
-    //if( numPlayers == 9 )
-    //{
-    //    if( posAtTable == 1 || posAtTable == 2 )
-    //        position = EARLY;
-    //    else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
-    //        position = MIDDLE;
-    //    else if( posAtTable == 6 || posAtTable == 7 )
-    //        position = LATE;
-    //    else if( posAtTable == 8 || posAtTable == 9 )
-    //        position = BLINDS;
-    //}
+	/*vector<Player> iterator it;*/
+	if( numPlayers == 9 )
+    {
+	/*it.begin();
+	it.*/
+		
+		/* if( posAtTable == 1 || posAtTable == 2 )
+            position = EARLY;
+        else if( posAtTable == 3 || posAtTable == 4 || posAtTable == 5 )
+            position = MIDDLE;
+        else if( posAtTable == 6 || posAtTable == 7 )
+            position = LATE;
+        else if( posAtTable == 8 || posAtTable == 9 )
+            position = BLINDS;*/
+    }
     //else if( numPlayers == 8 )
     //{
     //    if( posAtTable == 1 || posAtTable == 2 )
