@@ -43,6 +43,7 @@ class Table
 		int dealerPosition, numPlayers;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
+		vector<Player> tempList10Players;
 		vector<Player>::iterator iter;
 }; // Table
 
