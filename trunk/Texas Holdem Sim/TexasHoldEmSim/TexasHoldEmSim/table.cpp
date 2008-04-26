@@ -24,19 +24,17 @@ Table::Table(double m, int num)
 	playerList.push_back(player7);
 	playerList.push_back(player8);
 	playerList.push_back(player9);
+	playerList.push_back(player10);
 }
 
 void Table::Init()
 {
 	InitPositions();
-	NewRound();
-	
+	NewRound();	
 }
 
 void Table::InitPositions()
-{
-	//sets an iterator to traverse the playerList vector
-	vector<Player>::iterator iter;
+{	
 	//sets iter to beginning of vector
 	iter = playerList.begin();
 	int i = 0;
@@ -140,7 +138,7 @@ void Table::InitPositions()
 	} 
 } // InitPositions()
 
-void Table::OddsTable()
+void Table::OddsTable(int numPlayers)
 {
 	ifstream file;
 	file.open("odds.txt");
@@ -148,7 +146,7 @@ void Table::OddsTable()
 	double weight;
 	string a, b;
 
-	odds.clear();
+	preFlopOdds.clear();
 
 	for (int i = 0; i < 169; i++)
 	{
@@ -164,100 +162,139 @@ void Table::OddsTable()
 		if( hole.length() == 2 )
 		{
 			tmp = a + 'h' + b + 'c';
-			odds[tmp] = weight;
-			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 'h' + b + 's';
-			odds[tmp] = weight;
-			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 'h' + b + 'd';
-			odds[tmp] = weight;    
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;    
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 'c' + b + 'h';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
 			
 			tmp = a + 'c' + b + 's';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
 			
 			tmp = a + 'c' + b + 'd';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 's' + b + 'h';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 's' + b + 'c';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 's' + b + 'd';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 'd' + b + 'h';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 'd' + b + 'c';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 			
 			tmp = a + 'd' + b + 's';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 		}
 		else
 		{ // suited cards
 			tmp = a + 'h' + b + 'h';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 'c' + b + 'c';
-			odds[tmp] = weight;
-			cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 's' + b + 's';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
 
 			tmp = a + 'd' + b + 'd';
-			odds[tmp] = weight;
-            cout << "\nodds[ " << tmp << "] = " << weight << "\n";			
+			preFlopOdds[tmp] = weight;
+            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
 		}
 	}
 	
 	file.close();
 
-} // OddsTable()
+} // preFlopOddsTable()
 
 void Table::NewRound()
 {
+	int p = 0;
+
+	//reset pot and flags
     pot = 0.0;
 	limitAction = false;
+	didAllIn = false;
+
+	//recalculates preFlopOdds table based on new number of players
+	OddsTable(numPlayers);
+	
+	//recreates and shuffles deck
 	deck1.ShuffleCard();
+	
+	//determines where the dealer is to move positions
+	DetDealer();
+	
+	//moves position of dealer
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{
+		iter->SetPos(p);
+		p++;
+	}
+	iter = playerList.begin();
+	for(;iter != (playerList.begin() + (dealerPosition + 1));iter++)
+	{
+		iter->SetPos(p);
+		p++;
+	}
+
+	//starts game
+	NextAction();
 }
 
-void Table::DealCards( int whatRound )
+void Table::DealCards( typeOfDeal d )
 {
 
 } // DealCard
 
 void Table::NextAction()
 {      
-	bool flags = Table::Eligible(); 
+	DealCards(typeOfDeal d = HOLECARDS);
+	bool flags = Eligible(); 
 	//pot += playerx.Action(limitAction);
 } 
 
 void Table::DetDealer()
 {
-    int pos = 0; //= playerx.GetPos();
-	if (pos == 0)
-		dealerPosition = pos;
+	//determines current position of dealer so we can move positions of all players
+	iter = playerList.begin();
+	for(;iter != playerList.end();iter++)
+	{
+		int i = 0;
+		int currPos = iter->GetPos();
+		if (currPos == 0)
+		{
+		    dealerPosition = i;
+		}
+		i++;
+	}
 } // DetDealer()
 
 void Table::DeclareWinner(int winner) 

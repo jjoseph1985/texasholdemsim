@@ -14,6 +14,7 @@ class Deck
 	public:
 		Deck();
 		
+		void CreateDeck();
 		void Clear();
 		void ShuffleCard();
 		

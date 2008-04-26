@@ -15,6 +15,9 @@
 
 using namespace std;
 
+enum typeOfDeal{ HOLECARDS, FLOP, TURN, RIVER };
+enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
+
 class Table
 {
     public:
@@ -22,9 +25,9 @@ class Table
         
 		void Init();
     	void InitPositions();
-		void OddsTable(); 
+		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(int whatRound);
+		void DealCards(typeOfDeal d);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
@@ -37,10 +40,9 @@ class Table
 	    bool limitAction, didAllIn;
 	    double pot;
 		int dealerPosition, numPlayers;
-	    enum typeOfDeal{ HOLECARDS, FLOP, TURN, RIVER };
-		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
-		map<string, double> odds;
+		map<string, double> preFlopOdds;
 		vector<Player> playerList;
+		vector<Player>::iterator iter;
 }; // Table
 
 #endif
