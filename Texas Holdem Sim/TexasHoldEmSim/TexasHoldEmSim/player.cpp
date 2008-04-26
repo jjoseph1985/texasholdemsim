@@ -121,3 +121,13 @@ void Player::CombineCards()
     allCards.push_back(holeCards[0]);
     allCards.push_back(holeCards[1]);
 }
+
+void Player::SetSB(double amnt)
+{
+	smallBlind = amnt;
+}
+
+void Player::SetBB(double amnt)
+{
+	bigBlind = amnt;
+}

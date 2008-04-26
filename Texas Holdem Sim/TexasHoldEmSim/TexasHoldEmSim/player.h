@@ -30,7 +30,7 @@ class Player
         void AddCard(card c, int loc);
         void ClearCards();
         
-      double Action(bool limitAction);
+		double Action(bool limitAction);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
@@ -38,6 +38,9 @@ class Player
         
         void SetPos(int pos);
         int  GetPos();
+
+		void SetSB(double amnt);
+		void SetBB(double amnt);
 
  
   private:
@@ -54,7 +57,10 @@ class Player
         hand myHand;
 		map<string, double> preFlopOdds;
       
-      double money;
+		double money;
+		double smallBlind;
+		double bigBlind;
+
         bool fold;
         bool bust;
         bool allIn;
