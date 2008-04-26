@@ -52,9 +52,11 @@ int main( int argc, char ** argv )
 	char k;
 	cin >> k;
 	*/
+	
 
-	Table table(mPairs.find("Money")->second), mPairs.find("Players")->second,
-	            mPairs.find("Small Blind")->second, mPairs.find("Dealer")->second );
+	Table table(strtod((mPairs.find("Money")->second).c_str(), NULL),
+		        atoi((mPairs.find("Players")->second).c_str()),
+	            strtod((mPairs.find("Small Blind")->second).c_str(), NULL));
 	table.Init();
 
     
@@ -225,7 +227,6 @@ void InitKeys( vector<string>& vKeys)
     vKeys.push_back("Players");
     vKeys.push_back("Money");
     vKeys.push_back("Small blind");
-    vKeys.push_back("Dealer");
     vKeys.push_back("OFF-BY-ONE");
     
 } // InitKeys()
