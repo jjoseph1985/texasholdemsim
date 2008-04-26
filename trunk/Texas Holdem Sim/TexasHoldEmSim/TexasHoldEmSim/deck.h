@@ -18,6 +18,9 @@ class Deck
 		void Clear();
 		void ShuffleCard();
 		
+		//Evaluation of cards to remove cards already in hand
+		void RemoveKnownCards(vector<card> holeCards, vector<card> tableCards);
+		
 		vector<card> deck;
 };
 #endif

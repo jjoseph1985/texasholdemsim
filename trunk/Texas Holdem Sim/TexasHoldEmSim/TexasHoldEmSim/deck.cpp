@@ -133,3 +133,8 @@ void Deck::Clear()
 {
     deck.clear();
 }
+
+void Deck::RemoveKnownCards(vector<card> holeCards, vector<card> tableCards)
+{
+
+}

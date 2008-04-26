@@ -58,6 +58,9 @@ void Player::ClearCards()
 
 double Player::Action(bool limitAction)
 {
+	possibleTurnCards.deck.ShuffleCard();
+	possibleRiverCards.deck.ShuffleCard();
+
     if(limitAction)
     {
     

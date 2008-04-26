@@ -42,6 +42,11 @@ class Player
   private:
         vector<card> holeCards;
         vector<card> tableCards;
+		
+		// NE: evaluation cards
+		Deck possibleTurnCards;
+		Deck possibleRiverCards;
+
         hand myHand;
 		map<string, double> preFlopOdds;
       
