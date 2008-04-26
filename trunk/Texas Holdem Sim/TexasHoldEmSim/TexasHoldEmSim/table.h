@@ -32,7 +32,7 @@ class Table
 		void DetDealer();
 	    void DeclareWinner(int winner);
 		void Eligible();
-		bool CheckTime();
+		void ChangeBlinds();
 
 
 		Deck deck1;
@@ -40,7 +40,7 @@ class Table
     private:
 	    bool limitAction;
 	    double pot, bigBlind, smallBlind;
-		int dealerPosition, numPlayers;
+		int dealerPosition, numPlayers, numOfRoundsPlayed;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
 		vector<Player> tempList10Players;

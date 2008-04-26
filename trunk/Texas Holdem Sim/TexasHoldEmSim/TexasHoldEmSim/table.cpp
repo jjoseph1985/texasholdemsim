@@ -2,9 +2,8 @@
 
 #include "table.h"
 
-Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAmnt), bigBlind(sbAmnt * 2)
+Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAmnt), bigBlind(sbAmnt * 2), numOfRoundsPlayed(0)
 {
-	numPlayers=num;
 	Player player1(m,preFlopOdds);
 	Player player2(m,preFlopOdds);
 	Player player3(m,preFlopOdds);
@@ -25,9 +24,11 @@ Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAm
 	tempList10Players.push_back(player8);
 	tempList10Players.push_back(player9);
 	tempList10Players.push_back(player10);
-	for(int i; i!=numPlayers; i++)
+	
+	vector<Player>::iterator iter = tempList10Players.begin();
+    for(; iter!=tempList10Players.end(); iter++)
 	{
-		playerList.push_back(tempList10Players[i]);
+		playerList.push_back(*iter);
 	}
 }
 
@@ -496,10 +497,21 @@ void Table::Eligible()
 	}
 }
 
-bool CheckTime()
+void Table::ChangeBlinds()
 {
-	return false;
+	numOfRoundsPlayed++;
 
+	int randNum = (rand()%10)+1;
+
+	if(numOfRoundsPlayed==1 || randNum==2)
+	{
+		vector<Player>::iterator iter = playerList.begin();
+		for(; iter!=playerList.end(); iter++)
+		{
+			iter->SetSB(smallBlind);
+			iter->SetBB(bigBlind);
+		}
+	}
 }
 
 
