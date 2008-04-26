@@ -247,7 +247,7 @@ void Table::NewRound()
 	
 	//recreates and shuffles deck
 	deck1.ShuffleCard();
-	
+
 	//determines where the dealer is to move positions
 	DetDealer();
 	
@@ -265,19 +265,100 @@ void Table::NewRound()
 		p++;
 	}
 
+	//update dealer
+	DetDealer();
+	
 	//starts game
 	NextAction();
 }
 
-void Table::DealCards(int i )
+void Table::DealCards(int j)
 {
+	
+	int g = 1;
+
+	if(j == HOLECARDS)
+	{	
+		while(g < 3)
+		{
+			iter = playerList.begin() + (dealerPosition + 1);
+			for(; iter != playerList.end(); iter++)
+			{
+				card c = deck1.deck.back();
+				iter->AddCard(c,HOLECARDS);
+				deck1.deck.pop_back();
+			}
+			iter = playerList.begin();
+			for(; iter != (playerList.begin() + (dealerPosition + 1)); iter++)
+			{
+				card c = deck1.deck.back();
+				iter->AddCard(c,HOLECARDS);
+				deck1.deck.pop_back();
+			}
+			g++;
+		}
+	}
+	else if(j == FLOP)
+	{
+		g = 1;
+		while(g < 4)
+		{
+			for(;iter != playerList.end();iter++)
+			{
+				card c = deck1.deck.back();
+				iter->AddCard(c,FLOP);
+			}
+			iter = playerList.begin();
+			for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
+			{
+				card c = deck1.deck.back();
+				iter->AddCard(c,FLOP);
+			}
+			deck1.deck.pop_back();
+			g++;
+		}
+
+	}
+	else if(j == TURN)
+	{
+		for(;iter != playerList.end();iter++)
+		{
+			card c = deck1.deck.back();
+			iter->AddCard(c,TURN);
+		}
+		iter = playerList.begin();
+		for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
+		{
+			card c = deck1.deck.back();
+			iter->AddCard(c,TURN);
+		}
+		deck1.deck.pop_back();
+	}
+	else if(j == RIVER)
+	{
+		for(;iter != playerList.end();iter++)
+		{
+			card c = deck1.deck.back();
+			iter->AddCard(c,RIVER);
+		}
+		iter = playerList.begin();
+		for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
+		{
+			card c = deck1.deck.back();
+			iter->AddCard(c,RIVER);
+		}
+		deck1.deck.pop_back();
+	}
 
 } // DealCard
 
 void Table::NextAction()
-{      
+{     
 	DealCards(HOLECARDS);
-	bool flags = Eligible(); 
+	bool flags = Eligible();
+	DealCards(FLOP);
+	DealCards(TURN);
+	DealCards(RIVER);
 	//pot += playerx.Action(limitAction);
 } 
 
@@ -285,9 +366,9 @@ void Table::DetDealer()
 {
 	//determines current position of dealer so we can move positions of all players
 	iter = playerList.begin();
+	int i = 0;
 	for(;iter != playerList.end();iter++)
-	{
-		int i = 0;
+	{		
 		int currPos = iter->GetPos();
 		if (currPos == 0)
 		{

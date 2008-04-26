@@ -27,12 +27,13 @@ class Table
     	void InitPositions();
 		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(int i);
+		void DealCards(int j);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
 		bool Eligible();
 		void CheckTime();
+
 
 		Deck deck1;
 
