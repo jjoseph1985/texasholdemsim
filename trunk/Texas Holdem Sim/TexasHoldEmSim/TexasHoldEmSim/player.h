@@ -20,7 +20,7 @@ class Player
 {
   public:
         Player();
-        Player(double m);
+        Player(double m, map<string, double>& preFlop);
         
         void AddMoney(double amt);
       double GetMoney();
@@ -43,6 +43,7 @@ class Player
         vector<card> holeCards;
         vector<card> tableCards;
         hand myHand;
+		map<string, double> preFlopOdds;
       
       double money;
         bool fold;

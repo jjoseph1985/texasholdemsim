@@ -10,9 +10,10 @@ Player::Player()
 }
 
 
-Player::Player(double m): pos(-1), fold(false), bust(false), allIn(false)
+Player::Player(double m,map<string, double>& preFlop): pos(-1), fold(false), bust(false), allIn(false)
 { 
     money = m;
+	preFlopOdds = preFlop;
 } // Player()
 
         
@@ -40,7 +41,7 @@ void Player::AddCard(card c, int loc)
     {
         holeCards.push_back(c);   
     }
-    else if(loc == TABLECARDS)
+    else
     {
         tableCards.push_back(c);
     }

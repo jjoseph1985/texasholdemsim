@@ -5,16 +5,16 @@
 Table::Table(double m, int num)
 {
 	numPlayers=num;
-	Player player1(m);
-	Player player2(m);
-	Player player3(m);
-	Player player4(m);
-	Player player5(m);
-	Player player6(m);
-	Player player7(m);
-	Player player8(m);
-	Player player9(m);
-	Player player10(m);
+	Player player1(m,preFlopOdds);
+	Player player2(m,preFlopOdds);
+	Player player3(m,preFlopOdds);
+	Player player4(m,preFlopOdds);
+	Player player5(m,preFlopOdds);
+	Player player6(m,preFlopOdds);
+	Player player7(m,preFlopOdds);
+	Player player8(m,preFlopOdds);
+	Player player9(m,preFlopOdds);
+	Player player10(m,preFlopOdds);
 	playerList.push_back(player1);
 	playerList.push_back(player2);
 	playerList.push_back(player3);
@@ -269,14 +269,14 @@ void Table::NewRound()
 	NextAction();
 }
 
-void Table::DealCards( typeOfDeal d )
+void Table::DealCards(int i )
 {
 
 } // DealCard
 
 void Table::NextAction()
 {      
-	DealCards(typeOfDeal d = HOLECARDS);
+	DealCards(HOLECARDS);
 	bool flags = Eligible(); 
 	//pot += playerx.Action(limitAction);
 } 
