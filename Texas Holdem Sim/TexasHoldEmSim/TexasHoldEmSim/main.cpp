@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <time.h>
 
 #include "card.h"
 #include "player.h"
@@ -19,6 +20,7 @@ void InitKeys(vector<string>& vKeys);
 
 int main( int argc, char ** argv )
 {
+	srand(time(NULL));
     vector<string> vKeys;
     map<string,string> mPairs;
 
