@@ -582,29 +582,29 @@ void Table::ChangeBlinds()
 	}
 }
 
-void EndGame()
+void Table::EndGame()
 {
 	vector<Player>::iterator iter;
 	iter = playerList.begin(); //sets iter to that winning player
 	cout << "Game Over!\n\n";
-	cout << iter->GetName() << " is the winner!\n"
+	cout << iter->GetName() << " is the winner!\n";
 }
 
-void GetHighBet()
+void Table::GetHighBet()
 {
 	iter = playerList.begin() + (dealerPosition + 1);
 	for(;iter != playerList.end();iter++)
 	{	
 		double currBet = iter->GetBet();
 		if(currBet > highBet)
-			highBet = currBet
+			highBet = currBet;
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
 	{		
 		double currBet = iter->GetBet();
 		if(currBet > highBet)
-			highBet = currBet
+			highBet = currBet;
 	}
 }
 
