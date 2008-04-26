@@ -18,26 +18,26 @@ using namespace std;
 class Table
 {
     public:
-	    Table();    
+	    Table(double m, int num);    
         
 		void Init();
-    	void SetPos(int numPlayers);
+    	void InitPositions();
 		void OddsTable(); 
 		void NewRound();
-		void DealCard(int whatRound);
+		void DealCards(int whatRound);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
 		bool Eligible();
 		void CheckTime();
 
-		Deck deck1(vector<card> deck);
+		Deck deck1;
 
     private:
-	    bool limitAction;
+	    bool limitAction, didAllIn;
 	    double pot;
-		int numPlayers, dealerPosition;
-	    enum round { HOLECARDS, FLOP, TURN, RIVER };
+		int dealerPosition, numPlayers;
+	    enum typeOfDeal{ HOLECARDS, FLOP, TURN, RIVER };
 		enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 		map<string, double> odds;
 		vector<Player> playerList;

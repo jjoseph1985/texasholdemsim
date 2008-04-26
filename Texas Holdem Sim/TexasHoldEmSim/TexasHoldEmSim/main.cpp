@@ -21,14 +21,11 @@ int main( int argc, char ** argv )
 {
     vector<string> vKeys;
     map<string,string> mPairs;
-	Table table;
+	Table table(25,10);
     AnyOption anyOpt;
     string outPutFile = "";
     ofstream fout;
     
-    //vector<Player> blah;
-    //Player p(1);
-
     // Starting things off:
     // 1. Parse the command line
     // 2. Init the keys in the config file
