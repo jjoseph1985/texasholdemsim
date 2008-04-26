@@ -2,7 +2,7 @@
 
 #include "table.h"
 
-Table::Table(double m, int num)
+Table::Table(double m, int num): smallBlind(10), bigBlind(15)
 {
 	numPlayers=num;
 	Player player1(m,preFlopOdds);
@@ -44,14 +44,14 @@ void Table::InitPositions()
 	//cases for each number of players
 	switch(numPlayers)
 	{
-		//if 2 players, 1st player is dealer and small blind, 2 player is Early
+		//if 2 players, 1st player is dealer and small blind, 2nd player is Early
 	    case 2:
 			for(;iter != playerList.end(); iter++)
 			{			
 				
 				iter->SetPos(i);
 				
-				i+=2;
+				i+=3;
 			}
 	        break;
 	    
@@ -240,12 +240,19 @@ void Table::NewRound()
 	//reset pot and flags
     pot = 0.0;
 	limitAction = false;
-	didAllIn = false;
+	
+	//checks to see if its time to raise the blinds and then raises them if it is
+	//bool raise = CheckTime();
+	//if(raise == true)
+	//{
+	//	smallBlind += 5.0;
+	//	bigBlind += 10.0;
+	//}
 
 	//recalculates preFlopOdds table based on new number of players
 	OddsTable(numPlayers);
 	
-	//recreates and shuffles deck
+	//creates and shuffles deck
 	deck1.ShuffleCard();
 
 	//determines where the dealer is to move positions
@@ -272,12 +279,12 @@ void Table::NewRound()
 	NextAction();
 }
 
-void Table::DealCards(int j)
+void Table::DealCards(int type)
 {
 	
 	int g = 1;
 
-	if(j == HOLECARDS)
+	if(type == HOLECARDS)
 	{	
 		while(g < 3)
 		{
@@ -298,7 +305,7 @@ void Table::DealCards(int j)
 			g++;
 		}
 	}
-	else if(j == FLOP)
+	else if(type == FLOP)
 	{
 		g = 1;
 		while(g < 4)
@@ -319,7 +326,7 @@ void Table::DealCards(int j)
 		}
 
 	}
-	else if(j == TURN)
+	else if(type == TURN)
 	{
 		for(;iter != playerList.end();iter++)
 		{
@@ -334,7 +341,7 @@ void Table::DealCards(int j)
 		}
 		deck1.deck.pop_back();
 	}
-	else if(j == RIVER)
+	else if(type == RIVER)
 	{
 		for(;iter != playerList.end();iter++)
 		{
@@ -354,12 +361,87 @@ void Table::DealCards(int j)
 
 void Table::NextAction()
 {     
+	//deal holecards, start actions based on holecards only
 	DealCards(HOLECARDS);
-	bool flags = Eligible();
+	Eligible();
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	
+	//deal flop and than whoever is left continues to make actions
 	DealCards(FLOP);
+	Eligible();
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	
+	//deal turn and then whoever is left continues
 	DealCards(TURN);
+	Eligible();
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+
+	//deal river and whoever is left continues
 	DealCards(RIVER);
-	//pot += playerx.Action(limitAction);
+	Eligible();
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+			pot += iter->Action(limitAction);
+	}
+
+	
 } 
 
 void Table::DetDealer()
@@ -380,16 +462,39 @@ void Table::DetDealer()
 
 void Table::DeclareWinner(int winner) 
 {  
-	//playerx.AddMoney(pot);
+	//set iter to element containing the winner
+	iter = playerList.begin() + winner;
+
+	//gives the winner the money in the pot
+	iter->AddMoney(pot);
+	
+	//starts the next round
+	NewRound();
 }
 
-bool Table::Eligible()
+void Table::Eligible()
 {
-    return true;
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{		
+		if(iter->DidBust())
+			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
+		else if(iter->DidAllIn())
+			limitAction = true; //if someone goes all in, players can't raise
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		if(iter->DidBust())
+			playerList.erase(iter);
+		else if(iter->DidAllIn())
+			limitAction = true;
+	}
 }
 
-void CheckTime()
+bool CheckTime()
 {
+	return false;
 
 }
 
