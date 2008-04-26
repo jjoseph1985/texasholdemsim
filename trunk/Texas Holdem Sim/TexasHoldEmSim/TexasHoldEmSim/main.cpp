@@ -21,17 +21,19 @@ int main( int argc, char ** argv )
 {
     vector<string> vKeys;
     map<string,string> mPairs;
-	Table table(25,10);
+
     AnyOption anyOpt;
     string outPutFile = "";
     ofstream fout;
+    
+
     
     // Starting things off:
     // 1. Parse the command line
     // 2. Init the keys in the config file
     // 3. Map them to their values
     // 4. Open the output file
-    /*InitKeys(vKeys);
+    InitKeys(vKeys);
     outPutFile = ParseCmdLine(argc, argv, vKeys, anyOpt);
     MapKeys(mPairs, vKeys, anyOpt);
     
@@ -40,7 +42,7 @@ int main( int argc, char ** argv )
     {
         cout << "IO Error... could not open " << outPutFile;
         exit(0);
-    }*/
+    }
 	
 	//NE: Just testing the preFlopOdds table printout.
 	/*
@@ -50,6 +52,9 @@ int main( int argc, char ** argv )
 	char k;
 	cin >> k;
 	*/
+
+	Table table(mPairs.find("Money")->second), mPairs.find("Players")->second,
+	            mPairs.find("Small Blind")->second, mPairs.find("Dealer")->second );
 	table.Init();
 
     
@@ -217,12 +222,9 @@ void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOp
 void InitKeys( vector<string>& vKeys)
 {
     // These end up being case insensitive
-    vKeys.push_back("Number of players");
-    vKeys.push_back("Player difficulty");
-    vKeys.push_back("Buy in");
-    vKeys.push_back("Big blind");
+    vKeys.push_back("Players");
+    vKeys.push_back("Money");
     vKeys.push_back("Small blind");
-    vKeys.push_back("Blind timer");
     vKeys.push_back("Dealer");
     vKeys.push_back("OFF-BY-ONE");
     
