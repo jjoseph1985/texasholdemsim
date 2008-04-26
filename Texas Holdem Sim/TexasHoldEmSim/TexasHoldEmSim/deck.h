@@ -19,7 +19,7 @@ class Deck
 		void ShuffleCard();
 		
 		//Evaluation of cards to remove cards already in hand
-		void RemoveKnownCards(vector<card> holeCards, vector<card> tableCards);
+		void RemoveKnownCards(vector<card> wantRemoved);
 		
 		vector<card> deck;
 };

@@ -45,6 +45,7 @@ void Player::AddCard(card c, int loc)
     {
         tableCards.push_back(c);
     }
+   
 } // AddCard()
 
 
@@ -58,8 +59,8 @@ void Player::ClearCards()
 
 double Player::Action(bool limitAction)
 {
-	possibleTurnCards.deck.ShuffleCard();
-	possibleRiverCards.deck.ShuffleCard();
+	possibleTurnCards.ShuffleCard();
+	possibleRiverCards.ShuffleCard();
 
     if(limitAction)
     {
@@ -110,3 +111,13 @@ int Player::GetPos()
 {
     return pos;
 } // GetPos()
+
+
+/* Private Stuff */
+void Player::CombineCards()
+{   
+    allCards.clear();
+    allCards = tableCards;
+    allCards.push_back(holeCards[0]);
+    allCards.push_back(holeCards[1]);
+}

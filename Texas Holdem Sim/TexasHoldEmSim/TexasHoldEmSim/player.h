@@ -13,6 +13,7 @@
 
 #include "card.h"
 #include "hand.h"
+#include "deck.h"
 
 using namespace std;
 
@@ -37,12 +38,15 @@ class Player
         
         void SetPos(int pos);
         int  GetPos();
- 
+
  
   private:
+        void CombineCards();
+  
         vector<card> holeCards;
         vector<card> tableCards;
-		
+        vector<card> allCards;
+        
 		// NE: evaluation cards
 		Deck possibleTurnCards;
 		Deck possibleRiverCards;
