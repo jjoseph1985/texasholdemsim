@@ -4,16 +4,16 @@
 
 Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAmnt), bigBlind(sbAmnt * 2), numOfRoundsPlayed(0)
 {
-	Player player1(m,preFlopOdds);
-	Player player2(m,preFlopOdds);
-	Player player3(m,preFlopOdds);
-	Player player4(m,preFlopOdds);
-	Player player5(m,preFlopOdds);
-	Player player6(m,preFlopOdds);
-	Player player7(m,preFlopOdds);
-	Player player8(m,preFlopOdds);
-	Player player9(m,preFlopOdds);
-	Player player10(m,preFlopOdds);
+	Player player1(m,preFlopOdds, "player1");
+	Player player2(m,preFlopOdds, "player2");
+	Player player3(m,preFlopOdds, "player3");
+	Player player4(m,preFlopOdds, "player4");
+	Player player5(m,preFlopOdds, "player5");
+	Player player6(m,preFlopOdds, "player6");
+	Player player7(m,preFlopOdds, "player7");
+	Player player8(m,preFlopOdds, "player8");
+	Player player9(m,preFlopOdds, "player9");
+	Player player10(m,preFlopOdds, "player10");
 	tempList10Players.push_back(player1);
 	tempList10Players.push_back(player2);
 	tempList10Players.push_back(player3);
@@ -244,16 +244,16 @@ void Table::NewRound()
 
 	//reset pot and flags
     pot = 0.0;
-	limitAction = false;
-	
-	//checks to see if its time to raise the blinds and then raises them if it is
-	//bool raise = CheckTime();
-	//if(raise == true)
-	//{
-	//	smallBlind += 5.0;
-	//	bigBlind += 10.0;
-	//}
+	limitRaise = false;
+	highBet = bigBlind;
 
+	//resets players variables, except money and position
+	iter = playerList.begin();
+	for(;iter != playerList.end();iter++)
+	{		
+		iter->Reset();
+	}
+	
 	//recalculates preFlopOdds table based on new number of players
 	OddsTable(numPlayers);
 	
@@ -378,7 +378,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet(); //determines the highest bet to pass to the next player
+		}
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
@@ -386,7 +389,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 	
 	//deal flop and than whoever is left continues to make actions
@@ -398,7 +404,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
@@ -406,7 +415,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 	
 	//deal turn and then whoever is left continues
@@ -418,7 +430,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
@@ -426,7 +441,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 
 	//deal river and whoever is left continues
@@ -438,7 +456,10 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
@@ -446,10 +467,35 @@ void Table::NextAction()
 		if(iter->DidFold())
 			continue; //skip them, they don't get an action			
 		else
-			pot += iter->Action(limitAction);
+		{
+			pot += iter->Action(limitRaise, highBet);
+			GetHighBet();
+		}
 	}
-
 	
+	//searches each players hand and determines the best hand of all players
+	iter = playerList.begin();
+	hand bestHand;
+	for(;iter != playerList.end();iter++)
+	{	
+		hand hand1 = iter->ShowHand();
+		if(hand1.beats(bestHand))
+		{
+			bestHand = hand1;
+			winner = iter->GetPos();
+		}
+	}
+	
+	//searches for playerwho was at the winner position and sends it to DeclareWinner
+	iter = playerList.begin();
+	int loc = 0;
+	for(;iter != playerList.end();iter++)
+	{	
+		int playPos = iter->GetPos();
+		if(winner == playPos)
+			DeclareWinner(loc);
+		loc++;
+	}
 } 
 
 void Table::DetDealer()
@@ -476,8 +522,15 @@ void Table::DeclareWinner(int winner)
 	//gives the winner the money in the pot
 	iter->AddMoney(pot);
 	
-	//starts the next round
-	NewRound();
+	//determines if the game is over
+	Eligible();
+	if(playerList.size() == 1)
+	{
+		EndGame(); //ends the game if there is only one elegible player left
+	}
+	else
+		NewRound(); //starts the next round
+	
 }
 
 void Table::Eligible()
@@ -488,7 +541,7 @@ void Table::Eligible()
 		if(iter->DidBust())
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
 		else if(iter->DidAllIn())
-			limitAction = true; //if someone goes all in, players can't raise
+			limitRaise = true; //if someone goes all in, players can't raise
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
@@ -496,7 +549,7 @@ void Table::Eligible()
 		if(iter->DidBust())
 			playerList.erase(iter);
 		else if(iter->DidAllIn())
-			limitAction = true;
+			limitRaise = true;
 	}
 }
 
@@ -528,6 +581,33 @@ void Table::ChangeBlinds()
 		}
 	}
 }
+
+void EndGame()
+{
+	vector<Player>::iterator iter;
+	iter = playerList.begin(); //sets iter to that winning player
+	cout << "Game Over!\n\n";
+	cout << iter->GetName() << " is the winner!\n"
+}
+
+void GetHighBet()
+{
+	iter = playerList.begin() + (dealerPosition + 1);
+	for(;iter != playerList.end();iter++)
+	{	
+		double currBet = iter->GetBet();
+		if(currBet > highBet)
+			highBet = currBet
+	}
+	iter = playerList.begin();
+	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
+	{		
+		double currBet = iter->GetBet();
+		if(currBet > highBet)
+			highBet = currBet
+	}
+}
+
 
 
 
