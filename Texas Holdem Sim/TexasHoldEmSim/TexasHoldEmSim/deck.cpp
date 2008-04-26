@@ -3,9 +3,11 @@
 Deck::Deck()
 {
    
-    
-    
-    card c1('A', 'S');
+}
+
+void Deck::CreateDeck()
+{
+	card c1('A', 'S');
     deck.push_back(c1);
     card c2('K', 'S');     // SPADE CARDS 
     deck.push_back(c1);
@@ -116,15 +118,13 @@ Deck::Deck()
     card c52('2', 'D');
     deck.push_back(c1);
 
-    
 
-
- 
- 
 }
 
 void Deck::ShuffleCard()
 {
+	Clear();
+	CreateDeck();
     srand( time(NULL) );
     random_shuffle(deck.begin(), deck.end());
 }

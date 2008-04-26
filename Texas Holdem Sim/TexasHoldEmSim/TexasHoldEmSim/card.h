@@ -8,8 +8,6 @@
 
 using namespace std;
 
-enum {HOLECARDS, TABLECARDS};
-
 class card
 {
     public:

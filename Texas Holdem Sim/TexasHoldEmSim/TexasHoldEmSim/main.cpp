@@ -42,7 +42,7 @@ int main( int argc, char ** argv )
         exit(0);
     }*/
 	
-	//NE: Just testing the odds table printout.
+	//NE: Just testing the preFlopOdds table printout.
 	/*
 	GameFlow* fl;
 	game testGame(fl);
