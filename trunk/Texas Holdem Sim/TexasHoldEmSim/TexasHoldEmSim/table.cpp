@@ -2,7 +2,7 @@
 
 #include "table.h"
 
-Table::Table(double m, int num): smallBlind(10), bigBlind(15)
+Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAmnt), bigBlind(sbAmnt * 2)
 {
 	numPlayers=num;
 	Player player1(m,preFlopOdds);

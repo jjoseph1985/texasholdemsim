@@ -21,7 +21,7 @@ enum { DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 class Table
 {
     public:
-	    Table(double m, int num);    
+	    Table(double m, int num, double sBAmnt);    
         
 		void Init();
     	void InitPositions();
