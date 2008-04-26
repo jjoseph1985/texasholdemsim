@@ -134,7 +134,21 @@ void Deck::Clear()
     deck.clear();
 }
 
-void Deck::RemoveKnownCards(vector<card> holeCards, vector<card> tableCards)
+void Deck::RemoveKnownCards(vector<card> wantRemoved)
 {
+    vector<card>::iterator iter1 = wantRemoved.begin();
+    vector<card>::iterator iter2 = deck.begin();
+
+    for(; iter1!=wantRemoved.end(); iter1++)
+        for(; iter2!=deck.end(); iter2++)
+        {
+/*            if(iter1==iter2)
+            {
+                iter2.erase();
+            }
+            else
+                continue;
+*/                
+        }
 
 }
