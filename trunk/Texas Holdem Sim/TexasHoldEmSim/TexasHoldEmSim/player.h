@@ -21,16 +21,16 @@ class Player
 {
   public:
         Player();
-        Player(double m, map<string, double>& preFlop);
+        Player(double m, map<string, double>& preFlop, string name);
         
         void AddMoney(double amt);
-      double GetMoney();
+		double GetMoney();
         
         hand ShowHand();
         void AddCard(card c, int loc);
         void ClearCards();
         
-		double Action(bool limitAction);
+		double Action(bool limitRaise, double currentHighBet);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
@@ -39,12 +39,20 @@ class Player
         void SetPos(int pos);
         int  GetPos();
 
+		string GetName();
+		double GetBet();
+
 		void SetSB(double amnt);
 		void SetBB(double amnt);
 
  
   private:
         void CombineCards();
+		double Call(double HighBet);
+		double Fold();
+		double Check();
+		double Raise(double HighBet, double amnt);
+		double AllIn();
   
         vector<card> holeCards;
         vector<card> tableCards;
@@ -58,8 +66,11 @@ class Player
 		map<string, double> preFlopOdds;
       
 		double money;
+		double myBet;
 		double smallBlind;
 		double bigBlind;
+
+		string name;
 
         bool fold;
         bool bust;

@@ -10,10 +10,11 @@ Player::Player()
 }
 
 
-Player::Player(double m,map<string, double>& preFlop): pos(-1), fold(false), bust(false), allIn(false)
+Player::Player(double m,map<string, double>& preFlop, string Name): pos(-1), fold(false), bust(false), allIn(false), myBet(0)
 { 
     money = m;
 	preFlopOdds = preFlop;
+	name = Name;
 } // Player()
 
         
@@ -54,24 +55,41 @@ void Player::ClearCards()
     myHand.clear();
     tableCards.clear();
     holeCards.clear();
+	allCards.clear();
 } // ClearCard()
 
 
-double Player::Action(bool limitAction)
+double Player::Action(bool limitRaise, double currentHighBet)
 {
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
 
-    if(limitAction)
-    {
-    
-    }
-    else
-    {
-    
-    }
-    
-    return 0.0;
+	/*---------AI STUFF TO BE REPLACED---------*/
+	int decision = (rand()%4)+1; //1=check;2=call;3=raise&call;4=fold
+
+	//Can't raise if limited and can't check if they owe money
+	/*while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
+	{
+		decision = (rand()%4)+1;
+	}
+*/
+	cout << decision << "\n";
+	/*---------DON'T REPLACE BELOW---------*/
+	switch(decision)
+	{//now do decision
+		case 1 : 
+			return Check();
+			break;
+		case 2 : 
+			return Call(currentHighBet);
+			break;
+		case 3 : 
+			return Raise(currentHighBet, 10);
+			break;
+		case 4 : 
+			return Fold();
+			break;
+	}
 } // Action()
 
 bool Player::DidFold()
@@ -97,7 +115,8 @@ void Player::Reset()
     bust  = false;
     fold  = false;
     allIn = false;
-
+	myBet = 0;
+	ClearCards();
 } // Reset()
 
 
@@ -112,6 +131,15 @@ int Player::GetPos()
     return pos;
 } // GetPos()
 
+string Player::GetName()
+{
+    return name;
+} // GetName()
+
+double Player::GetBet()
+{
+    return myBet;
+} // GetBet()
 
 /* Private Stuff */
 void Player::CombineCards()
@@ -131,3 +159,54 @@ void Player::SetBB(double amnt)
 {
 	bigBlind = amnt;
 }
+
+double Player::Call(double HighBet)
+{
+	if((HighBet - myBet) == 0)
+		return Check();
+	if((HighBet - myBet) > money)
+	{
+		allIn = true;
+		double temp = money;
+		money = 0;
+		return temp;
+	}
+
+	money -= (HighBet - myBet);
+	myBet = HighBet;
+
+	cout << HighBet << name << " called " << (HighBet - myBet) << "\n";
+	return (HighBet - myBet);
+}//Call
+
+double Player::Fold()
+{
+	fold = true;
+	cout << name << " folded -- loser!\n";
+	return 0.0;
+}//Fold
+
+double Player::Check()
+{
+	cout << name << " checked (knock-knock)\n";
+	return 0.0;
+}//Check
+
+double Player::Raise(double HighBet, double amnt)
+{
+	if((HighBet - myBet + amnt) > money)
+		return Call(HighBet);
+
+	money -= (HighBet - myBet + amnt);
+	myBet = HighBet + amnt;
+	cout << name << " called " << (HighBet - myBet) << " and raised " << amnt << "\n";
+	return (HighBet - myBet + amnt);
+}//Raise
+
+double Player::AllIn()
+{
+	allIn = true;
+	double temp = money;
+	money = 0.0;
+	return temp;
+}//Raise
