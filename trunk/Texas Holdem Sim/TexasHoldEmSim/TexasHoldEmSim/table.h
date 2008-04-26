@@ -33,14 +33,16 @@ class Table
 	    void DeclareWinner(int winner);
 		void Eligible();
 		void ChangeBlinds();
+		void EndGame();
+		void GetHighBet();
 
 
 		Deck deck1;
 
     private:
-	    bool limitAction;
-	    double pot, bigBlind, smallBlind;
-		int dealerPosition, numPlayers, numOfRoundsPlayed;
+	    bool limitRaise;
+	    double pot, bigBlind, smallBlind, highBet;
+		int dealerPosition, numPlayers, numOfRoundsPlayed, winner;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
 		vector<Player> tempList10Players;

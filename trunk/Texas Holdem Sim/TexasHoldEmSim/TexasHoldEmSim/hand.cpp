@@ -130,7 +130,6 @@ void hand::clear()
 } // clear()
 
 
-// MJB: Needs to be tested
 bool hand::isStraight( const vector<card>& h, handType& type )
 {
     bool rval = false;
