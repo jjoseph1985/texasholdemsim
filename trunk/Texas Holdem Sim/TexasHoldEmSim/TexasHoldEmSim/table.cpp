@@ -15,16 +15,20 @@ Table::Table(double m, int num): smallBlind(10), bigBlind(15)
 	Player player8(m,preFlopOdds);
 	Player player9(m,preFlopOdds);
 	Player player10(m,preFlopOdds);
-	playerList.push_back(player1);
-	playerList.push_back(player2);
-	playerList.push_back(player3);
-	playerList.push_back(player4);
-	playerList.push_back(player5);
-	playerList.push_back(player6);
-	playerList.push_back(player7);
-	playerList.push_back(player8);
-	playerList.push_back(player9);
-	playerList.push_back(player10);
+	tempList10Players.push_back(player1);
+	tempList10Players.push_back(player2);
+	tempList10Players.push_back(player3);
+	tempList10Players.push_back(player4);
+	tempList10Players.push_back(player5);
+	tempList10Players.push_back(player6);
+	tempList10Players.push_back(player7);
+	tempList10Players.push_back(player8);
+	tempList10Players.push_back(player9);
+	tempList10Players.push_back(player10);
+	for(int i; i!=numPlayers; i++)
+	{
+		playerList.push_back(tempList10Players[i]);
+	}
 }
 
 void Table::Init()
