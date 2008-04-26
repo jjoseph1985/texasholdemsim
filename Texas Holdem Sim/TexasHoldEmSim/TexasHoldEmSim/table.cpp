@@ -280,6 +280,9 @@ void Table::NewRound()
 	//update dealer
 	DetDealer();
 	
+	//Init/Update the blind amounts based off of 1st round or random num of 2 out of (1-10)
+	ChangeBlinds();
+
 	//starts game
 	NextAction();
 }
@@ -502,6 +505,18 @@ void Table::ChangeBlinds()
 	numOfRoundsPlayed++;
 
 	int randNum = (rand()%10)+1;
+
+	if(randNum==2)
+	{
+		if(smallBlind >= 200)
+		{
+			randNum = 0;
+		}else
+		{
+			smallBlind *= 2;
+			bigBlind *= 2;
+		}
+	}
 
 	if(numOfRoundsPlayed==1 || randNum==2)
 	{
