@@ -20,6 +20,9 @@ class card
         char getsuit() const;
         char getnum() const;
         int  getfacenum() const;
+	
+		// NE: overload equals comparison to see if two card are equal
+		friend bool operator== (card &card1, card &card2);
 		
     private:
         char suit;
