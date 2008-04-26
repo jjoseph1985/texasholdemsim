@@ -91,3 +91,9 @@ int card::getfacenum() const
     
     return temp;
 } // getfacenum()
+
+// NE: overload equals comparison
+bool operator== (card &card1, card &card2)  
+{  
+	return (card1.whatcard() == card2.whatcard());  
+} 
