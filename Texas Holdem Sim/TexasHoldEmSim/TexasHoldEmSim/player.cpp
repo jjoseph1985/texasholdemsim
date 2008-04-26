@@ -41,7 +41,7 @@ void Player::AddCard(card c, int loc)
     {
         holeCards.push_back(c);   
     }
-    else
+    else if( loc == FLOP || loc == TURN || loc == RIVER)
     {
         tableCards.push_back(c);
     }
