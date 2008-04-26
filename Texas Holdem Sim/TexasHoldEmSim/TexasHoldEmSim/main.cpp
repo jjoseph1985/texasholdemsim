@@ -43,33 +43,14 @@ int main( int argc, char ** argv )
         cout << "IO Error... could not open " << outPutFile;
         exit(0);
     }
-	
-	//NE: Just testing the preFlopOdds table printout.
-	/*
-	GameFlow* fl;
-	game testGame(fl);
-	//wait
-	char k;
-	cin >> k;
-	*/
-	
+    
 
 	Table table(strtod((mPairs.find("Money")->second).c_str(), NULL),
 		        atoi((mPairs.find("Players")->second).c_str()),
 	            strtod((mPairs.find("Small Blind")->second).c_str(), NULL));
 	table.Init();
+    
 
-    
-	// TODO: Write the main application so that the sim starts and plays itself.
-    //       Because it is currently gui driven they are using QT related things
-    //       to progress through the game if no human players are left (pretty sure).
-    //       
-    //       Problem: Comp class doesn't work at the moment...
-    //
-    //       http://www.nd.edu/~cseprog/proj04_331/deepgold/source/
-    
-    // TODO: Initialize appropriate components based upon the mPairs map.
-    
     fout.close();
     
     return 0;   
@@ -206,18 +187,22 @@ void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOp
     for(vit = vKeys.begin(); vit < (vKeys.end() - 1); vit++)
     {
         char* tmpVal = anyOpt.getValue((*vit).c_str());
+        cout << "tmpVal: " << tmpVal;
+        
         string value(tmpVal);
         string key(*vit);
 
         mPairs.insert( pair<string,string>(key,value));
     }
 
-    /*
+    
+/*
     for(mit = mPairs.begin(); mit != mPairs.end(); mit++)
     {
-        fout << mit->first << " : " << mit->second << "\n";
+        cout << mit->first << " : " << mit->second << "\n";
     }
-    */
+*/
+    
 } // MapKeys()
 
 
@@ -226,7 +211,7 @@ void InitKeys( vector<string>& vKeys)
     // These end up being case insensitive
     vKeys.push_back("Players");
     vKeys.push_back("Money");
-    vKeys.push_back("Small blind");
+    vKeys.push_back("Small Blind");
     vKeys.push_back("OFF-BY-ONE");
     
 } // InitKeys()
