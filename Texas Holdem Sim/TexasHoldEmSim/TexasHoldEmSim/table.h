@@ -15,8 +15,8 @@
 
 using namespace std;
 
-enum typeOfDeal{ HOLECARDS, FLOP, TURN, RIVER };
-enum posAtTable{ DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
+
+enum { DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 
 class Table
 {
@@ -27,7 +27,7 @@ class Table
     	void InitPositions();
 		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(typeOfDeal d);
+		void DealCards(int i);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
