@@ -27,19 +27,19 @@ class Table
     	void InitPositions();
 		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(int j);
+		void DealCards(int type);
 		void NextAction();
 		void DetDealer();
 	    void DeclareWinner(int winner);
-		bool Eligible();
-		void CheckTime();
+		void Eligible();
+		bool CheckTime();
 
 
 		Deck deck1;
 
     private:
-	    bool limitAction, didAllIn;
-	    double pot;
+	    bool limitAction;
+	    double pot, bigBlind, smallBlind;
 		int dealerPosition, numPlayers;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
