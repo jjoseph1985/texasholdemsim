@@ -4,7 +4,7 @@
 
 Table::Table(double m, int num, double sbAmnt):
  numPlayers(num), smallBlind(sbAmnt),bigBlind(sbAmnt * 2), numOfRoundsPlayed(0),
- limitRaise1(false), limitRaise2(false), numRaises(0), pot(0), winner(0)
+ limitRaise1(false), limitRaise2(false), numRaises(0), highBet(0), pot(0), winner(0)
 {
 	Player player0(m,preFlopOdds, "player0");
 	Player player1(m,preFlopOdds, "player1");
@@ -312,7 +312,7 @@ void Table::NextAction()
 	DeclareWinner();
 } 
 
-void Table::NextActionHelper(double highBet, bool isHole)
+void Table::NextActionHelper(double theHighBet, bool isHole)
 {   
 
     // Get SmallBlind == the first person to "bet" (even if it is forced)
@@ -325,7 +325,7 @@ void Table::NextActionHelper(double highBet, bool isHole)
         if(iter == playerList.end())
 			iter = playerList.begin();
 			
-        if(isFirstIter == false && CheckAllBets(highBet) == true)
+        if(isFirstIter == false && CheckAllBets(theHighBet) == true)
         {
             break;
         }
@@ -357,14 +357,14 @@ void Table::NextActionHelper(double highBet, bool isHole)
 	limitRaise2 = false;
 } //NextActionHelper
 
-bool Table::CheckAllBets(double highBet)
+bool Table::CheckAllBets(double theHighBet)
 {
     bool rval = false;    
     
 	vector<Player>::iterator iter; 
 	for(iter = playerList.begin(); iter!=playerList.end(); iter++)
 	{
-		if(iter->GetBet() != highBet)
+		if(iter->GetBet() != theHighBet)
 			rval =  false;
 		else
 			rval = true;

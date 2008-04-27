@@ -39,14 +39,14 @@ class Table
 		void ChangeBlinds();
 		void EndGame();
 		void GetHighBet();
-		bool CheckAllBets(double highBet);
+		bool CheckAllBets(double theHighBet);
 
 		Deck deck1;
 
     private:
         void AddToMap(string cardStr, double weight);
         void DealCardHelper(int type);
-		void NextActionHelper(double highBet, bool isHole);
+		void NextActionHelper(double theHighBet, bool isHole);
 		void FindJob(int desiredJob);
         
 	    bool limitRaise1; //limit because someone went all in
