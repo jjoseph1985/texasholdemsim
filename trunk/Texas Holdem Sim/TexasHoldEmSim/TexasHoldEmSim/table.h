@@ -17,40 +17,44 @@
 
 using namespace std;
 
-enum { DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
+
 
 class Table
 {
+
+
     public:
+        enum jobs { DEALER, SMALLBLIND, BIGBLIND};    
 	    Table(double m, int num, double sBAmnt);    
         
 		void Init();
     	void InitPositions();
+    	void ChangePositions();
 		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(int type);
+		void DealCards(const int type);
 		void NextAction();
-		void DetDealer();
-	    void DeclareWinner(int winner);
+	    void DeclareWinner();
 		void Eligible();
 		void ChangeBlinds();
 		void EndGame();
 		void GetHighBet();
-		bool CheckAllBets(double HighBet);
+		bool CheckAllBets(double highBet);
 
 		Deck deck1;
 
     private:
         void AddToMap(string cardStr, double weight);
-        void DealCardHelper();
-		void NextActionHelper(double HighBet, bool isHole);
+        void DealCardHelper(const int type);
+		void NextActionHelper(double highBet, bool isHole);
+		void FindJob(const int desiredJob);
         
 	    bool limitRaise1; //limit because someone went all in
 		bool limitRaise2; //limit because 2 raises have been made
 		int numRaises;
 
 	    double pot, bigBlind, smallBlind, highBet;
-		int dealerPosition, numPlayers, numOfRoundsPlayed, winner;
+		int numPlayers, numOfRoundsPlayed, winner;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
 		vector<Player> tempList10Players;

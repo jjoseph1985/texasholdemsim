@@ -19,7 +19,10 @@ using namespace std;
 
 class Player
 {
+
   public:
+        enum jobs { DEALER, SMALLBLIND, BIGBLIND};
+        
         Player();
         Player(double m, map<string, double>& preFlop, string name);
         
@@ -30,28 +33,28 @@ class Player
         void AddCard(card c, int loc);
         void ClearCards();
         
-		double Action(bool limitRaise, double currentHighBet);
+		double Action(bool limitRaise, double currentHighBet, bool isHole, bool isFirstIter);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
         void Reset();
-        
-        void SetPos(int pos);
-        int  GetPos();
 
 		string GetName();
 		double GetBet();
 
 		void SetSB(double amnt);
 		void SetBB(double amnt);
+		
+		int    GetJob();
+		void   SetJob(int theJob);		
 
  
   private:
         void CombineCards();
-		double Call(double HighBet);
+		double Call(double highBet);
 		double Fold();
 		double Check();
-		double Raise(double HighBet, double amnt);
+		double Raise(double highBet, double amnt);
 		double AllIn();
   
         vector<card> holeCards;
@@ -75,7 +78,7 @@ class Player
         bool fold;
         bool bust;
         bool allIn;
-        int  pos;
+        int  job;
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     

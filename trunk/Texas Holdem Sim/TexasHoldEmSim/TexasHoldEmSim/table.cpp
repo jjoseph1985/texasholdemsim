@@ -2,8 +2,11 @@
 
 #include "table.h"
 
-Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAmnt), bigBlind(sbAmnt * 2), numOfRoundsPlayed(0)
+Table::Table(double m, int num, double sbAmnt):
+ numPlayers(num), smallBlind(sbAmnt),bigBlind(sbAmnt * 2), numOfRoundsPlayed(0),
+ limitRaise1(false), limitRaise2(false), numRaises(0), pot(0), highBet(0), winner(0)
 {
+	Player player0(m,preFlopOdds, "player0");
 	Player player1(m,preFlopOdds, "player1");
 	Player player2(m,preFlopOdds, "player2");
 	Player player3(m,preFlopOdds, "player3");
@@ -13,7 +16,8 @@ Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAm
 	Player player7(m,preFlopOdds, "player7");
 	Player player8(m,preFlopOdds, "player8");
 	Player player9(m,preFlopOdds, "player9");
-	Player player10(m,preFlopOdds, "player10");
+
+    tempList10Players.push_back(player0);
 	tempList10Players.push_back(player1);
 	tempList10Players.push_back(player2);
 	tempList10Players.push_back(player3);
@@ -23,13 +27,14 @@ Table::Table(double m, int num, double sbAmnt): numPlayers(num), smallBlind(sbAm
 	tempList10Players.push_back(player7);
 	tempList10Players.push_back(player8);
 	tempList10Players.push_back(player9);
-	tempList10Players.push_back(player10);
 	
-	vector<Player>::iterator iter = tempList10Players.begin();
-    for(; iter!=tempList10Players.end(); iter++)
+	vector<Player>::iterator it = tempList10Players.begin();
+    
+    for(int i=0; i!=numPlayers; i++, it++) //it!=tempList10Players.end(); it++)
 	{
-		playerList.push_back(*iter);
+		playerList.push_back(*it);
 	}
+	
 }
 
 void Table::Init()
@@ -40,108 +45,42 @@ void Table::Init()
 
 void Table::InitPositions()
 {	
-	//sets iter to beginning of vector
-	iter = playerList.begin();
-	int i = 0;
-	
-	//positions setup: 0->Dealer,1->small blinds,2->big blinds,3->early,4->middle,5->late
-	
-	//cases for each number of players
-	switch(numPlayers)
-	{
-		//if 2 players, 1st player is dealer and small blind, 2nd player is Early
-	    case 2:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i+=3;
-			}
-	        break;
-	    
-	    case 3:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;
-	        
-	    case 4:
-		    for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;
-	    
-	    case 5:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;
-	        
-	    case 6:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;
-	    
-	    case 7:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;	        	        
-	
-	    case 8:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-	        break;
-	    
-	    case 9:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-			break;
+    // This always works because dealer is always 0 when 
+    // starting the game.
 
-		case 10:
-			for(;iter != playerList.end(); iter++)
-			{			
-				
-				iter->SetPos(i);
-				
-				i++;
-			}
-			break;
-
-	} 
+    iter = playerList.begin();
+    iter->SetJob(DEALER);
+    
+    iter++;
+    iter->SetJob(SMALLBLIND);
+    
+    if(numPlayers > 2)
+    {
+        iter++;
+        iter->SetJob(BIGBLIND);
+    }
 } // InitPositions()
+
+void Table::ChangePositions()
+{
+    
+    FindJob(DEALER);
+    
+    int maxJobs = 3;    //if more than 2 players there are 3 jobs (Dealer, SB, BB)
+    if(numPlayers == 2) //if 2 players (Dealer, SB)
+        maxJobs = 2;
+    
+    for(int k=1; k==maxJobs; k++, iter++)   //loop through number of jobs (2,3)
+    {
+        if(numPlayers == 2)
+        {
+            iter->SetJob(k);   //set job based off of enum jobs
+        }
+        
+        if(iter==playerList.end() )  //loop back to beginning if reached end
+            iter = playerList.begin();
+    }
+}
 
 void Table::OddsTable(int numPlayers)
 {   
@@ -283,25 +222,7 @@ void Table::NewRound()
 	//creates and shuffles deck
 	deck1.ShuffleCard();
 
-	//determines where the dealer is to move positions
-	DetDealer();
-	
-	//moves position of dealer
-	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
-	{
-		iter->SetPos(p);
-		p++;
-	}
-	iter = playerList.begin();
-	for(;iter != (playerList.begin() + (dealerPosition + 1));iter++)
-	{
-		iter->SetPos(p);
-		p++;
-	}
-
-	//update dealer
-	DetDealer();
+    ChangePositions();
 	
 	//Init/Update the blind amounts based off of 1st round or random num of 2 out of (1-10)
 	ChangeBlinds();
@@ -310,115 +231,130 @@ void Table::NewRound()
 	NextAction();
 }
 
-void Table::DealCards(int type)
+void Table::DealCards(const int type)
 {
-    int g = 1;
-
     switch(type)
     {
+        FindJob(SMALLBLIND);
+    		        
         case HOLECARDS:
-            while(g < 3)
-		    {
-		        iter = playerList.begin() + (dealerPosition + 1);
-                DealCardHelper();
-			    g++;
-		    }            
+            for(int i = 1; i < 3; i++)
+                DealCardHelper(HOLECARDS);       
             break;
             
         case FLOP:
-		    g = 1;
-		    while(g < 4)
-		    {
-                DealCardHelper();
-			    g++;
-		    }            
+		    for(int i = 1; i < 4; i++)
+                DealCardHelper(FLOP);
             break;
             
         case TURN:
-            DealCardHelper();
+            DealCardHelper(TURN);
             break;
             
         case RIVER:
-            DealCardHelper();
+            DealCardHelper(RIVER);
             break;                                
     }
 } // DealCard
 
-void Table::DealCardHelper()
-{
-    for(;iter != playerList.end();iter++)
+void Table::DealCardHelper(const int type)
+{   
+    for(int k=1; k==-1; k++, iter++)
     {
+        if(k == numPlayers)
+            break;
+	    
 	    card c = deck1.deck.back();
-	    iter->AddCard(c,FLOP);
+	    iter->AddCard(c,type);
+	    deck1.deck.pop_back();	    
+	    
+	    if(iter == playerList.end())
+            iter = playerList.begin();
     }
-    for(iter = playerList.begin(); iter != playerList.begin() + (dealerPosition + 1);iter++)
-    {
-	    card c = deck1.deck.back();
-	    iter->AddCard(c,FLOP);
-    }
-    deck1.deck.pop_back();    
 }
 
 void Table::NextAction()
 {     
 	//deal holecards, start actions based on holecards only
 	DealCards(HOLECARDS);
+	
 	Eligible();
-	iter = playerList.begin() + (dealerPosition + 3);
+	
 	NextActionHelper(highBet, true);
 	
 	//deal flop and than whoever is left continues to make actions
 	DealCards(FLOP);
+	
 	Eligible();
-	iter = playerList.begin() + (dealerPosition + 1);
 	NextActionHelper(highBet, false);
 	
 	//deal turn and then whoever is left continues
 	DealCards(TURN);
 	Eligible();
-	iter = playerList.begin() + (dealerPosition + 1);
 	NextActionHelper(highBet, false);
 
 	//deal river and whoever is left continues
 	DealCards(RIVER);
 	Eligible();
-	iter = playerList.begin() + (dealerPosition + 1);
 	NextActionHelper(highBet, false);
 	
 	//searches each players hand and determines the best hand of all players
-	iter = playerList.begin();
+	
 	hand bestHand;
-	for(;iter != playerList.end();iter++)
+    vector<Player>::iterator currentWinner;
+    currentWinner = playerList.begin();
+    
+	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{	
 		hand hand1 = iter->ShowHand();
 		if(hand1.beats(bestHand))
 		{
 			bestHand = hand1;
-			winner = iter->GetPos();
+			currentWinner = iter;
 		}
 	}
 	
-	//searches for playerwho was at the winner position and sends it to DeclareWinner
-	iter = playerList.begin();
-	int loc = 0;
-	for(;iter != playerList.end();iter++)
-	{	
-		int playPos = iter->GetPos();
-		if(winner == playPos)
-			DeclareWinner(loc);
-		loc++;
-	}
+	iter=currentWinner;
+	
+	DeclareWinner();
 } 
 
-void Table::NextActionHelper(double HighBet, bool isHole)
-{
-	for(; (CheckAllBets(HighBet)== true && isHole == false); iter++)
-	{	
+void Table::NextActionHelper(double highBet, bool isHole)
+{   
+
+    // Get SmallBlind == the first person to "bet" (even if it is forced)
+    FindJob(SMALLBLIND);
+    
+    bool isFirstIter = true;
+    
+    cout << "before for loop.\n";
+   
+    for(int i=1; i>=5; i++)
+    {
+        cout << "fuck you: " << i << "\n";
+    }
+    
+    for(int k=1; k==10000; k++)   //loop through number of jobs (2,3)
+    {
+        cout << "do we ever get here?\n";
+        if(isFirstIter == false && CheckAllBets(highBet) == true)
+        {
+            cout << "going to break\n";
+            break;
+        }
+        
+        cout << "always breaking?\n";
+        
+        if(k == numPlayers)
+            isFirstIter = false;
+            
 		if(iter->DidFold())
+		{
 			continue; //skip them, they don't get an action			
+		}
 		else
 		{
-			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet);
+			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, isHole, isFirstIter);
 			pot = addToPot;
 			if(addToPot-highBet > 0)
 				numRaises++;
@@ -428,43 +364,34 @@ void Table::NextActionHelper(double HighBet, bool isHole)
 		}
 		if(iter == playerList.end())
 			iter = playerList.begin();
+			
+		iter++;
 	}
+	
+	//cout << "After nextactionHelper for loop.\n";
 	numRaises = 0;
-}//NextActionHelper
+	limitRaise2 = false;
+} //NextActionHelper
 
-bool Table::CheckAllBets(double HighBet)
+bool Table::CheckAllBets(double highBet)
 {
-	vector<Player>::iterator iter = playerList.begin();
-	for(; iter!=playerList.end(); iter++)
+    bool rval = false;    
+    
+	vector<Player>::iterator iter; 
+	for(iter = playerList.begin(); iter!=playerList.end(); iter++)
 	{
-		if(iter->GetBet() != HighBet)
-			return false;
+		if(iter->GetBet() != highBet)
+			rval =  false;
 		else
-			return true;
+			rval = true;
 	}
+	
+	return rval;
+	
 }//CheckAllBets
 
-void Table::DetDealer()
-{
-	//determines current position of dealer so we can move positions of all players
-	iter = playerList.begin();
-	int i = 0;
-	for(;iter != playerList.end();iter++)
-	{		
-		int currPos = iter->GetPos();
-		if (currPos == 0)
-		{
-		    dealerPosition = i;
-		}
-		i++;
-	}
-} // DetDealer()
-
-void Table::DeclareWinner(int winner) 
+void Table::DeclareWinner() 
 {  
-	//set iter to element containing the winner
-	iter = playerList.begin() + winner;
-
 	//gives the winner the money in the pot
 	iter->AddMoney(pot);
 	
@@ -481,8 +408,9 @@ void Table::DeclareWinner(int winner)
 
 void Table::Eligible()
 {
-	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
+    FindJob(SMALLBLIND);
+
+	for(int k=1; k==numPlayers; k++, iter++)
 	{		
 		if(iter->DidBust())
 		{
@@ -491,17 +419,12 @@ void Table::Eligible()
 		}
 		else if(iter->DidAllIn())
 			limitRaise1 = true; //if someone goes all in, players can't raise
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		if(iter->DidBust())
-		{
-			playerList.erase(iter);
-			numPlayers--;
-		}
-		else if(iter->DidAllIn())
-			limitRaise1 = true;
+					    
+		if(iter==playerList.end())
+		    iter=playerList.begin();
+		
+		cout << iter->GetName() << "\n";
+		    
 	}
 }
 
@@ -558,3 +481,11 @@ void Table::GetHighBet()
 	}
 }
 
+void Table::FindJob(const int desiredJob)
+{
+    for(iter=playerList.begin(); iter!=playerList.end(); iter++)
+    {
+        if(iter->GetJob() == desiredJob)
+            break;
+    }    
+}

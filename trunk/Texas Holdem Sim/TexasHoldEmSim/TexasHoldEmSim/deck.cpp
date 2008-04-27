@@ -7,6 +7,7 @@ Deck::Deck()
 
 void Deck::CreateDeck()
 {
+
 	card c1('A', 'S');
     deck.push_back(c1);
     card c2('K', 'S');     // SPADE CARDS 
@@ -117,8 +118,6 @@ void Deck::CreateDeck()
     deck.push_back(c51);
     card c52('2', 'D');
     deck.push_back(c52);
-
-
 }
 
 void Deck::ShuffleCard()
@@ -141,7 +140,7 @@ void Deck::RemoveKnownCards(vector<card> wantRemoved)
     for(; iter1!=wantRemoved.end(); iter1++)
         for(; iter2!=deck.end(); iter2++)
         {
-/*            if(iter1==iter2)
+/*          if(iter1==iter2)
             {
                 iter2.erase();
             }
