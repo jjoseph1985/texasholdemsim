@@ -10,7 +10,7 @@ Player::Player()
 }
 
 
-Player::Player(double m,map<string, double>& preFlop, string Name): job(-1), fold(false), bust(false), allIn(false), myBet(0)
+Player::Player(double m,map<string, double>& preFlop, string Name): job(-1), fold(false), bust(false), allIn(false), raised(false), myBet(0)
 { 
     money = m;
 	preFlopOdds = preFlop;
@@ -66,13 +66,39 @@ double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool 
 	
 	if(job==SMALLBLIND && isFirstIter)
 	{
-	    money -= smallBlind;
-	    return smallBlind;
+	    if(smallBlind > money)
+	    {
+	        allIn = true;
+	        double temp = money;
+	        myBet += money;
+	        money = 0.0;
+	        cout << name << " is the small blind but not enough $$$, so allIn with" << temp << "\n";
+	        return temp;
+	    }else
+	    {
+	        money -= smallBlind;
+	        myBet += smallBlind;
+	        cout << name << " is the small blind and is forced to bet " << smallBlind << "\n";
+	        return smallBlind;
+	    }
 	}
 	else if(job==BIGBLIND && isFirstIter)
 	{
-	    money -= bigBlind;
-	    return bigBlind;
+	    if(bigBlind > money)
+	    {
+	        allIn = true;
+	        double temp = money;
+	        myBet += money;
+	        money = 0.0;
+	        cout << name << " is the big blind but not enough $$$, so allIn with" << temp << "\n";
+	        return temp;
+	    }else
+	    {
+	        money -= bigBlind;
+	        myBet += bigBlind;
+	        cout << name << " is the big blind and is forced to bet " << bigBlind << "\n";
+	        return bigBlind;
+	    }
 	}
 	
 
@@ -85,6 +111,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool 
 		decision = (rand()%4)+1;
 	}
 	//cout << "D2:" << decision << "\n";
+	
 	/*---------DON'T REPLACE BELOW---------*/
 	switch(decision)
 	{//now do decision
@@ -95,7 +122,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool 
 			return Call(currentHighBet);
 			break;
 		case 3 : 
-			return Raise(currentHighBet, 10);
+			return Raise(currentHighBet, 23);
 			break;
 		case 4 : 
 			return Fold();
@@ -122,6 +149,11 @@ bool Player::DidAllIn()
     return allIn;
 } // DidAllIn()
 
+bool Player::DidRaised()
+{
+    return raised;
+} // DidRaised()
+
 
 void Player::Reset()
 {
@@ -131,6 +163,11 @@ void Player::Reset()
 	myBet = 0;
 	ClearCards();
 } // Reset()
+
+void Player::ResetRaised()
+{
+    raised = false;
+} // ResetRaised()
 
 
 string Player::GetName()
@@ -162,24 +199,31 @@ void Player::SetBB(double amnt)
 	bigBlind = amnt;
 }
 
-double Player::Call(double highBet)
+double Player::Call(double theHighBet)
 {
-	if((highBet - myBet) == 0)
-		return Check();
-	if((highBet - myBet) > money)
+    double rval = 0.0;
+    
+	if((theHighBet - myBet) == 0)  //you idiot, you meant check!
+	{
+		rval = Check();
+	}	
+	else if((theHighBet - myBet) > money)   //if you don't have enough money to call
 	{
 		allIn = true;
-		double temp = money;
-		money = 0;
-		return temp;
+		rval = money;
+		money = 0.0;
+	    cout << name << " went all in with " << rval << "\n";
 	}
-
-	cout << highBet << name << " called " << (highBet - myBet) << "\n";
-
-	money -= (highBet - myBet);
-	myBet = highBet;
-
-	return (highBet - myBet);
+	else
+	{
+        rval = (theHighBet - myBet);
+	    money -= rval;
+	    myBet = theHighBet; 
+	    cout << name << " called the bet of " << theHighBet << "\n";
+    }
+    
+    return rval;
+    
 }//Call
 
 double Player::Fold()
@@ -195,25 +239,33 @@ double Player::Check()
 	return 0.0;
 }//Check
 
-double Player::Raise(double highBet, double amnt)
+double Player::Raise(double theHighBet, double amnt)
 {
-	if((highBet - myBet) > money)
+    double rval = 0.0;
+
+	if((theHighBet - myBet) > money) // Not Enough $$ to raise, much less call, all in buddy
 	{
-		return Call(highBet);
-	}else if((highBet - myBet + amnt) > money)
+		rval = Call(theHighBet);
+	}
+	else if((theHighBet - myBet + amnt) > money) // Don't have enough to call AND raise how much you want
 	{
 		allIn = true;
 		myBet += money;
-		cout << name << " is allin, called " << (highBet - myBet) << " and raised " << (money - (highBet - myBet)) << "\n";
-		double temp = money;
+		rval = money;
 		money = 0.0;
-		return temp;
+		cout << name << " went all in with " << rval << "\n";
+		raised = true;
 	}
-
-	money -= (highBet - myBet + amnt);
-	cout << name << " called " << (highBet - myBet) << " and raised " << amnt << "\n";
-	myBet = highBet + amnt;
-	return (highBet - myBet + amnt);
+	else
+	{
+        rval = (theHighBet - myBet + amnt);
+	    money -= rval;
+	    cout << name << " called the bet of " << (theHighBet - myBet) << " and raised " << amnt << "\n";
+	    myBet += rval;
+	    raised = true;
+	}
+	
+	return rval;
 }//Raise
 
 double Player::AllIn()
