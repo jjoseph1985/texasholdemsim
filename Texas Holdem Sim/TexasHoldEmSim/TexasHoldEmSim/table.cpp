@@ -401,19 +401,23 @@ void Table::DeclareWinner()
 
 void Table::Eligible()
 {
-    FindJob(SMALLBLIND);
 
-	for(int k=0; k!=numPlayers; k++, iter++)
+	for(iter=playerList.begin(); iter!=playerList.end();)
 	{		
-	    if(iter==playerList.end())
-		    iter=playerList.begin();
 		if(iter->DidBust())
 		{
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
+			iter=playerList.begin();
 			numPlayers--;
 		}
 		else if(iter->DidAllIn())
+		{
 			limitRaise1 = true; //if someone goes all in, players can't raise 
+			iter++;
+		}else
+		{
+			iter++;
+		}
 	}
 }
 
