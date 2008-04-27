@@ -21,7 +21,7 @@ class Player
 {
 
   public:
-        enum jobs { DEALER, SMALLBLIND, BIGBLIND};
+        enum { DEALER=0, SMALLBLIND=1, BIGBLIND=2};
         
         Player();
         Player(double m, map<string, double>& preFlop, string name);
@@ -37,7 +37,9 @@ class Player
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
+        bool DidRaised();
         void Reset();
+        void ResetRaised();
 
 		string GetName();
 		double GetBet();
@@ -51,10 +53,10 @@ class Player
  
   private:
         void CombineCards();
-		double Call(double highBet);
+		double Call(double theHighBet);
 		double Fold();
 		double Check();
-		double Raise(double highBet, double amnt);
+		double Raise(double theHighBet, double amnt);
 		double AllIn();
   
         vector<card> holeCards;
@@ -78,6 +80,7 @@ class Player
         bool fold;
         bool bust;
         bool allIn;
+        bool raised;
         int  job;
 
      /* Unimplemented AI Stuff

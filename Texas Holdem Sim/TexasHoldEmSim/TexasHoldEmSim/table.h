@@ -24,7 +24,7 @@ class Table
 
 
     public:
-        enum jobs { DEALER, SMALLBLIND, BIGBLIND};    
+        enum { DEALER=0, SMALLBLIND=1, BIGBLIND=2};    
 	    Table(double m, int num, double sBAmnt);    
         
 		void Init();
@@ -32,7 +32,7 @@ class Table
     	void ChangePositions();
 		void OddsTable(int numPlayers); 
 		void NewRound();
-		void DealCards(const int type);
+		void DealCards(int type);
 		void NextAction();
 	    void DeclareWinner();
 		void Eligible();
@@ -45,9 +45,9 @@ class Table
 
     private:
         void AddToMap(string cardStr, double weight);
-        void DealCardHelper(const int type);
+        void DealCardHelper(int type);
 		void NextActionHelper(double highBet, bool isHole);
-		void FindJob(const int desiredJob);
+		void FindJob(int desiredJob);
         
 	    bool limitRaise1; //limit because someone went all in
 		bool limitRaise2; //limit because 2 raises have been made

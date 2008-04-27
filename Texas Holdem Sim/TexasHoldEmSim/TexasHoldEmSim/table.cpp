@@ -4,7 +4,7 @@
 
 Table::Table(double m, int num, double sbAmnt):
  numPlayers(num), smallBlind(sbAmnt),bigBlind(sbAmnt * 2), numOfRoundsPlayed(0),
- limitRaise1(false), limitRaise2(false), numRaises(0), pot(0), highBet(0), winner(0)
+ limitRaise1(false), limitRaise2(false), numRaises(0), pot(0), winner(0)
 {
 	Player player0(m,preFlopOdds, "player0");
 	Player player1(m,preFlopOdds, "player1");
@@ -70,15 +70,14 @@ void Table::ChangePositions()
     if(numPlayers == 2) //if 2 players (Dealer, SB)
         maxJobs = 2;
     
-    for(int k=1; k==maxJobs; k++, iter++)   //loop through number of jobs (2,3)
+    for(int k=1; k!=maxJobs; k++, iter++)   //loop through number of jobs (2,3)
     {
+        if(iter==playerList.end() )  //loop back to beginning if reached end
+            iter = playerList.begin();
         if(numPlayers == 2)
         {
             iter->SetJob(k);   //set job based off of enum jobs
         }
-        
-        if(iter==playerList.end() )  //loop back to beginning if reached end
-            iter = playerList.begin();
     }
 }
 
@@ -207,11 +206,9 @@ void Table::NewRound()
 	//reset pot and flags
     pot = 0.0;
 	limitRaise1 = false;
-	highBet = bigBlind;
 
 	//resets players variables, except money and position
-	iter = playerList.begin();
-	for(;iter != playerList.end();iter++)
+	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{		
 		iter->Reset();
 	}
@@ -221,22 +218,21 @@ void Table::NewRound()
 	
 	//creates and shuffles deck
 	deck1.ShuffleCard();
-
-    ChangePositions();
 	
 	//Init/Update the blind amounts based off of 1st round or random num of 2 out of (1-10)
 	ChangeBlinds();
 
 	//starts game
 	NextAction();
+	
+	ChangePositions();
 }
 
-void Table::DealCards(const int type)
+void Table::DealCards(int type)
 {
+    FindJob(SMALLBLIND);
     switch(type)
-    {
-        FindJob(SMALLBLIND);
-    		        
+    {	        
         case HOLECARDS:
             for(int i = 1; i < 3; i++)
                 DealCardHelper(HOLECARDS);       
@@ -257,19 +253,16 @@ void Table::DealCards(const int type)
     }
 } // DealCard
 
-void Table::DealCardHelper(const int type)
+void Table::DealCardHelper(int type)
 {   
-    for(int k=1; k==-1; k++, iter++)
-    {
-        if(k == numPlayers)
-            break;
+    for(int k=0; k!=numPlayers; k++, iter++)
+    {   
+        if(iter == playerList.end())
+            iter = playerList.begin();
 	    
 	    card c = deck1.deck.back();
 	    iter->AddCard(c,type);
-	    deck1.deck.pop_back();	    
-	    
-	    if(iter == playerList.end())
-            iter = playerList.begin();
+	    deck1.deck.pop_back();  
     }
 }
 
@@ -327,23 +320,15 @@ void Table::NextActionHelper(double highBet, bool isHole)
     
     bool isFirstIter = true;
     
-    cout << "before for loop.\n";
-   
-    for(int i=1; i>=5; i++)
+    for(int k=1; k!=10000; k++, iter++)   //loop through number of jobs (2,3)
     {
-        cout << "fuck you: " << i << "\n";
-    }
-    
-    for(int k=1; k==10000; k++)   //loop through number of jobs (2,3)
-    {
-        cout << "do we ever get here?\n";
+        if(iter == playerList.end())
+			iter = playerList.begin();
+			
         if(isFirstIter == false && CheckAllBets(highBet) == true)
         {
-            cout << "going to break\n";
             break;
         }
-        
-        cout << "always breaking?\n";
         
         if(k == numPlayers)
             isFirstIter = false;
@@ -354,21 +339,20 @@ void Table::NextActionHelper(double highBet, bool isHole)
 		}
 		else
 		{
+		    GetHighBet();
+		    
 			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, isHole, isFirstIter);
-			pot = addToPot;
-			if(addToPot-highBet > 0)
+			pot += addToPot;
+			if(iter->DidRaised())
+			{
 				numRaises++;
+			    iter->ResetRaised();	
+			}
 			if(numRaises == 2)
 				limitRaise2 = true;
-			GetHighBet();
 		}
-		if(iter == playerList.end())
-			iter = playerList.begin();
-			
-		iter++;
 	}
-	
-	//cout << "After nextactionHelper for loop.\n";
+
 	numRaises = 0;
 	limitRaise2 = false;
 } //NextActionHelper
@@ -410,21 +394,17 @@ void Table::Eligible()
 {
     FindJob(SMALLBLIND);
 
-	for(int k=1; k==numPlayers; k++, iter++)
+	for(int k=0; k!=numPlayers; k++, iter++)
 	{		
+	    if(iter==playerList.end())
+		    iter=playerList.begin();
 		if(iter->DidBust())
 		{
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
 			numPlayers--;
 		}
 		else if(iter->DidAllIn())
-			limitRaise1 = true; //if someone goes all in, players can't raise
-					    
-		if(iter==playerList.end())
-		    iter=playerList.begin();
-		
-		cout << iter->GetName() << "\n";
-		    
+			limitRaise1 = true; //if someone goes all in, players can't raise 
 	}
 }
 
@@ -468,24 +448,24 @@ void Table::EndGame()
 void Table::GetHighBet()
 {
 	vector<Player>::iterator iter;
+	double currBet = 0.0;
 	for(iter = playerList.begin(); iter != playerList.end(); iter++)
 	{	
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action	
-		else
-		{
-			double currBet = iter->GetBet();
-			if(currBet > highBet)
-				highBet = currBet;
-		}
+		currBet = iter->GetBet();
+		if(currBet > highBet)
+		    highBet = currBet;
 	}
+	
 }
 
-void Table::FindJob(const int desiredJob)
+void Table::FindJob(int desiredJob)
 {
     for(iter=playerList.begin(); iter!=playerList.end(); iter++)
     {
-        if(iter->GetJob() == desiredJob)
+        if((iter)->GetJob() == desiredJob)
+        {
             break;
-    }    
+        }
+    }  
+      
 }
