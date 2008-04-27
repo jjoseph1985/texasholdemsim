@@ -61,6 +61,7 @@ void Player::ClearCards()
 
 double Player::Action(bool limitRaise, double currentHighBet)
 {
+	cout << "MEMEMEE" << currentHighBet << "\n";
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
 
@@ -194,12 +195,23 @@ double Player::Check()
 
 double Player::Raise(double HighBet, double amnt)
 {
-	if((HighBet - myBet + amnt) > money)
+	cout << "HIHIHI" << HighBet << "\n";
+	if((HighBet - myBet) > money)
+	{
 		return Call(HighBet);
+	}else if((HighBet - myBet + amnt) > money)
+	{
+		allIn = true;
+		myBet += money;
+		cout << name << " is allin, called " << (HighBet - myBet) << " and raised " << (money - (HighBet - myBet)) << "\n";
+		double temp = money;
+		money = 0.0;
+		return temp;
+	}
 
 	money -= (HighBet - myBet + amnt);
-	myBet = HighBet + amnt;
 	cout << name << " called " << (HighBet - myBet) << " and raised " << amnt << "\n";
+	myBet = HighBet + amnt;
 	return (HighBet - myBet + amnt);
 }//Raise
 
