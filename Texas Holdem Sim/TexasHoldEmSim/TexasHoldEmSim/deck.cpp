@@ -125,7 +125,6 @@ void Deck::ShuffleCard()
 {
 	Clear();
 	CreateDeck();
-    srand( time(NULL) );
     random_shuffle(deck.begin(), deck.end());
 }
 

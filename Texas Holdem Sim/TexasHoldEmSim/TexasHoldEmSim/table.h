@@ -36,14 +36,19 @@ class Table
 		void ChangeBlinds();
 		void EndGame();
 		void GetHighBet();
+		bool CheckAllBets(double HighBet);
 
 		Deck deck1;
 
     private:
         void AddToMap(string cardStr, double weight);
         void DealCardHelper();
+		void NextActionHelper(double HighBet, bool isHole);
         
-	    bool limitRaise;
+	    bool limitRaise1; //limit because someone went all in
+		bool limitRaise2; //limit because 2 raises have been made
+		int numRaises;
+
 	    double pot, bigBlind, smallBlind, highBet;
 		int dealerPosition, numPlayers, numOfRoundsPlayed, winner;
 		map<string, double> preFlopOdds;
