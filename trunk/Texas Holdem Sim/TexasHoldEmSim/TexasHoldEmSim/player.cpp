@@ -61,20 +61,18 @@ void Player::ClearCards()
 
 double Player::Action(bool limitRaise, double currentHighBet)
 {
-	cout << "MEMEMEE" << currentHighBet << "\n";
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
 
 	/*---------AI STUFF TO BE REPLACED---------*/
 	int decision = (rand()%4)+1; //1=check;2=call;3=raise&call;4=fold
-
+	cout << "D1:" << decision << " ";
 	//Can't raise if limited and can't check if they owe money
 	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
 	{
 		decision = (rand()%4)+1;
 	}
-
-	cout << decision << "\n";
+	cout << "D2:" << decision << "\n";
 	/*---------DON'T REPLACE BELOW---------*/
 	switch(decision)
 	{//now do decision
@@ -196,7 +194,6 @@ double Player::Check()
 
 double Player::Raise(double HighBet, double amnt)
 {
-	cout << "HIHIHI" << HighBet << "\n";
 	if((HighBet - myBet) > money)
 	{
 		return Call(HighBet);

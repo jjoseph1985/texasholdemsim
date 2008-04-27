@@ -267,7 +267,7 @@ void Table::NewRound()
 
 	//reset pot and flags
     pot = 0.0;
-	limitRaise = false;
+	limitRaise1 = false;
 	highBet = bigBlind;
 
 	//resets players variables, except money and position
@@ -364,106 +364,26 @@ void Table::NextAction()
 	//deal holecards, start actions based on holecards only
 	DealCards(HOLECARDS);
 	Eligible();
-	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
-	{	
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet(); //determines the highest bet to pass to the next player
-		}
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
+	iter = playerList.begin() + (dealerPosition + 3);
+	NextActionHelper(highBet, true);
 	
 	//deal flop and than whoever is left continues to make actions
 	DealCards(FLOP);
 	Eligible();
 	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
-	{	
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
+	NextActionHelper(highBet, false);
 	
 	//deal turn and then whoever is left continues
 	DealCards(TURN);
 	Eligible();
 	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
-	{	
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
+	NextActionHelper(highBet, false);
 
 	//deal river and whoever is left continues
 	DealCards(RIVER);
 	Eligible();
 	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
-	{	
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		if(iter->DidFold())
-			continue; //skip them, they don't get an action			
-		else
-		{
-			pot += iter->Action(limitRaise, highBet);
-			GetHighBet();
-		}
-	}
+	NextActionHelper(highBet, false);
 	
 	//searches each players hand and determines the best hand of all players
 	iter = playerList.begin();
@@ -489,6 +409,40 @@ void Table::NextAction()
 		loc++;
 	}
 } 
+
+void Table::NextActionHelper(double HighBet, bool isHole)
+{
+	for(; (CheckAllBets(HighBet)== true && isHole == false); iter++)
+	{	
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action			
+		else
+		{
+			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet);
+			pot = addToPot;
+			if(addToPot-highBet > 0)
+				numRaises++;
+			if(numRaises == 2)
+				limitRaise2 = true;
+			GetHighBet();
+		}
+		if(iter == playerList.end())
+			iter = playerList.begin();
+	}
+	numRaises = 0;
+}//NextActionHelper
+
+bool Table::CheckAllBets(double HighBet)
+{
+	vector<Player>::iterator iter = playerList.begin();
+	for(; iter!=playerList.end(); iter++)
+	{
+		if(iter->GetBet() != HighBet)
+			return false;
+		else
+			return true;
+	}
+}//CheckAllBets
 
 void Table::DetDealer()
 {
@@ -531,17 +485,23 @@ void Table::Eligible()
 	for(;iter != playerList.end();iter++)
 	{		
 		if(iter->DidBust())
+		{
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
+			numPlayers--;
+		}
 		else if(iter->DidAllIn())
-			limitRaise = true; //if someone goes all in, players can't raise
+			limitRaise1 = true; //if someone goes all in, players can't raise
 	}
 	iter = playerList.begin();
 	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
 	{		
 		if(iter->DidBust())
+		{
 			playerList.erase(iter);
+			numPlayers--;
+		}
 		else if(iter->DidAllIn())
-			limitRaise = true;
+			limitRaise1 = true;
 	}
 }
 
@@ -585,19 +545,16 @@ void Table::EndGame()
 void Table::GetHighBet()
 {
 	vector<Player>::iterator iter;
-	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end(); iter++)
+	for(iter = playerList.begin(); iter != playerList.end(); iter++)
 	{	
-		double currBet = iter->GetBet();
-		if(currBet > highBet)
-			highBet = currBet;
-	}
-	iter = playerList.begin();
-	for(;iter != playerList.begin() + (dealerPosition +1);iter++)
-	{		
-		double currBet = iter->GetBet();
-		if(currBet > highBet)
-			highBet = currBet;
+		if(iter->DidFold())
+			continue; //skip them, they don't get an action	
+		else
+		{
+			double currBet = iter->GetBet();
+			if(currBet > highBet)
+				highBet = currBet;
+		}
 	}
 }
 
