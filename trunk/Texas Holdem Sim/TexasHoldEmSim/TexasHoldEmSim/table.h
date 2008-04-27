@@ -41,6 +41,7 @@ class Table
 
     private:
         void AddToMap(string cardStr, double weight);
+        void DealCardHelper();
         
 	    bool limitRaise;
 	    double pot, bigBlind, smallBlind, highBet;

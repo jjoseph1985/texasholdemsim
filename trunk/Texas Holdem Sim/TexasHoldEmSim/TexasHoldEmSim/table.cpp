@@ -312,83 +312,52 @@ void Table::NewRound()
 
 void Table::DealCards(int type)
 {
-	
-	int g = 1;
+    int g = 1;
 
-	if(type == HOLECARDS)
-	{	
-		while(g < 3)
-		{
-			iter = playerList.begin() + (dealerPosition + 1);
-			for(; iter != playerList.end(); iter++)
-			{
-				card c = deck1.deck.back();
-				iter->AddCard(c,HOLECARDS);
-				deck1.deck.pop_back();
-			}
-			iter = playerList.begin();
-			for(; iter != (playerList.begin() + (dealerPosition + 1)); iter++)
-			{
-				card c = deck1.deck.back();
-				iter->AddCard(c,HOLECARDS);
-				deck1.deck.pop_back();
-			}
-			g++;
-		}
-	}
-	else if(type == FLOP)
-	{
-		g = 1;
-		while(g < 4)
-		{
-			for(;iter != playerList.end();iter++)
-			{
-				card c = deck1.deck.back();
-				iter->AddCard(c,FLOP);
-			}
-			iter = playerList.begin();
-			for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
-			{
-				card c = deck1.deck.back();
-				iter->AddCard(c,FLOP);
-			}
-			deck1.deck.pop_back();
-			g++;
-		}
-
-	}
-	else if(type == TURN)
-	{
-		for(;iter != playerList.end();iter++)
-		{
-			card c = deck1.deck.back();
-			iter->AddCard(c,TURN);
-		}
-		iter = playerList.begin();
-		for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
-		{
-			card c = deck1.deck.back();
-			iter->AddCard(c,TURN);
-		}
-		deck1.deck.pop_back();
-	}
-	else if(type == RIVER)
-	{
-		for(;iter != playerList.end();iter++)
-		{
-			card c = deck1.deck.back();
-			iter->AddCard(c,RIVER);
-		}
-		iter = playerList.begin();
-		for(;iter != playerList.begin() + (dealerPosition + 1);iter++)
-		{
-			card c = deck1.deck.back();
-			iter->AddCard(c,RIVER);
-		}
-		deck1.deck.pop_back();
-	}
-
+    switch(type)
+    {
+        case HOLECARDS:
+            while(g < 3)
+		    {
+		        iter = playerList.begin() + (dealerPosition + 1);
+                DealCardHelper();
+			    g++;
+		    }            
+            break;
+            
+        case FLOP:
+		    g = 1;
+		    while(g < 4)
+		    {
+                DealCardHelper();
+			    g++;
+		    }            
+            break;
+            
+        case TURN:
+            DealCardHelper();
+            break;
+            
+        case RIVER:
+            DealCardHelper();
+            break;                                
+    }
 } // DealCard
+
+void Table::DealCardHelper()
+{
+    for(;iter != playerList.end();iter++)
+    {
+	    card c = deck1.deck.back();
+	    iter->AddCard(c,FLOP);
+    }
+    for(iter = playerList.begin(); iter != playerList.begin() + (dealerPosition + 1);iter++)
+    {
+	    card c = deck1.deck.back();
+	    iter->AddCard(c,FLOP);
+    }
+    deck1.deck.pop_back();    
+}
 
 void Table::NextAction()
 {     
