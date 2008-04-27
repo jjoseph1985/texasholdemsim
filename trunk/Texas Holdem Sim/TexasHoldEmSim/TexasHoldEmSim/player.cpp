@@ -69,11 +69,11 @@ double Player::Action(bool limitRaise, double currentHighBet)
 	int decision = (rand()%4)+1; //1=check;2=call;3=raise&call;4=fold
 
 	//Can't raise if limited and can't check if they owe money
-	/*while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
+	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
 	{
 		decision = (rand()%4)+1;
 	}
-*/
+
 	cout << decision << "\n";
 	/*---------DON'T REPLACE BELOW---------*/
 	switch(decision)
@@ -173,10 +173,11 @@ double Player::Call(double HighBet)
 		return temp;
 	}
 
+	cout << HighBet << name << " called " << (HighBet - myBet) << "\n";
+
 	money -= (HighBet - myBet);
 	myBet = HighBet;
 
-	cout << HighBet << name << " called " << (HighBet - myBet) << "\n";
 	return (HighBet - myBet);
 }//Call
 

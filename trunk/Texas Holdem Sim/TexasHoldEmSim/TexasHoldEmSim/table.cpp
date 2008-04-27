@@ -615,6 +615,7 @@ void Table::EndGame()
 
 void Table::GetHighBet()
 {
+	vector<Player>::iterator iter;
 	iter = playerList.begin() + (dealerPosition + 1);
 	for(;iter != playerList.end(); iter++)
 	{	
