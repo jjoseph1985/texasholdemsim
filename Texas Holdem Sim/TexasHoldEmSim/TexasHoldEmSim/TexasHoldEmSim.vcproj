@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\StringTokenizer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\table.cpp"
 				>
 			</File>
@@ -216,6 +220,10 @@
 			</File>
 			<File
 				RelativePath=".\player.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringTokenizer.h"
 				>
 			</File>
 			<File

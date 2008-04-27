@@ -144,98 +144,121 @@ void Table::InitPositions()
 } // InitPositions()
 
 void Table::OddsTable(int numPlayers)
+{   
+    string cardStr = "";
+    string w;
+    double weight = 0;
+
+    /*
+    ofstream outFile;
+    outFile.open("temp.txt");
+    */
+
+    ifstream inFile;
+    inFile.open("preflopodds.txt", ifstream::in);
+    if(!inFile.good())
+    {
+        cout << "Error opening preflopodds.txt. Exiting Program...\n";
+    }
+    
+    for(int i=0; i < 169; i++)
+    {
+        char temp[256];
+            
+        inFile.getline(temp, 256);
+        string lineOfFile(temp);
+        
+        StringTokenizer strtok(lineOfFile, " ");
+        
+        cardStr = strtok.nextToken();
+        
+        // Pop off unwanted values
+        for(int i=2; i < numPlayers; i++)
+        {
+            string tmp = strtok.nextToken();
+            //cout << "Temp: " << tmp << "\n";
+        }
+        
+        w = strtok.nextToken();
+        weight = strtod(w.c_str(), NULL);
+        
+        AddToMap(cardStr, weight);
+    }
+
+/*
+    // Print out the map
+    map<string,double>::iterator iter;
+
+    for( iter = preFlopOdds.begin(); iter != preFlopOdds.end(); iter++ )
+        outFile << (*iter).first << " => " << (*iter).second << endl;
+*/    
+
+    inFile.close();
+}
+
+void Table::AddToMap(string cardStr, double weight)
 {
-	ifstream file;
-	file.open("odds.txt");
-	string hole, tmp;
-	double weight;
-	string a, b;
-
-	preFlopOdds.clear();
-
-	for (int i = 0; i < 169; i++)
+    string theCard;
+    
+    string cardNum1;
+    cardNum1 = cardStr[0];
+    
+    string cardNum2; 
+    cardNum2 = cardStr[1];
+        
+    if( cardStr.length() == 2 )
 	{
-		file >> hole;
-		file >> weight;
-		weight = weight / 31.5;
+		theCard = cardNum1 + "h" + cardNum2 + "c";
+		preFlopOdds[theCard] = weight;
+	    
+		theCard = cardNum1 + "h" + cardNum2 + "s";
+		preFlopOdds[theCard] = weight;	
 
-		a = hole[0];		
-		b = hole[1];
+		theCard = cardNum1 + "h" + cardNum2 + "d";
+		preFlopOdds[theCard] = weight;
+	    
+		theCard = cardNum1 + "c" + cardNum2 + "h";
+		preFlopOdds[theCard] = weight;
 		
-		cout << "\nhole[0]: " << a << "\nhole[1]: " << b;
+		theCard = cardNum1 + "c" + cardNum2 + "s";
+		preFlopOdds[theCard] = weight;
+		
+		theCard = cardNum1 + "c" + cardNum2 + "d";
+		preFlopOdds[theCard] = weight;	
 
-		if( hole.length() == 2 )
-		{
-			tmp = a + 'h' + b + 'c';
-			preFlopOdds[tmp] = weight;
-			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 'h' + b + 's';
-			preFlopOdds[tmp] = weight;
-			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 'h' + b + 'd';
-			preFlopOdds[tmp] = weight;    
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 'c' + b + 'h';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
-			
-			tmp = a + 'c' + b + 's';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
-			
-			tmp = a + 'c' + b + 'd';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
+		theCard = cardNum1 + "s" + cardNum2 + "h";
+		preFlopOdds[theCard] = weight;
 
-			tmp = a + 's' + b + 'h';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 's' + b + 'c';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 's' + b + 'd';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
+		theCard = cardNum1 + "s" + cardNum2 + "c";
+		preFlopOdds[theCard] = weight;	
 
-			tmp = a + 'd' + b + 'h';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 'd' + b + 'c';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-			
-			tmp = a + 'd' + b + 's';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-		}
-		else
-		{ // suited cards
-			tmp = a + 'h' + b + 'h';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
+		theCard = cardNum1 + "s" + cardNum2 + "d";
+		preFlopOdds[theCard] = weight;	
+		
+		theCard = cardNum1 + "d" + cardNum2 + "h";
+		preFlopOdds[theCard] = weight;	
 
-			tmp = a + 'c' + b + 'c';
-			preFlopOdds[tmp] = weight;
-			cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
+		theCard = cardNum1 + "d" + cardNum2 + "c";
+		preFlopOdds[theCard] = weight;	
+		
+		theCard = cardNum1 + "d" + cardNum2 + "s";
+		preFlopOdds[theCard] = weight;	
 
-			tmp = a + 's' + b + 's';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";
-
-			tmp = a + 'd' + b + 'd';
-			preFlopOdds[tmp] = weight;
-            cout << "\npreFlopOdds[ " << tmp << "] = " << weight << "\n";			
-		}
 	}
-	
-	file.close();
+	else if(cardStr.length() == 3) // suited cards
+	{ 
+		theCard = cardNum1 + "h" + cardNum2 + "h";
+		preFlopOdds[theCard] = weight;	
 
+		theCard = cardNum1 + "c" + cardNum2 + "c";
+		preFlopOdds[theCard] = weight;	
+
+		theCard = cardNum1 + "s" + cardNum2 + "s";
+		preFlopOdds[theCard] = weight;	
+
+		theCard = cardNum1 + "d" + cardNum2 + "d";
+		preFlopOdds[theCard] = weight;			
+	}       
 } // preFlopOddsTable()
 
 void Table::NewRound()
@@ -593,7 +616,7 @@ void Table::EndGame()
 void Table::GetHighBet()
 {
 	iter = playerList.begin() + (dealerPosition + 1);
-	for(;iter != playerList.end();iter++)
+	for(;iter != playerList.end(); iter++)
 	{	
 		double currBet = iter->GetBet();
 		if(currBet > highBet)
@@ -607,7 +630,4 @@ void Table::GetHighBet()
 			highBet = currBet;
 	}
 }
-
-
-
 

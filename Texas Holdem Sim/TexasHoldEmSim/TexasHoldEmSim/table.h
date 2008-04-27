@@ -6,15 +6,16 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <string>
 
 
 #include "card.h"
 #include "hand.h"
 #include "deck.h"
 #include "player.h"
+#include "StringTokenizer.h"
 
 using namespace std;
-
 
 enum { DEALER, SMALLBLIND, BIGBLIND, EARLY, MIDDLE, LATE };
 
@@ -36,10 +37,11 @@ class Table
 		void EndGame();
 		void GetHighBet();
 
-
 		Deck deck1;
 
     private:
+        void AddToMap(string cardStr, double weight);
+        
 	    bool limitRaise;
 	    double pot, bigBlind, smallBlind, highBet;
 		int dealerPosition, numPlayers, numOfRoundsPlayed, winner;
