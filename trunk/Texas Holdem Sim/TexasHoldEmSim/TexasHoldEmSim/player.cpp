@@ -169,6 +169,10 @@ void Player::ResetRaised()
     raised = false;
 } // ResetRaised()
 
+void Player::SetBusted()
+{
+    bust = true;
+} // SetBusted()
 
 string Player::GetName()
 {

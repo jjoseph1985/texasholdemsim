@@ -40,6 +40,7 @@ class Player
         bool DidRaised();
         void Reset();
         void ResetRaised();
+		void SetBusted();
 
 		string GetName();
 		double GetBet();

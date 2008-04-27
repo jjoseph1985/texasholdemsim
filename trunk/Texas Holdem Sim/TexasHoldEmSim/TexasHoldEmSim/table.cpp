@@ -325,7 +325,7 @@ void Table::NextActionHelper(double theHighBet, bool isHole)
         if(iter == playerList.end())
 			iter = playerList.begin();
 			
-        if(isFirstIter == false && CheckAllBets(theHighBet) == true)
+        if(isFirstIter == false && CheckAllBets(highBet) == true)
         {
             break;
         }
@@ -379,6 +379,15 @@ void Table::DeclareWinner()
 	//gives the winner the money in the pot
 	iter->AddMoney(pot);
 	
+	vector<Player>::iterator bustedI = playerList.begin();
+	for(int k=0; k!=numPlayers; k++,bustedI++)
+	{
+		if(bustedI->GetMoney() <= 0)
+		{
+			bustedI->SetBusted();
+		}
+	}
+
 	//determines if the game is over
 	Eligible();
 	if(playerList.size() == 1)
