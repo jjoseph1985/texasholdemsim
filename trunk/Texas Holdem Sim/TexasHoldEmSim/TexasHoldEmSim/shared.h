@@ -1,0 +1,10 @@
+// shared.h
+
+#ifndef SHARED_H
+#define SHARED_H
+
+enum { HOLECARDS, FLOP, TURN, RIVER };
+enum typeName { BLANK, JUNK, PAIR, TWOPAIR, THREEKIND, STRAIGHT, FLUSH, FULL, FOURKIND, SFLUSH, RFLUSH };
+enum { DEALER=0, SMALLBLIND=1, BIGBLIND=2};
+
+#endif
