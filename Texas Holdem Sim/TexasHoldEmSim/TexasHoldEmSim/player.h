@@ -29,7 +29,8 @@ class Player
         void AddMoney(double amt);
 		double GetMoney();
         
-        hand ShowHand();
+        hand GetHand();
+		void MakeHand();
         void AddCard(card c, int loc);
         void ClearCards();
         

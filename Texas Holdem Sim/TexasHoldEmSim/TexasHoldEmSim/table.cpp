@@ -268,6 +268,10 @@ void Table::DealCards(int type)
             
         case RIVER:
             DealCardHelper(RIVER);
+			for(iter=playerList.begin(); iter!=playerList.end(); iter++)
+			{
+				iter->MakeHand();
+			}
             cout << "Dealt RIVER.\n";            
             break;                                
     }
@@ -322,7 +326,10 @@ void Table::NextAction()
     
 	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{	
-		hand1 = iter->ShowHand();
+		if(iter->DidFold() || iter->DidBust())	//if they fold or bust, they can't win
+			continue;
+
+		hand1 = iter->GetHand();
 		if(hand1.beats(bestHand))
 		{
 			bestHand = hand1;
@@ -332,7 +339,7 @@ void Table::NextAction()
 	}
 	
 	iter=currentWinner;
-	hand1 = iter->ShowHand();
+	hand1 = iter->GetHand();
 	cout << "Best hand was " << iter->GetName() << ": " << hand1 << "\n";
 	//goes back to Round to delare a winner and determine if newround or gameover
 } 

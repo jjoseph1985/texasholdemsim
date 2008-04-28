@@ -30,11 +30,15 @@ double Player::GetMoney()
 } // GetMoney()
 
 
-hand Player::ShowHand()
+hand Player::GetHand()
 {
     return myHand;
-} // ShowHand()
+} // GetHand()
 
+void Player:: MakeHand()
+{
+	myHand.initHand(tableCards, holeCards);
+}
 
 void Player::AddCard(card c, int loc)
 {
@@ -46,7 +50,6 @@ void Player::AddCard(card c, int loc)
     {
         tableCards.push_back(c);
     }
-   
 } // AddCard()
 
 
