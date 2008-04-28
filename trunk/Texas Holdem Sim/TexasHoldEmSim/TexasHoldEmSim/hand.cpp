@@ -289,9 +289,43 @@ ostream& operator<< (ostream& output, hand &printHand)
 	}
 
 	handType& printType = printHand.getType();
-
-	switch(
-	output << printType.getType();
+	cout << "   ";
+	switch(printType.getType())
+	{
+		case RFLUSH: 
+			output << "Royal Flush";
+			break;
+		case SFLUSH: 
+			output << "Straight Flush";
+			break;
+		case FOURKIND: 
+			output << "Rour Of A Kind";
+			break;
+		case FULL: 
+			output << "Full House";
+			break;
+		case FLUSH: 
+			output << "Flush";
+			break;
+		case STRAIGHT: 
+			output << "Straight";
+			break;
+		case THREEKIND: 
+			output << "Three Of A Kind";
+			break;
+		case TWOPAIR: 
+			output << "Two Pair";
+			break;
+		case PAIR: 
+			output << "Pair";
+			break;
+		case JUNK: 
+			output << "Junk";
+			break;
+	    default:
+			output << "Blank";
+			break;
+	}
 	return output;
 } 
 

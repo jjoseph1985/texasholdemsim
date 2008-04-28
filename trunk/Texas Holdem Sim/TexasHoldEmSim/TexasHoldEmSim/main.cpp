@@ -45,10 +45,12 @@ int main( int argc, char ** argv )
         exit(0);
     }
     
+	simOut << "-------------------------------------------\n";
 	simOut << "Welcome to the Texas Hold 'Em Simulation!!!\n\n\n";
-	simOut << "COP 4331\n";
+	simOut << "\tCOP 4331\n";
 	simOut << "\t28 April 2008\n";
-	simOut << "\tMatt Beisser\n\tNathan Edwards\n\tJeremy Joseph\n\tFranche Ductant\n";
+	simOut << "\tMatt Beisser\n\tNathan Edwards\n\tJeremy Joseph\n\tFranche Ductant\n\n\n";
+	simOut << "-------------------------------------------\n";
 
 	Table table(strtod((mPairs.find("Money")->second).c_str(), NULL),
 		        atoi((mPairs.find("Players")->second).c_str()),

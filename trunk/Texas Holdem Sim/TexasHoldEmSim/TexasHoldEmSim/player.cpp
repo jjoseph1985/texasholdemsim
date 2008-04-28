@@ -591,7 +591,7 @@ void Player::PostFlopDec(bool limitRaise)
 
 int Player::PostFlopDecHelper()
 {	//make certain things happen more than others
-	int dec = (rand()%11);
+	int dec = (rand()%10);
 	if(dec <= 3)
 		dec = CHECK;
 	else if(dec > 3 && dec <= 6)
