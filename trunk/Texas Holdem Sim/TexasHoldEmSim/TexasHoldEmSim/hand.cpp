@@ -67,7 +67,8 @@ handType hand::getType()
     }
 
     typeValid = true;
-    return currType;  
+	myType = best;
+    return best;  
 }
 
 // Check what kind of hand a player has: pair, 2 pairs, flush, etc.
