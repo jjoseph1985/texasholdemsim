@@ -34,8 +34,8 @@ Table::Table(double m, int num, double sbAmnt):
 	{
 		playerList.push_back(*it);
 	}
-	cout << numPlayers << " have been created.\n";
-	simOut << numPlayers << " have been created.\n";
+	cout << numPlayers << " players have been created.\n";
+	simOut << numPlayers << " players have been created.\n";
 }
 
 void Table::Init()
@@ -75,8 +75,8 @@ void Table::InitPositions()
 
 void Table::ChangePositions()
 {
-    cout << "Updating remaining players jobs.\n";
-	simOut << "Updating remaining players jobs.\n";
+    cout << "\n\n<----------Updating Player Jobs---------->.\n\n";
+	simOut << "\n\n<----------Updating Player Jobs---------->.\n\n";
     FindJob(DEALER);
     
 	vector<Player>::iterator resetIter = playerList.begin();
@@ -228,8 +228,8 @@ void Table::AddToMap(string cardStr, double weight)
 
 void Table::NewRound()
 {
-    cout << "\n\n\n<----------Beginning a new round---------->\n\n";
-	simOut << "\n\n\n<----------Beginning a new round---------->\n\n";
+    cout << "\n\n\n<----------Beginning a new round---------->\n";
+	simOut << "\n\n\n<----------Beginning a new round---------->\n";
     numPlayersNotFolded = numPlayers;
 	int p = 0;
 
@@ -243,8 +243,8 @@ void Table::NewRound()
 	{
 		iter->Reset();
 	}
-	cout << "All player flags have been reset.\n";
-	simOut << "All player flags have been reset.\n";
+	cout << "All player flags have been reset.\n\n";
+	simOut << "All player flags have been reset.\n\n";
 
 	//recalculates preFlopOdds table based on new number of players
 	OddsTable();
@@ -446,8 +446,16 @@ void Table::DetermineWinner()
 	//finds the players' highest hand and how many ppl had that same hand (for ties)
 	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{	
+		cout << "\t" << iter->GetName() << "'s hand: " << iter->GetHand();
+		simOut << "\t" << iter->GetName() << "'s hand: " << iter->GetHand();
+
 		if(iter->DidFold() || iter->DidBust())	//if they fold or bust, they can't win
+		{
+			cout << "  !!OUT!!\n";
+			simOut << "  !!OUT!!\n";
 			continue;
+		}
+		cout << "\n"; simOut << "\n";
 
 		curHand = iter->GetHand();
 		if(curHand > bestHand)
@@ -458,12 +466,10 @@ void Table::DetermineWinner()
 		{
 			howManyWinners++;
 		}
-		cout << iter->GetName() << "'s hand: " << curHand << "\n";
-		simOut << iter->GetName() << "'s hand: " << curHand << "\n";
 	}
 	
-	cout << "Best hand was: " << bestHand << "\n";
-	simOut << "Best hand was: " << bestHand << "\n";
+	cout << "\n\tBest hand was: " << bestHand << "\n";
+	simOut << "\n\tBest hand was: " << bestHand << "\n";
 	double winnings = pot / howManyWinners;	//divide pot to multiple players
 
 	//loops through players to award winnings (mainly for ties)
@@ -476,8 +482,8 @@ void Table::DetermineWinner()
 		if(curHand == bestHand)
 		{
 			iter->AddMoney(winnings);
-			cout << iter->GetName() << " won " << winnings << "\n";
-			simOut << iter->GetName() << " won " << winnings << "\n";
+			cout << "\n\t" << iter->GetName() << " won " << winnings << "\n";
+			simOut << "\n\t" << iter->GetName() << " won " << winnings << "\n";
 		}
 	}
 
@@ -577,10 +583,10 @@ void Table::EndGame()
 {
 	vector<Player>::iterator iter;
 	iter = playerList.begin(); //sets iter to that winning player
-	cout << "\nGame Over!!!\n";
-	simOut << "\nGame Over!!!\n";
-	cout << iter->GetName() << " is the winner!\n\n";
-	simOut << iter->GetName() << " is the winner!\n\n";
+	cout << "\nGame Over!!!\n\n";
+	simOut << "\nGame Over!!!\n\n";
+	cout << "<-----" << iter->GetName() << " IS THE WINNER!!!----->\n";
+	simOut << "<-----" << iter->GetName() << " IS THE WINNER!!!----->\n";
 
 	cout << "Winner: \n";
 	simOut << "Winner: \n";
