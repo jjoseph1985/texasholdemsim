@@ -38,6 +38,7 @@ class Table
 		void EndGame();
 		void GetHighBet();
 		bool CheckAllBets(double theHighBet);
+		void UpdatePlayerOddsTable();
 
 		Deck deck1;
 
