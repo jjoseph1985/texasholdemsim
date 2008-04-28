@@ -157,55 +157,55 @@ void Table::AddToMap(string cardStr, double weight)
         
     if( cardStr.length() == 2 )
 	{
-		theCard = cardNum1 + "h" + cardNum2 + "c";
+		theCard = cardNum1 + "H" + cardNum2 + "C";
 		preFlopOdds[theCard] = weight;
 	    
-		theCard = cardNum1 + "h" + cardNum2 + "s";
+		theCard = cardNum1 + "H" + cardNum2 + "S";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "h" + cardNum2 + "d";
+		theCard = cardNum1 + "H" + cardNum2 + "D";
 		preFlopOdds[theCard] = weight;
 	    
-		theCard = cardNum1 + "c" + cardNum2 + "h";
+		theCard = cardNum1 + "C" + cardNum2 + "H";
 		preFlopOdds[theCard] = weight;
 		
-		theCard = cardNum1 + "c" + cardNum2 + "s";
+		theCard = cardNum1 + "C" + cardNum2 + "S";
 		preFlopOdds[theCard] = weight;
 		
-		theCard = cardNum1 + "c" + cardNum2 + "d";
+		theCard = cardNum1 + "C" + cardNum2 + "D";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "s" + cardNum2 + "h";
+		theCard = cardNum1 + "S" + cardNum2 + "H";
 		preFlopOdds[theCard] = weight;
 
-		theCard = cardNum1 + "s" + cardNum2 + "c";
+		theCard = cardNum1 + "S" + cardNum2 + "C";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "s" + cardNum2 + "d";
+		theCard = cardNum1 + "S" + cardNum2 + "D";
 		preFlopOdds[theCard] = weight;	
 		
-		theCard = cardNum1 + "d" + cardNum2 + "h";
+		theCard = cardNum1 + "D" + cardNum2 + "H";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "d" + cardNum2 + "c";
+		theCard = cardNum1 + "D" + cardNum2 + "C";
 		preFlopOdds[theCard] = weight;	
 		
-		theCard = cardNum1 + "d" + cardNum2 + "s";
+		theCard = cardNum1 + "D" + cardNum2 + "S";
 		preFlopOdds[theCard] = weight;	
 
 	}
 	else if(cardStr.length() == 3) // suited cards
 	{ 
-		theCard = cardNum1 + "h" + cardNum2 + "h";
+		theCard = cardNum1 + "H" + cardNum2 + "H";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "c" + cardNum2 + "c";
+		theCard = cardNum1 + "C" + cardNum2 + "C";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "s" + cardNum2 + "s";
+		theCard = cardNum1 + "S" + cardNum2 + "S";
 		preFlopOdds[theCard] = weight;	
 
-		theCard = cardNum1 + "d" + cardNum2 + "d";
+		theCard = cardNum1 + "D" + cardNum2 + "D";
 		preFlopOdds[theCard] = weight;			
 	}       
 } // preFlopOddsTable()
@@ -216,6 +216,7 @@ void Table::NewRound()
     
 	int p = 0;
 	OddsTable();
+    UpdatePlayerOddsTable();
 
 	//reset pot and flags
     pot = 0.0;
@@ -364,7 +365,7 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
 		else
 		{
 		    
-			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter);
+			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter, numPlayers);
 			pot += addToPot;
 			if(iter->DidRaised())
 			{
