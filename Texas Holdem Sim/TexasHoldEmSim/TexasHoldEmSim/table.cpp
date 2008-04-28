@@ -312,7 +312,7 @@ void Table::NextAction()
 {     
 	//deal holecards, start actions based on holecards only
 	DealCards(HOLECARDS);
-	
+
 	Eligible();
 	
 	NextActionHelper(highBet, true);
@@ -431,9 +431,11 @@ void Table::DetermineWinner()
 			howManyWinners++;
 		}
 		cout << iter->GetName() << "'s hand: " << curHand << "\n";
+		simOut << iter->GetName() << "'s hand: " << curHand << "\n";
 	}
 	
 	cout << "Best hand was: " << bestHand << "\n";
+	simOut << "Best hand was: " << bestHand << "\n";
 	double winnings = pot / howManyWinners;	//divide pot to multiple players
 
 	//loops through players to award winnings (mainly for ties)

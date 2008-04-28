@@ -11,6 +11,7 @@
 #include "handtype.h"
 
 using namespace std;
+extern ofstream& simOut;
 
 class hand
 {
