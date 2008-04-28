@@ -628,3 +628,16 @@ void Player::BetHelper(bool limitRaise)
         decision = RAISE;
     }
 }
+
+ostream& operator<< (ostream& output, Player &printPlayer) 
+{ 
+	output << printPlayer.name << "\t";
+	output << printPlayer.skillLvl << "\t";
+	output << printPlayer.job << "\t";
+	output << printPlayer.money << "\t";
+	output << printPlayer.allIn << "\t";
+	output << printPlayer.fold << "\t";
+	output << printPlayer.bust << "\t";
+	output << "\n";
+	return output;
+} 
