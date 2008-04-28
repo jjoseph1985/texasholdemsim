@@ -70,8 +70,9 @@ void Table::ChangePositions()
     if(numPlayers == 2) //if 2 players (Dealer, SB)
         maxJobs = 2;
     
-    for(int k=1; k!=maxJobs; k++, iter++)   //loop through number of jobs (2,3)
+    for(int k=0; k!=maxJobs; k++)   //loop through number of jobs (2,3)
     {
+		iter++;
         if(iter==playerList.end() )  //loop back to beginning if reached end
             iter = playerList.begin();
         if(numPlayers == 2)
@@ -225,7 +226,7 @@ void Table::NewRound()
 	//starts game
 	NextAction();
 	
-	ChangePositions();
+	DeclareWinner();
 }
 
 void Table::DealCards(int type)
@@ -309,10 +310,10 @@ void Table::NextAction()
 	
 	iter=currentWinner;
 	
-	DeclareWinner();
+	//goes back to Round to delare a winner and determine if newround or gameover
 } 
 
-void Table::NextActionHelper(double theHighBet, bool isHole)
+void Table::NextActionHelper(double theHighBet, bool thisIsHole)
 {   
 
     // Get SmallBlind == the first person to "bet" (even if it is forced)
@@ -341,7 +342,7 @@ void Table::NextActionHelper(double theHighBet, bool isHole)
 		{
 		    GetHighBet();
 		    
-			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, isHole, isFirstIter);
+			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter);
 			pot += addToPot;
 			if(iter->DidRaised())
 			{
@@ -358,20 +359,15 @@ void Table::NextActionHelper(double theHighBet, bool isHole)
 } //NextActionHelper
 
 bool Table::CheckAllBets(double theHighBet)
-{
-    bool rval = false;    
+{  
     
 	vector<Player>::iterator iter; 
 	for(iter = playerList.begin(); iter!=playerList.end(); iter++)
 	{
-		if(iter->GetBet() != theHighBet)
-			rval =  false;
-		else
-			rval = true;
+		if(iter->GetBet() != theHighBet && iter->GetMoney() > 0)
+			return false;
 	}
-	
-	return rval;
-	
+	return true;
 }//CheckAllBets
 
 void Table::DeclareWinner() 
@@ -395,8 +391,10 @@ void Table::DeclareWinner()
 		EndGame(); //ends the game if there is only one elegible player left
 	}
 	else
+	{
+		ChangePositions();
 		NewRound(); //starts the next round
-	
+	}
 }
 
 void Table::Eligible()

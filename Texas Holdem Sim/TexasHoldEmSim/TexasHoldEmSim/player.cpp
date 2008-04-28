@@ -59,12 +59,12 @@ void Player::ClearCards()
 } // ClearCard()
 
 
-double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool isFirstIter)
+double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter)
 {
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
 	
-	if(job==SMALLBLIND && isFirstIter)
+	if(job==SMALLBLIND && amFirstIter && amHole)
 	{
 	    if(smallBlind > money)
 	    {
@@ -82,7 +82,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool 
 	        return smallBlind;
 	    }
 	}
-	else if(job==BIGBLIND && isFirstIter)
+	else if(job==BIGBLIND && amFirstIter && amHole)
 	{
 	    if(bigBlind > money)
 	    {
@@ -122,7 +122,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool isHole, bool 
 			return Call(currentHighBet);
 			break;
 		case 3 : 
-			return Raise(currentHighBet, 23);
+			return Raise(currentHighBet, 11);
 			break;
 		case 4 : 
 			return Fold();
