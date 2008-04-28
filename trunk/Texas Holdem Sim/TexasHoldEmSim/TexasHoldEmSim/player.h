@@ -53,6 +53,8 @@ class Player
 		
 		int    GetJob();
 		void   SetJob(int theJob);		
+		void   SetSkillLvl();
+        int    GetSkillLvl();
 
  
   private:
@@ -62,7 +64,10 @@ class Player
 		double Check();
 		double Raise(double theHighBet, double amnt);
 		double AllIn();
-  
+		double PreFlopDec(int np);
+		double PostFlopDec();
+
+        
         vector<card> holeCards;
         vector<card> tableCards;
         vector<card> allCards;
@@ -86,6 +91,7 @@ class Player
         bool allIn;
         bool raised;
         int  job;
+        int  skillLvl;
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     

@@ -28,7 +28,7 @@ class Table
 		void Init();
     	void InitPositions();
     	void ChangePositions();
-		void OddsTable(int numPlayers); 
+		void OddsTable(); 
 		void NewRound();
 		void DealCards(int type);
 		void NextAction();

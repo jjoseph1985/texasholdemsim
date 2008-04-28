@@ -15,6 +15,8 @@ Player::Player(double m,map<string, double>& preFlop, string Name): job(-1), fol
     money = m;
 	preFlopOdds = preFlop;
 	name = Name;
+    SetSkillLvl();	
+	
 } // Player()
 
         
@@ -291,9 +293,196 @@ double Player::AllIn()
 int Player::GetJob()
 {
     return job;
-}
+} // GetJob()
 
 void Player::SetJob(int theJob)
 {
     job = theJob;
-}
+} // SetJob()
+
+double Player::PreFlopDec(int howMany)
+{
+    double rval = 0.0;
+
+    switch(howMany)
+    {
+        case 2:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                //holecards
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }
+        break;
+        
+        case 3:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 4:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 5:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 6:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 7:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 8:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 9:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        case 10:
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+        
+        default: // same as 5 players
+            switch(GetSkillLvl())
+            {
+                case BEGINNER:
+                
+                break;
+                
+                case INTERMEDIATE:
+                
+                break;
+                
+                case EXPERT:
+                break;
+            }        
+        break;
+    
+    }
+    return 0.0;
+} // PreFlopDec()
+
+double Player::PostFlopDec()
+{
+    double rval = 0.0;
+    
+    return rval;
+} // PostFlopDec()
+
+void Player::SetSkillLvl()
+{
+    skillLvl = rand() % 4; // 0-3
+} // SetSkillLvl()
+
+int Player::GetSkillLvl()
+{
+    return skillLvl;
+} // GetSkillLvl()
