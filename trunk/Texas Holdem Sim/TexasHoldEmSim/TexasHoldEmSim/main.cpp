@@ -45,13 +45,14 @@ int main( int argc, char ** argv )
         exit(0);
     }
     
-	simOut << "Welcome to the Texas Hold 'Em Simulation!!!\n\n";
+	simOut << "Welcome to the Texas Hold 'Em Simulation!!!\n\n\n";
 
 	Table table(strtod((mPairs.find("Money")->second).c_str(), NULL),
 		        atoi((mPairs.find("Players")->second).c_str()),
 	            strtod((mPairs.find("Small Blind")->second).c_str(), NULL));
 	table.Init();
     
+	simOut << "\n\nYou have reached the end of the simulation!!!";
 
     fout.close();
     
