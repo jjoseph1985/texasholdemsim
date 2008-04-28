@@ -92,7 +92,7 @@ void Table::ChangePositions()
     }
 }
 
-void Table::OddsTable(int numPlayers)
+void Table::OddsTable()
 {   
     string cardStr = "";
     string w;
@@ -134,13 +134,13 @@ void Table::OddsTable(int numPlayers)
         AddToMap(cardStr, weight);
     }
 
-/*
+
     // Print out the map
     map<string,double>::iterator iter;
 
     for( iter = preFlopOdds.begin(); iter != preFlopOdds.end(); iter++ )
-        outFile << (*iter).first << " => " << (*iter).second << endl;
-*/    
+        cout << (*iter).first << " => " << (*iter).second << endl;
+    
 
     inFile.close();
 }
@@ -215,6 +215,7 @@ void Table::NewRound()
     cout << "Beginning a new round.\n";
     
 	int p = 0;
+	OddsTable();
 
 	//reset pot and flags
     pot = 0.0;
@@ -228,7 +229,7 @@ void Table::NewRound()
 	}
 	
 	//recalculates preFlopOdds table based on new number of players
-	OddsTable(numPlayers);
+	OddsTable();
 	
 	//creates and shuffles deck
 	deck1.ShuffleCard();
