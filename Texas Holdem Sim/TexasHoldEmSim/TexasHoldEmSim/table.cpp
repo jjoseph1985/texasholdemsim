@@ -480,16 +480,18 @@ void Table::Eligible()
 	{		
 		if(iter->DidBust())
 		{
+			cout << iter->GetName() << " has been REMOVED from the game.\n";
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
 			iter=playerList.begin();
 			numPlayers--;
-			cout << iter->GetName() << " has been REMOVED from the game.\n";
 		}
 		else if(iter->DidAllIn())
 		{
+			if(!limitRaise1)	//don't print out twice please
+				cout << "Raising has been disabled. LimitRaise1 is enabled.\n";
 			limitRaise1 = true; //if someone goes all in, players can't raise 
 			iter++;
-			cout << "Raising has been disabled. LimitRaise1 is enabled.\n";
+			
 		}
 		else
 		{
@@ -563,6 +565,15 @@ void Table::FindJob(int desiredJob)
         {
             break;
         }
-    }  
+    } 
+
+	//if the dealer bust we have no way of finding his position
+	//for the ChangePositions() function, therefor we are just going
+	//to do this so that the dealer will change to player1, keeping track
+	//will be waaaay too messy
+	if(desiredJob == DEALER)
+	{
+		iter=playerList.begin();
+	}
       
 }
