@@ -303,6 +303,7 @@ void Player::SetJob(int theJob)
 double Player::PreFlopDec(int howMany)
 {
     double rval = 0.0;
+    string lookup = "";
 
     switch(howMany)
     {
@@ -310,7 +311,9 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                //holecards
+                
+                    //lookup = holeCards[0].
+                    
                 break;
                 
                 case INTERMEDIATE:
@@ -486,3 +489,15 @@ int Player::GetSkillLvl()
 {
     return skillLvl;
 } // GetSkillLvl()
+
+void Player::SortHoleCards()
+{
+    card c0 = holeCards[0];
+    card c1 = holeCards[1];
+    
+    if(c1.getfacenum() > c0.getfacenum())
+    {
+        holeCards[0] = c1;
+        holeCards[1] = c0;
+    }         
+}

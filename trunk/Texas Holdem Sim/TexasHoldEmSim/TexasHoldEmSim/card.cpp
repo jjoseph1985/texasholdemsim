@@ -96,10 +96,30 @@ int card::getfacenum() const
 bool operator== (card &card1, card &card2)  
 {  
 	return (card1.whatcard() == card2.whatcard());  
-} 
+}
 
 ostream& operator<< (ostream& output, card &printCard) 
 {  
 	output << printCard.whatcard();
 	return output;
 } 
+
+bool operator> (card& c1, card& c2)
+{
+    bool rval = false;
+    
+    if(c1.getfacenum() > c2.getfacenum())
+        rval = true;
+    
+    return rval;  
+}
+
+bool operator< (card& c1, card& c2)
+{
+    bool rval = false;
+    
+    if(c1.getfacenum() < c2.getfacenum())
+        rval = true;
+    
+    return rval;  
+}

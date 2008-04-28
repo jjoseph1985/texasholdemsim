@@ -39,6 +39,7 @@ void hand::initHand(vector<card>& table, vector<card>& hole)
 	addcombo(0,1,2,4,5);
 	addcombo(0,1,2,3,5);
 
+    
 	addcombo(2,3,4,5,6);
     addcombo(1,3,4,5,6);
     addcombo(1,2,4,5,6);
