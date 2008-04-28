@@ -7,7 +7,7 @@
 #include <iostream>
 
 using namespace std;
-enum { HOLECARDS, FLOP, TURN, RIVER };
+
 class card
 {
     public:

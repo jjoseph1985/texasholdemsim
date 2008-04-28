@@ -14,6 +14,7 @@
 #include "deck.h"
 #include "player.h"
 #include "StringTokenizer.h"
+#include "shared.h"
 
 using namespace std;
 
@@ -21,10 +22,7 @@ using namespace std;
 
 class Table
 {
-
-
     public:
-        enum { DEALER=0, SMALLBLIND=1, BIGBLIND=2};    
 	    Table(double m, int num, double sBAmnt);    
         
 		void Init();

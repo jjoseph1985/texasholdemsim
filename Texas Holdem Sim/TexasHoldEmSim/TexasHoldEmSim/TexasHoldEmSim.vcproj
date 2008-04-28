@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\handtype.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -219,7 +223,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\handtype.h"
+				>
+			</File>
+			<File
 				RelativePath=".\player.h"
+				>
+			</File>
+			<File
+				RelativePath=".\shared.h"
 				>
 			</File>
 			<File
