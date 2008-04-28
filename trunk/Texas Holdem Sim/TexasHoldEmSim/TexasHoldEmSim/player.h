@@ -34,7 +34,7 @@ class Player
         void AddCard(card c, int loc);
         void ClearCards();
         
-		double Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numOfplay);
+		double Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numOfplay, int numLeftInRound);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
@@ -70,6 +70,7 @@ class Player
 		void   FoldHelper();
 		void   BetHelper(bool limitAction);
 		void   PostFlopDec(bool limitRaise);
+		int    PostFlopDecHelper();
         
         vector<card> holeCards;
         vector<card> tableCards;

@@ -3,7 +3,7 @@
 #include "table.h"
 
 Table::Table(double m, int num, double sbAmnt):
- numPlayers(num), smallBlind(sbAmnt),bigBlind(sbAmnt * 2), numOfRoundsPlayed(0),
+ numPlayers(num), numPlayersNotFolded(num), smallBlind(sbAmnt),bigBlind(sbAmnt * 2), numOfRoundsPlayed(0),
  limitRaise1(false), limitRaise2(false), numRaises(0), highBet(0), pot(0), winner(0)
 {
 	Player player0(m,preFlopOdds, "player0");
@@ -228,12 +228,11 @@ void Table::AddToMap(string cardStr, double weight)
 
 void Table::NewRound()
 {
-    cout << "\nBeginning a new round.\n";
-	simOut << "\nBeginning a new round.\n";
-    
+    cout << "\n\n\n<----------Beginning a new round---------->\n\n";
+	simOut << "\n\n\n<----------Beginning a new round---------->\n\n";
+    numPlayersNotFolded = numPlayers;
 	int p = 0;
-	OddsTable();
-    UpdatePlayerOddsTable();
+
 
 	//reset pot and flags
     pot = 0.0;
@@ -249,6 +248,7 @@ void Table::NewRound()
 
 	//recalculates preFlopOdds table based on new number of players
 	OddsTable();
+    UpdatePlayerOddsTable();
 	
 	//creates and shuffles deck
 	deck1.ShuffleCard();
@@ -381,20 +381,22 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
             
 		if(iter->DidFold())
 		{
-		    cout << iter->GetName() << " has already folded, waiting for next round...\n";
-			simOut << iter->GetName() << " has already folded, waiting for next round...\n";
+		    //cout << iter->GetName() << " has already folded, waiting for next round...\n";
+			//simOut << iter->GetName() << " has already folded, waiting for next round...\n";
 			continue; //skip them, they don't get an action			
 		}
 		else
 		{
 		    
-			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter, numPlayers);
+			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter, numPlayers, numPlayersNotFolded);
 			pot += addToPot;
 			if(iter->DidRaised())
 			{
 				numRaises++;
 			    iter->ResetRaised();	
 			}
+			if(iter->DidFold())
+				numPlayersNotFolded--;
 			if(numRaises == 2)
 				limitRaise2 = true;
 		}
@@ -429,8 +431,8 @@ bool Table::CheckAllBets(double theHighBet)
 		}
 	}
 	
-	cout << "Betting for round is over.\n";
-	simOut << "Betting for round is over.\n";
+	cout << "Betting for deal is over.\n";
+	simOut << "Betting for deal is over.\n";
 	return true;
 }//CheckAllBets
 
@@ -610,8 +612,6 @@ void Table::GetHighBet()
 		    highBet = currBet;
 		}
 	}
-	cout << "Current High Bet: " << highBet << "\n";
-	simOut << "Current High Bet: " << highBet << "\n";
 }
 
 void Table::UpdatePlayerOddsTable()
