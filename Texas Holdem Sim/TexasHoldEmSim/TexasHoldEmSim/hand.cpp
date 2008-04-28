@@ -31,7 +31,14 @@ void hand::initHand(vector<card>& table, vector<card>& hole)
             }
         }
     
-    addcombo(0,1,2,3,4);
+	addcombo(0,1,2,3,4);
+
+	addcombo(1,2,3,4,5);
+	addcombo(0,2,3,4,5);
+	addcombo(0,1,3,4,5);
+	addcombo(0,1,2,4,5);
+	addcombo(0,1,2,3,5);
+
 	addcombo(2,3,4,5,6);
     addcombo(1,3,4,5,6);
     addcombo(1,2,4,5,6);
@@ -53,7 +60,6 @@ handType hand::getType()
 {
     handType best;
     handType currType;
-    int index = 0;
 
     for(int i = 0; i < possHands.size(); ++i )
     {
@@ -62,7 +68,6 @@ handType hand::getType()
         if( currType > best )
         {
             best = currType;
-            index = i;
         }
     }
 
@@ -234,7 +239,7 @@ bool hand::is2pair( const vector<card>& h, handType& type )
         type.setType( TWOPAIR, h[0].getfacenum(), h[2].getfacenum(), h[4].getfacenum() );
         return true;
     }
-    else if( (h[0].getnum() == h[1].getnum()) && (h[4].getnum() == h[4].getnum()) )
+    else if( (h[0].getnum() == h[1].getnum()) && (h[3].getnum() == h[4].getnum()) )
     {
         type.setType( TWOPAIR, h[0].getfacenum(), h[3].getfacenum(), h[2].getfacenum() );
         return true;
