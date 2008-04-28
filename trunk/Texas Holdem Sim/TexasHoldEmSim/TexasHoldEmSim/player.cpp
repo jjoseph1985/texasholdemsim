@@ -108,28 +108,28 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	
 
 	/*---------AI STUFF TO BE REPLACED---------*/
-	int decision = (rand()%4)+1; //1=check;2=call;3=raise&call;4=fold
+	decision = (rand()%4); 
 	//cout << "D1:" << decision << " ";
 	//Can't raise if limited and can't check if they owe money
-	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1) || decision == 4)
+	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
 	{
-		decision = (rand()%4)+1;
+		decision = (rand()%4);
 	}
 	//cout << "D2:" << decision << "\n";
 	
 	/*---------DON'T REPLACE BELOW---------*/
 	switch(decision)
 	{//now do decision
-		case 1 : 
+		case CHECK : 
 			return Check();
 			break;
-		case 2 : 
+		case CALL : 
 			return Call(currentHighBet);
 			break;
-		case 3 : 
+		case RAISE : 
 			return Raise(currentHighBet, 11);
 			break;
-		case 4 : 
+		case FOLD : 
 			return Fold();
 			break;
 	    default:
@@ -302,8 +302,11 @@ void Player::SetJob(int theJob)
 
 double Player::PreFlopDec(int howMany)
 {
-    double rval = 0.0;
-    string lookup = "";
+    double odds = 0.0;
+    string lookup = holeCards[0].whatcard() + holeCards[1].whatcard();
+
+    map<string, double>::iterator it;
+    odds = preFlopOdds.find(lookup)->second;
 
     switch(howMany)
     {
@@ -311,9 +314,18 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
-                    //lookup = holeCards[0].
+                  if(odds >= 41)
+                  {
+                      if(
                     
+                  }
+                  else
+                  {
+                    if(currentHighBet == myBet)
+                        decision = CHECK;
+                    else
+                        decision = FOLD;
+                  }
                 break;
                 
                 case INTERMEDIATE:
@@ -495,7 +507,7 @@ void Player::SortHoleCards()
     card c0 = holeCards[0];
     card c1 = holeCards[1];
     
-    if(c1.getfacenum() > c0.getfacenum())
+    if(c1 > c0)
     {
         holeCards[0] = c1;
         holeCards[1] = c0;
