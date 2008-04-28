@@ -46,7 +46,7 @@ class Table
     private:
         void AddToMap(string cardStr, double weight);
         void DealCardHelper(int type);
-		void NextActionHelper(double theHighBet, bool isHole);
+		void NextActionHelper(double theHighBet, bool thisIsHole);
 		void FindJob(int desiredJob);
         
 	    bool limitRaise1; //limit because someone went all in

@@ -33,7 +33,7 @@ class Player
         void AddCard(card c, int loc);
         void ClearCards();
         
-		double Action(bool limitRaise, double currentHighBet, bool isHole, bool isFirstIter);
+		double Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
