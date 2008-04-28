@@ -91,6 +91,7 @@ class Player
         bool raised;
         int  job;
         int  skillLvl;
+        int  decision;
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     
