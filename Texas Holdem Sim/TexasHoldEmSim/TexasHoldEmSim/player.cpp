@@ -74,6 +74,8 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
 	
+	dealHighBet = currentHighBet;
+	
 	if(job==SMALLBLIND && amFirstIter && amHole)
 	{
 	    if(smallBlind > money)
@@ -112,10 +114,10 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	}
 	
 	if(amHole)
-	    PreFlopDec(numPlay, limitRaise, currentHighBet);
+	    PreFlopDec(numPlay, limitRaise);
 	
 	else
-	    PostFlopDec(limitRaise, currentHighBet);
+	    PostFlopDec(limitRaise);
 
 	
 	/*---------DON'T REPLACE BELOW---------*/
@@ -125,10 +127,10 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 			return Check();
 			break;
 		case CALL : 
-			return Call(currentHighBet);
+			return Call();
 			break;
 		case RAISE : 
-			return Raise(currentHighBet, raiseAmt);
+			return Raise(raiseAmt);
 			break;
 		case FOLD : 
 			return Fold();
@@ -216,15 +218,15 @@ void Player::SetBB(double amnt)
 	bigBlind = amnt;
 }
 
-double Player::Call(double theHighBet)
+double Player::Call()
 {
     double rval = 0.0;
     
-	if((theHighBet - myBet) == 0)  //you idiot, you meant check!
+	if((dealHighBet - myBet) == 0)  //you idiot, you meant check!
 	{
 		rval = Check();
 	}	
-	else if((theHighBet - myBet) > money)   //if you don't have enough money to call
+	else if((dealHighBet - myBet) > money)   //if you don't have enough money to call
 	{
 		allIn = true;
 		rval = money;
@@ -233,9 +235,9 @@ double Player::Call(double theHighBet)
 	}
 	else
 	{
-        rval = (theHighBet - myBet);
+        rval = (dealHighBet - myBet);
 	    money -= rval;
-	    myBet = theHighBet; 
+	    myBet = dealHighBet; 
 	    cout << name << " called(owed) the bet of " << rval << "\n";
     }
     
@@ -256,15 +258,15 @@ double Player::Check()
 	return 0.0;
 }//Check
 
-double Player::Raise(double theHighBet, double amnt)
+double Player::Raise(double amnt)
 {
     double rval = 0.0;
 
-	if((theHighBet - myBet) > money) // Not Enough $$ to raise, much less call, all in buddy
+	if((dealHighBet - myBet) > money) // Not Enough $$ to raise, much less call, all in buddy
 	{
-		rval = Call(theHighBet);
+		rval = Call();
 	}
-	else if((theHighBet - myBet + amnt) > money) // Don't have enough to call AND raise how much you want
+	else if((dealHighBet - myBet + amnt) > money) // Don't have enough to call AND raise how much you want
 	{
 		allIn = true;
 		myBet += money;
@@ -275,9 +277,9 @@ double Player::Raise(double theHighBet, double amnt)
 	}
 	else
 	{
-        rval = (theHighBet - myBet + amnt);
+        rval = (dealHighBet - myBet + amnt);
 	    money -= rval;
-	    cout << name << " called(owed) the bet of " << (theHighBet - myBet) << " and raised " << amnt << "\n";
+	    cout << name << " called(owed) the bet of " << (dealHighBet - myBet) << " and raised " << amnt << "\n";
 	    myBet += rval;
 	    raised = true;
 	}
@@ -303,7 +305,7 @@ void Player::SetJob(int theJob)
     job = theJob;
 } // SetJob()
 
-void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
+void Player::PreFlopDec(int howMany, bool limitRaise)
 {
     double odds = 0.0;
     string lookup = holeCards[0].whatcard() + holeCards[1].whatcard();
@@ -320,23 +322,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 41)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 49)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 55)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }
         break;
@@ -346,23 +348,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 26.5)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 31)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 37)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -372,23 +374,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 19.4)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 23.3)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 19.4)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -398,23 +400,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 41)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 49)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 55)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -424,23 +426,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 12.7)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 16)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 19)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -450,23 +452,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 10.7)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 13.7)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 16.5)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -476,23 +478,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 9.7)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 12)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 14.5)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
             }        
         break;
@@ -502,23 +504,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 8.4)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 11)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 13)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;       
             }        
         break;
@@ -528,23 +530,23 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
             {
                 case BEGINNER:
                   if(odds >= 7.6)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);
+                    FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
                   if(odds >= 9.9)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;
                 
                 case EXPERT:
                   if(odds >= 12)
-                    BetHelper(limitRaise, currBet);
+                    BetHelper(limitRaise);
                   else
-                    FoldHelper(limitRaise);                
+                    FoldHelper();                
                 break;   
             }        
         break;
@@ -555,13 +557,13 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
     }
 } // PreFlopDec()
 
-void Player::PostFlopDec(bool limitRaise, double currHighBet)
+void Player::PostFlopDec(bool limitRaise)
 {
 	decision = (rand()%4); 
 	
 	//Can't raise if limited and can't check if they owe money
 	
-	while((limitRaise && decision == RAISE) || (currHighBet > myBet && decision == 1))
+	while((limitRaise && decision == RAISE) || (dealHighBet > myBet && decision == 1))
 	{
 		decision = (rand()%4);
 		raiseAmt = 2*bigBlind;
@@ -590,22 +592,30 @@ void Player::SortHoleCards()
     }         
 }
 
-void Player::FoldHelper(double currentHighBet)
+void Player::FoldHelper()
 {
-    if(currentHighBet == myBet)
+    if(dealHighBet == myBet)
+    {
+        cout << "FoldHelper thinks it can check.\n";
         decision = CHECK;
+    }
     else
+    {
+        cout << "FoldHelper thinks it can Fold.\n";    
         decision = FOLD;
+    }
 }
 
-void Player::BetHelper(bool limitAction, double currentHighBet)
+void Player::BetHelper(bool limitRaise)
 {
-    if(currentHighBet >= 2*bigBlind && limitAction)
+    if(dealHighBet >= 2*bigBlind || limitRaise)
     {
+        cout << "BetHelper thinks it can Call.\n";        
         decision = CALL;
     }
     else
     {
+        cout << "BetHelper thinks it can Raise.\n";      
         int mod = rand() % 5;                         
         raiseAmt = (double)bigBlind * mod;
         decision = RAISE;

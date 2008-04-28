@@ -59,15 +59,15 @@ class Player
  
   private:
         void   CombineCards();
-		double Call(double theHighBet);
+		double Call();
 		double Fold();
 		double Check();
-		double Raise(double theHighBet, double amnt);
+		double Raise(double amnt);
 		double AllIn();
-		void   PreFlopDec(int n, bool limited, double high);
-		void   FoldHelper(double currentHighBet);
-		void   BetHelper(bool limitAction, double currentHighBet);
-		void   PostFlopDec(bool limitRaise, double currHighBet);
+		void   PreFlopDec(int n, bool limited);
+		void   FoldHelper();
+		void   BetHelper(bool limitAction);
+		void   PostFlopDec(bool limitRaise);
         
         vector<card> holeCards;
         vector<card> tableCards;
@@ -81,7 +81,7 @@ class Player
 		map<string, double> preFlopOdds;
       
 		double money;
-		double myBet;
+		double myBet, dealHighBet;
 		double smallBlind;
 		double bigBlind;
 
