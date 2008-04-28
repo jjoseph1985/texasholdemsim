@@ -11,7 +11,7 @@ Player::Player()
 
 
 Player::Player(double m, map<string, double>& preFlop, string Name): job(-1), fold(false), 
-  bust(false), allIn(false), raised(false), myBet(0), decision(-1), dealHighBet(0), odds(-1)
+  bust(false), allIn(false), raised(false), myBet(0), decision(-1), dealHighBet(0), odds(-1), raiseAmt(-1)
 { 
     money = m;
 	preFlopOdds = preFlop;
@@ -565,7 +565,7 @@ void Player::PostFlopDec(bool limitRaise)
 	
 	//Can't raise if limited and can't check if they owe money
 	
-	while((limitRaise && decision == RAISE) || (dealHighBet > myBet && decision == 1))
+	while((limitRaise && decision == RAISE) || (dealHighBet > myBet && decision == CHECK) || decision == FOLD)
 	{
 		decision = (rand()%4);
 		raiseAmt = 2*bigBlind;
@@ -623,7 +623,7 @@ void Player::BetHelper(bool limitRaise)
     else
     {
         cout << "BetHelper thinks it can Raise.\n";      
-        int mod = rand() % 5;                         
+        int mod = (rand() % 5) + 1;                         
         raiseAmt = (double)smallBlind * mod;
         decision = RAISE;
     }
