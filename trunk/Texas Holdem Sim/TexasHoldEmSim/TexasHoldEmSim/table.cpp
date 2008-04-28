@@ -222,8 +222,8 @@ void Table::AddToMap(string cardStr, double weight)
 
 void Table::NewRound()
 {
-    cout << "Beginning a new round.\n";
-	simOut << "Beginning a new round.\n";
+    cout << "\nBeginning a new round.\n";
+	simOut << "\nBeginning a new round.\n";
     
 	int p = 0;
 	OddsTable();
