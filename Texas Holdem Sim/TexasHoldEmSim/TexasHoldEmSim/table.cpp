@@ -34,12 +34,14 @@ Table::Table(double m, int num, double sbAmnt):
 	{
 		playerList.push_back(*it);
 	}
+	simOut << numPlayers << " have been created.\n";
 	
 }
 
 void Table::Init()
 {
     cout << "Initializing table.";
+	simOut << "Initializing table.\n";
 	InitPositions();
 	NewRound();	
 }
@@ -49,33 +51,39 @@ void Table::InitPositions()
     // This always works because dealer is always 0 when 
     // starting the game.
     
-    cout << "Initializing positions.\n";    
+    cout << "Initializing positions.\n";  
+	simOut << "Initializing positions.\n";
 
     iter = playerList.begin();
     iter->SetJob(DEALER);
     cout << iter->GetName() << " is now the DEALER.\n";
+	simOut << iter->GetName() << " is now the DEALER.\n";
     
     iter++;
     iter->SetJob(SMALLBLIND);
     cout << iter->GetName() << " is now the SMALLBLIND.\n";
+	simOut << iter->GetName() << " is now the SMALLBLIND.\n";
     
     if(numPlayers > 2)
     {
         iter++;
         iter->SetJob(BIGBLIND);
         cout << iter->GetName() << " is now the BIGBLIND.\n";
+		simOut << iter->GetName() << " is now the BIGBLIND.\n";
     }
 } // InitPositions()
 
 void Table::ChangePositions()
 {
     cout << "Updating remaining players jobs.\n";
+	simOut << "Updating remaining players jobs.\n";
     FindJob(DEALER);
     
     int maxJobs = 3;    //if more than 2 players there are 3 jobs (Dealer, SB, BB)
     if(numPlayers == 2) //if 2 players (Dealer, SB)
     {
-        cout << "Only 2 jobs. DEALER and SB.\n";
+		cout << "Only 2 jobs. DEALER and SB.\n";
+        simOut << "Only 2 jobs. DEALER and SB.\n";
         maxJobs = 2;
         
     }
@@ -88,6 +96,7 @@ void Table::ChangePositions()
        
 		iter->SetJob(k);   //set job based off of enum jobs
         cout << iter->GetName() << " is now the " << k << ". (DEALER=0 SB=1 BB=2)\n";
+		simOut << iter->GetName() << " is now the " << k << ". (DEALER=0 SB=1 BB=2)\n";
 
     }
 }
@@ -108,6 +117,7 @@ void Table::OddsTable()
     if(!inFile.good())
     {
         cout << "Error opening preflopodds.txt. Exiting Program...\n";
+		simOut << "ERROR OPENING preflopodds.txt! EXITING PROGRAM...\n";
     }
     
     for(int i=0; i < 169; i++)
@@ -213,6 +223,7 @@ void Table::AddToMap(string cardStr, double weight)
 void Table::NewRound()
 {
     cout << "Beginning a new round.\n";
+	simOut << "Beginning a new round.\n";
     
 	int p = 0;
 	OddsTable();
@@ -225,10 +236,11 @@ void Table::NewRound()
 	//resets players variables, except money and position
 	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{
-	    cout << iter->GetName() << "'s flags have been reset.\n";
 		iter->Reset();
 	}
-	
+	cout << "All player flags have been reset.\n";
+	simOut << "All player flags have been reset.\n";
+
 	//recalculates preFlopOdds table based on new number of players
 	OddsTable();
 	
@@ -261,7 +273,8 @@ void Table::DealCards(int type)
             {
                 sorter->SortHoleCards();
             }
-            cout << "Dealt HOLECARDS.\n";            
+            cout << "Dealt HOLECARDS.\n"; 
+			simOut << "Dealt HOLECARDS.\n"; 
             break;
             
         case FLOP:
@@ -269,11 +282,13 @@ void Table::DealCards(int type)
                 DealCardHelper(FLOP);
                 
             cout << "Dealt FLOP.\n";
+			simOut << "Dealt FLOP.\n";
             break;
             
         case TURN:
             DealCardHelper(TURN);
             cout << "Dealt TURN.\n";
+			simOut << "Dealt TURN.\n";
             break;
             
         case RIVER:
@@ -282,7 +297,8 @@ void Table::DealCards(int type)
 			{
 				iter->MakeHand();
 			}
-            cout << "Dealt RIVER.\n";            
+            cout << "Dealt RIVER.\n"; 
+			simOut << "Dealt RIVER.\n"; 
             break;                                
     }
 
@@ -359,7 +375,8 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
             
 		if(iter->DidFold())
 		{
-		    cout << iter->GetName() << " has already folded, and is sitting out this round.\n";
+		    cout << iter->GetName() << " has already folded, waiting for next round...\n";
+			simOut << iter->GetName() << " has already folded, waiting for next round...\n";
 			continue; //skip them, they don't get an action			
 		}
 		else
@@ -386,6 +403,7 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
 
 	//print out the pot
 	cout << "POT: " << pot << "\n";
+	simOut << "POT: " << pot << "\n";
 
 	numRaises = 0;
 	limitRaise2 = false;
@@ -399,12 +417,14 @@ bool Table::CheckAllBets(double theHighBet)
 	{
 		if(iter->GetBet() != theHighBet && iter->DidFold() == false && iter->GetMoney() > 0)
 		{
-		    cout << iter->GetName() << " has not bet enough money yet.\n";
+		    cout << "Not everyone has paid up, continue...\n";
+			simOut << "Not everyone has paid up, continue...\n";
 			return false;
 		}
 	}
 	
 	cout << "Betting for round is over.\n";
+	simOut << "Betting for round is over.\n";
 	return true;
 }//CheckAllBets
 
@@ -449,6 +469,7 @@ void Table::DetermineWinner()
 		{
 			iter->AddMoney(winnings);
 			cout << iter->GetName() << " won " << winnings << "\n";
+			simOut << iter->GetName() << " won " << winnings << "\n";
 		}
 	}
 
@@ -460,6 +481,7 @@ void Table::DetermineWinner()
 		{
 			bustedI->SetBusted();
 			cout << bustedI->GetName() << " has BUSTED.\n";
+			simOut << bustedI->GetName() << " has BUSTED.\n";
 		}
 	}
 
@@ -484,6 +506,7 @@ void Table::Eligible()
 		if(iter->DidBust())
 		{
 			cout << iter->GetName() << " has been REMOVED from the game.\n";
+			simOut << iter->GetName() << " has been REMOVED from the game.\n";
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
 			iter=playerList.begin();
 			numPlayers--;
@@ -492,6 +515,7 @@ void Table::Eligible()
 		{
 			if(!limitRaise1)	//don't print out twice please
 				cout << "Raising has been disabled. LimitRaise1 is enabled.\n";
+				simOut << "Raising has been disabled. LimitRaise1 is enabled.\n";
 			limitRaise1 = true; //if someone goes all in, players can't raise 
 			iter++;
 			
@@ -506,7 +530,8 @@ void Table::Eligible()
 void Table::ChangeBlinds()
 {
 	numOfRoundsPlayed++;
-	cout << numOfRoundsPlayed << " rounds have been played.\n";
+	cout << "This is round: " << numOfRoundsPlayed << "\n";
+	simOut << "This is round: " << numOfRoundsPlayed << "\n";
 
 	int randNum = (rand()%10)+1;
 
@@ -516,11 +541,13 @@ void Table::ChangeBlinds()
 		{
 			randNum = 0;
             cout << "Can't raise blinds. Table limit reached.\n";
+			simOut << "Can't raise blinds. Table limit reached.\n";
 		}else
 		{
 			smallBlind *= 2;
 			bigBlind *= 2;
-            cout << "Raising small blind to " << smallBlind;			
+            cout << "Raising small blind to " << smallBlind << " and big blind to " << bigBlind;
+			simOut << "Raising small blind to " << smallBlind << " and big blind to " << bigBlind;
 		}
 	}
 
@@ -531,8 +558,9 @@ void Table::ChangeBlinds()
 		{
 			iter->SetSB(smallBlind);
 			iter->SetBB(bigBlind);
-			cout << iter->GetName() << "'s blinds have been updated.\n";
 		}
+		cout << "All players' blind amounts have been updated.\n";
+		simOut << "All players' blind amounts have been updated.\n";
 	}
 }
 
@@ -540,8 +568,10 @@ void Table::EndGame()
 {
 	vector<Player>::iterator iter;
 	iter = playerList.begin(); //sets iter to that winning player
-	cout << "Game Over!\n\n";
+	cout << "\nGame Over!!!\n";
+	simOut << "\nGame Over!!!\n";
 	cout << iter->GetName() << " is the winner!\n";
+	simOut << iter->GetName() << " is the winner!\n";
 }
 
 void Table::GetHighBet()
@@ -557,7 +587,8 @@ void Table::GetHighBet()
 		    highBet = currBet;
 		}
 	}
-	cout << "High bet " << highBet << "\n";
+	cout << "Current High Bet: " << highBet << "\n";
+	simOut << "Current High Bet: " << highBet << "\n";
 }
 
 void Table::UpdatePlayerOddsTable()
