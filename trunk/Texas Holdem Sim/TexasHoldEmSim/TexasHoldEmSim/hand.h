@@ -51,9 +51,11 @@ class hand
         // MJB: Clears cards, handType, and possHands vectors
         void clear();
         
-        
+        vector<card> cards;  
+
         bool beats( hand& );
         bool ties( hand& ); // MJB: private maybe? beats() should probably call this
+		friend ostream& operator<< (ostream& output, hand &printHand);
 
     private:
         // MJB: determine and return a handType
@@ -72,7 +74,6 @@ class hand
         bool is2pair( const vector<card>&, handType& );
         bool isPair(  const vector<card>&, handType& );
 
-        vector<card> cards;  
         handType myType;
         vector< vector<card> > possHands; // a vector of all possible hands
         bool typeValid;  // ?

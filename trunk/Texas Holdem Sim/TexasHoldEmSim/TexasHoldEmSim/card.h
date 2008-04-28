@@ -23,6 +23,7 @@ class card
 	
 		// NE: overload equals comparison to see if two card are equal
 		friend bool operator== (card &card1, card &card2);
+		friend ostream& operator<< (ostream& output, card &printCard);
 		
     private:
         char suit;

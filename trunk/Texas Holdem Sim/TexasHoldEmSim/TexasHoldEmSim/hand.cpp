@@ -391,3 +391,17 @@ void handType::clear()
     kick4 = 0;
     kick5 = 0;
 } // clear()
+
+ostream& operator<< (ostream& output, hand &printHand) 
+{ 
+	vector<card>::iterator printer;
+	for(printer=printHand.cards.begin(); printer!=printHand.cards.end(); ++printer)
+	{
+		output << *printer << " " << "printing?";
+	}
+
+	handType& printType = printHand.getType();
+
+	output << printType.getType();
+	return output;
+} 

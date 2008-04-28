@@ -85,12 +85,10 @@ void Table::ChangePositions()
 		iter++;
         if(iter==playerList.end() )  //loop back to beginning if reached end
             iter = playerList.begin();
-            
-        if(numPlayers == 2)
-        {
-            iter->SetJob(k);   //set job based off of enum jobs
-            cout << iter->GetName() << " is now the " << k << ". (DEALER=0 SB=1 BB=2)\n";
-        }
+       
+		iter->SetJob(k);   //set job based off of enum jobs
+        cout << iter->GetName() << " is now the " << k << ". (DEALER=0 SB=1 BB=2)\n";
+
     }
 }
 
@@ -273,6 +271,8 @@ void Table::DealCards(int type)
             cout << "Dealt RIVER.\n";            
             break;                                
     }
+
+	
 } // DealCard
 
 void Table::DealCardHelper(int type)
@@ -303,7 +303,7 @@ void Table::NextAction()
 	Eligible();
 	NextActionHelper(highBet, false);
 	
-	//deal turn and then whoever is left continues
+	//deal turn and then whoever is left contfinues
 	DealCards(TURN);
 	Eligible();
 	NextActionHelper(highBet, false);
@@ -316,21 +316,24 @@ void Table::NextAction()
 	//searches each players hand and determines the best hand of all players
 	
 	hand bestHand;
+	hand hand1;
     vector<Player>::iterator currentWinner;
     currentWinner = playerList.begin();
     
 	for(iter = playerList.begin(); iter != playerList.end();iter++)
 	{	
-		hand hand1 = iter->ShowHand();
+		hand1 = iter->ShowHand();
 		if(hand1.beats(bestHand))
 		{
 			bestHand = hand1;
 			currentWinner = iter;
 		}
+		cout << iter->GetName() << " 's hand: " << hand1 << "\n";
 	}
 	
 	iter=currentWinner;
-	
+	hand1 = iter->ShowHand();
+	cout << "Best hand was " << iter->GetName() << ": " << hand1 << "\n";
 	//goes back to Round to delare a winner and determine if newround or gameover
 } 
 
@@ -346,7 +349,9 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
     {
         if(iter == playerList.end())
 			iter = playerList.begin();
-			
+		
+		GetHighBet();
+
         if(isFirstIter == false && CheckAllBets(highBet) == true)
         {
             break;
@@ -362,7 +367,6 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
 		}
 		else
 		{
-		    GetHighBet();
 		    
 			double addToPot = iter->Action((limitRaise1 || limitRaise2), highBet, thisIsHole, isFirstIter);
 			pot += addToPot;
@@ -376,6 +380,16 @@ void Table::NextActionHelper(double theHighBet, bool thisIsHole)
 		}
 	}
 
+	//reset all player bet amounts
+	highBet = 0.0;
+	for(iter=playerList.begin(); iter!=playerList.end(); iter++)
+	{
+		iter->ResetMyBet();
+	}
+
+	//print out the pot
+	cout << "POT: " << pot << "\n";
+
 	numRaises = 0;
 	limitRaise2 = false;
 } //NextActionHelper
@@ -386,7 +400,7 @@ bool Table::CheckAllBets(double theHighBet)
 	
 	for(iter = playerList.begin(); iter!=playerList.end(); iter++)
 	{
-		if(iter->GetBet() != theHighBet && iter->GetMoney() > 0)
+		if(iter->GetBet() != theHighBet && iter->DidFold() == false && iter->GetMoney() > 0)
 		{
 		    cout << iter->GetName() << " has not bet enough money yet.\n";
 			return false;
@@ -478,7 +492,7 @@ void Table::ChangeBlinds()
 		{
 			iter->SetSB(smallBlind);
 			iter->SetBB(bigBlind);
-			cout << iter->GetName() << "'s blinds have been updated.";
+			cout << iter->GetName() << "'s blinds have been updated.\n";
 		}
 	}
 }
@@ -501,11 +515,10 @@ void Table::GetHighBet()
 		currBet = iter->GetBet();
 		if(currBet > highBet)
 		{
-		    cout << "High bet is now " << highBet << "\n";
 		    highBet = currBet;
 		}
 	}
-	
+	cout << "High bet " << highBet << "\n";
 }
 
 void Table::FindJob(int desiredJob)
