@@ -10,7 +10,7 @@ Player::Player()
 }
 
 
-Player::Player(double m,map<string, double>& preFlop, string Name): job(-1), fold(false), bust(false), allIn(false), raised(false), myBet(0)
+Player::Player(double m, map<string, double>& preFlop, string Name): job(-1), fold(false), bust(false), allIn(false), raised(false), myBet(0)
 { 
     money = m;
 	preFlopOdds = preFlop;
@@ -63,8 +63,13 @@ void Player::ClearCards()
 	allCards.clear();
 } // ClearCard()
 
+void Player::SetPreFlopOdds(map<string, double>& oddTbl)
+{
+    preFlopOdds = oddTbl;
+}
 
-double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter)
+
+double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numPlay)
 {
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
@@ -106,16 +111,12 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	    }
 	}
 	
+	if(amHole)
+	    PreFlopDec(numPlay, limitRaise, currentHighBet);
+	
+	else
+	    PostFlopDec(limitRaise, currentHighBet);
 
-	/*---------AI STUFF TO BE REPLACED---------*/
-	decision = (rand()%4); 
-	//cout << "D1:" << decision << " ";
-	//Can't raise if limited and can't check if they owe money
-	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
-	{
-		decision = (rand()%4);
-	}
-	//cout << "D2:" << decision << "\n";
 	
 	/*---------DON'T REPLACE BELOW---------*/
 	switch(decision)
@@ -127,7 +128,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 			return Call(currentHighBet);
 			break;
 		case RAISE : 
-			return Raise(currentHighBet, 11);
+			return Raise(currentHighBet, raiseAmt);
 			break;
 		case FOLD : 
 			return Fold();
@@ -300,7 +301,7 @@ void Player::SetJob(int theJob)
     job = theJob;
 } // SetJob()
 
-double Player::PreFlopDec(int howMany)
+void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
 {
     double odds = 0.0;
     string lookup = holeCards[0].whatcard() + holeCards[1].whatcard();
@@ -308,6 +309,7 @@ double Player::PreFlopDec(int howMany)
     map<string, double>::iterator it;
     odds = preFlopOdds.find(lookup)->second;
 
+    // See excel file for magic numbers
     switch(howMany)
     {
         case 2:
@@ -315,24 +317,23 @@ double Player::PreFlopDec(int howMany)
             {
                 case BEGINNER:
                   if(odds >= 41)
-                  {
-                      if(
-                    
-                  }
+                    BetHelper(limitRaise, currBet);
                   else
-                  {
-                    if(currentHighBet == myBet)
-                        decision = CHECK;
-                    else
-                        decision = FOLD;
-                  }
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 49)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 55)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }
         break;
@@ -341,14 +342,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 26.5)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 31)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 37)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -357,14 +368,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 19.4)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 23.3)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 19.4)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -373,14 +394,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 41)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 49)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 55)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -389,14 +420,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 12.7)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 16)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 19)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -405,14 +446,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 10.7)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 13.7)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 16.5)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -421,14 +472,24 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 9.7)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 12)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
+                  if(odds >= 14.5)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
             }        
         break;
@@ -437,15 +498,25 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 8.4)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 11)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
-                break;
+                  if(odds >= 13)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
+                break;       
             }        
         break;
         
@@ -453,43 +524,45 @@ double Player::PreFlopDec(int howMany)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                
+                  if(odds >= 7.6)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);
                 break;
                 
                 case INTERMEDIATE:
-                
+                  if(odds >= 9.9)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
                 break;
                 
                 case EXPERT:
-                break;
+                  if(odds >= 12)
+                    BetHelper(limitRaise, currBet);
+                  else
+                    FoldHelper(limitRaise);                
+                break;   
             }        
         break;
         
-        default: // same as 5 players
-            switch(GetSkillLvl())
-            {
-                case BEGINNER:
-                
-                break;
-                
-                case INTERMEDIATE:
-                
-                break;
-                
-                case EXPERT:
-                break;
-            }        
+        default: 
         break;
     
     }
-    return 0.0;
 } // PreFlopDec()
 
-double Player::PostFlopDec()
+void Player::PostFlopDec(bool limitRaise, double currHighBet)
 {
-    double rval = 0.0;
-    
-    return rval;
+	decision = (rand()%4); 
+	
+	//Can't raise if limited and can't check if they owe money
+	
+	while((limitRaise && decision == RAISE) || (currHighBet > myBet && decision == 1))
+	{
+		decision = (rand()%4);
+		raiseAmt = 2*bigBlind;
+	}
 } // PostFlopDec()
 
 void Player::SetSkillLvl()
@@ -507,9 +580,30 @@ void Player::SortHoleCards()
     card c0 = holeCards[0];
     card c1 = holeCards[1];
     
-    if(c1 > c0)
+    if(c0 < c1)
     {
         holeCards[0] = c1;
         holeCards[1] = c0;
     }         
+}
+
+void Player::FoldHelper(double currentHighBet)
+{
+    if(currentHighBet == myBet)
+        decision = CALL;
+    else
+        decision = FOLD;
+}
+
+void Player::BetHelper(bool limitAction, double currentHighBet)
+{
+    if(currentHighBet >= 2*bigBlind && limitAction)
+    {
+        decision = CALL;
+    }
+    else
+    {
+        int mod = rand() % 5;                         
+        raiseAmt = (double)bigBlind * mod;
+    }
 }

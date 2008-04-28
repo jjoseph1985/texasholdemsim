@@ -33,7 +33,7 @@ class Player
         void AddCard(card c, int loc);
         void ClearCards();
         
-		double Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter);
+		double Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numOfplay);
         bool DidFold();
         bool DidBust();
         bool DidAllIn();
@@ -54,18 +54,20 @@ class Player
 		void   SetSkillLvl();
         int    GetSkillLvl();
         void   SortHoleCards();
+        void   SetPreFlopOdds(map<string, double>& oddTbl);
 
  
   private:
-        void CombineCards();
+        void   CombineCards();
 		double Call(double theHighBet);
 		double Fold();
 		double Check();
 		double Raise(double theHighBet, double amnt);
 		double AllIn();
-		double PreFlopDec(int np);
-		double PostFlopDec();
-
+		void   PreFlopDec(int n, bool limited, double high);
+		void   FoldHelper(double currentHighBet);
+		void   BetHelper(bool limitAction, double currentHighBet);
+		void   PostFlopDec(bool limitRaise, double currHighBet);
         
         vector<card> holeCards;
         vector<card> tableCards;
@@ -92,14 +94,13 @@ class Player
         int  job;
         int  skillLvl;
         int  decision;
+        int  raiseAmt;
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     
-        enum actionNames preflopDec();
         enum actionNames simulate();
         double sim( Table& );
         double trial( Table& );
-        double amtBet;
 
         map<string, bool> aDeck;
         map<int, string>  bDeck;
