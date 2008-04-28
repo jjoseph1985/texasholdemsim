@@ -57,6 +57,7 @@ class Table
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
 		vector<Player> tempList10Players;
+		vector<Player> bustedPlayers;
 		vector<Player>::iterator iter;
 }; // Table
 

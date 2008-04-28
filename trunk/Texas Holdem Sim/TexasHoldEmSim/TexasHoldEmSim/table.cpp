@@ -507,6 +507,7 @@ void Table::Eligible()
 		{
 			cout << iter->GetName() << " has been REMOVED from the game.\n";
 			simOut << iter->GetName() << " has been REMOVED from the game.\n";
+			bustedPlayers.push_back(*iter);
 			playerList.erase(iter); //if they are busted erase them from the list of players (they can't play again this game)
 			iter=playerList.begin();
 			numPlayers--;
@@ -570,8 +571,24 @@ void Table::EndGame()
 	iter = playerList.begin(); //sets iter to that winning player
 	cout << "\nGame Over!!!\n";
 	simOut << "\nGame Over!!!\n";
-	cout << iter->GetName() << " is the winner!\n";
-	simOut << iter->GetName() << " is the winner!\n";
+	cout << iter->GetName() << " is the winner!\n\n";
+	simOut << iter->GetName() << " is the winner!\n\n";
+
+	cout << "Winner: \n";
+	simOut << "Winner: \n";
+	cout << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	simOut << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	cout << "\t" << *iter << "\n";
+	simOut << "\t" << *iter << "\n";
+	cout << "Losers: \n";
+	simOut << "Losers: \n";
+	cout << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	simOut << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	for(iter=bustedPlayers.begin(); iter!=bustedPlayers.end(); iter++)
+	{
+		cout << "\t" << *iter;
+		simOut << "\t" << *iter;
+	}
 }
 
 void Table::GetHighBet()

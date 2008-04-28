@@ -57,6 +57,7 @@ class Player
         void   SortHoleCards();
         void   SetPreFlopOdds(map<string, double>& oddTbl);
 
+		friend ostream& operator<< (ostream& output, Player &printPlayer);
  
   private:
         void   CombineCards();
