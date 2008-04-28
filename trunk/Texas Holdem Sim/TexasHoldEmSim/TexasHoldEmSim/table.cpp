@@ -34,8 +34,8 @@ Table::Table(double m, int num, double sbAmnt):
 	{
 		playerList.push_back(*it);
 	}
+	cout << numPlayers << " have been created.\n";
 	simOut << numPlayers << " have been created.\n";
-	
 }
 
 void Table::Init()
@@ -79,6 +79,12 @@ void Table::ChangePositions()
 	simOut << "Updating remaining players jobs.\n";
     FindJob(DEALER);
     
+	vector<Player>::iterator resetIter = playerList.begin();
+	for(; resetIter!=playerList.end(); resetIter++)
+	{
+		resetIter->SetJob(-1);
+	}
+
     int maxJobs = 3;    //if more than 2 players there are 3 jobs (Dealer, SB, BB)
     if(numPlayers == 2) //if 2 players (Dealer, SB)
     {
@@ -576,14 +582,14 @@ void Table::EndGame()
 
 	cout << "Winner: \n";
 	simOut << "Winner: \n";
-	cout << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
-	simOut << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	cout << "\tName\tSkill\tlastJob\tMoney\tAllIn\tFold\tBust\n";
+	simOut << "\tName\tSkill\tlastJob\tMoney\tAllIn\tFold\tBust\n";
 	cout << "\t" << *iter << "\n";
 	simOut << "\t" << *iter << "\n";
 	cout << "Losers: \n";
 	simOut << "Losers: \n";
-	cout << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
-	simOut << "\tName\tSkill\tJob\tMoney\tAllIn\tFold\tBust\n";
+	cout << "\tName\tSkill\tlastJob\tMoney\tAllIn\tFold\tBust\n";
+	simOut << "\tName\tSkill\tlastJob\tMoney\tAllIn\tFold\tBust\n";
 	for(iter=bustedPlayers.begin(); iter!=bustedPlayers.end(); iter++)
 	{
 		cout << "\t" << *iter;
