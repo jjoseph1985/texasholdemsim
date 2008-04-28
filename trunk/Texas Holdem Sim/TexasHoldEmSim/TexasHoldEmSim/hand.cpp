@@ -397,7 +397,7 @@ ostream& operator<< (ostream& output, hand &printHand)
 	vector<card>::iterator printer;
 	for(printer=printHand.cards.begin(); printer!=printHand.cards.end(); ++printer)
 	{
-		output << *printer << " " << "printing?";
+		output << *printer << " ";
 	}
 
 	handType& printType = printHand.getType();
