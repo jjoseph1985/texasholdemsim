@@ -282,14 +282,20 @@ void Table::DealCards(int type)
 
 void Table::DealCardHelper(int type)
 {   
+	card c = deck1.deck.back();
+	deck1.deck.pop_back(); 
+
     for(int k=0; k!=numPlayers; k++, iter++)
     {   
         if(iter == playerList.end())
             iter = playerList.begin();
 	    
-	    card c = deck1.deck.back();
-	    iter->AddCard(c,type);
-	    deck1.deck.pop_back();  
+		iter->AddCard(c,type);
+		if(type == HOLECARDS)
+		{	//if it's the whole cards being dealt keep getting a new one
+			c = deck1.deck.back();
+			deck1.deck.pop_back();
+		}
     }
 }
 
