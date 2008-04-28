@@ -59,7 +59,7 @@ handType hand::getType()
     {
         currType = typeOf( possHands[i] );
 
-        if( currType.beats( best ) )
+        if( currType > best )
         {
             best = currType;
             index = i;
@@ -273,14 +273,26 @@ bool hand::isPair( const vector<card>& h, handType& type )
 		return false;
 } // isPair()
 
-bool hand::beats( hand& other )
-{
-    handType temp = other.getType();
-    return myType.beats( temp );
-} // beats()
+ostream& operator<< (ostream& output, hand &printHand) 
+{ 
+	vector<card>::iterator printer;
+	for(printer=printHand.cards.begin(); printer!=printHand.cards.end(); ++printer)
+	{
+		output << *printer << " ";
+	}
 
-bool hand::ties( hand& other )
-{
-    handType temp = other.getType();
-    return myType.ties( temp );
-} // ties()
+	handType& printType = printHand.getType();
+
+	output << printType.getType();
+	return output;
+} 
+
+bool operator> (hand& hand1, hand& hand2)  
+{  
+    return hand1.getType() > hand2.getType();
+} 
+
+bool operator== (hand& hand1, hand& hand2)  
+{ 
+    return hand1.getType() == hand2.getType();
+} 

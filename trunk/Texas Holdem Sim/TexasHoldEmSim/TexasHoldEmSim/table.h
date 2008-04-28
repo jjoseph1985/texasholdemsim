@@ -32,7 +32,7 @@ class Table
 		void NewRound();
 		void DealCards(int type);
 		void NextAction();
-	    void DeclareWinner();
+	    void DetermineWinner();
 		void Eligible();
 		void ChangeBlinds();
 		void EndGame();

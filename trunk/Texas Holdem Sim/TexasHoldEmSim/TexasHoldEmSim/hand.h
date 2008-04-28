@@ -31,8 +31,8 @@ class hand
         
         vector<card> cards;  
 
-        bool beats( hand& );
-        bool ties( hand& ); // MJB: private maybe? beats() should probably call this
+		friend bool operator> (hand& hand1, hand& hand2);
+		friend bool operator== (hand& hand1, hand& hand2);
 		friend ostream& operator<< (ostream& output, hand &printHand);
 
     private:

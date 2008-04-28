@@ -239,7 +239,7 @@ void Table::NewRound()
 	//starts game
 	NextAction();
 	
-	DeclareWinner();
+	DetermineWinner();
 }
 
 void Table::DealCards(int type)
@@ -317,31 +317,7 @@ void Table::NextAction()
 	Eligible();
 	NextActionHelper(highBet, false);
 	
-	//searches each players hand and determines the best hand of all players
-	
-	hand bestHand;
-	hand hand1;
-    vector<Player>::iterator currentWinner;
-    currentWinner = playerList.begin();
-    
-	for(iter = playerList.begin(); iter != playerList.end();iter++)
-	{	
-		if(iter->DidFold() || iter->DidBust())	//if they fold or bust, they can't win
-			continue;
-
-		hand1 = iter->GetHand();
-		if(hand1.beats(bestHand))
-		{
-			bestHand = hand1;
-			currentWinner = iter;
-		}
-		cout << iter->GetName() << " 's hand: " << hand1 << "\n";
-	}
-	
-	iter=currentWinner;
-	hand1 = iter->GetHand();
-	cout << "Best hand was " << iter->GetName() << ": " << hand1 << "\n";
-	//goes back to Round to delare a winner and determine if newround or gameover
+	DetermineWinner();
 } 
 
 void Table::NextActionHelper(double theHighBet, bool thisIsHole)
@@ -418,11 +394,49 @@ bool Table::CheckAllBets(double theHighBet)
 	return true;
 }//CheckAllBets
 
-void Table::DeclareWinner() 
+void Table::DetermineWinner() 
 {  
-	//gives the winner the money in the pot
-	iter->AddMoney(pot);
+	//searches each players hand and determines the best hand of all players
+	hand bestHand;
+	hand curHand;
+	int howManyWinners=0;
+    
+	//finds the players' highest hand and how many ppl had that same hand (for ties)
+	for(iter = playerList.begin(); iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold() || iter->DidBust())	//if they fold or bust, they can't win
+			continue;
+
+		curHand = iter->GetHand();
+		if(curHand > bestHand)
+		{
+			bestHand = curHand;
+			howManyWinners = 1;
+		}else if(curHand == bestHand)
+		{
+			howManyWinners++;
+		}
+		cout << iter->GetName() << "'s hand: " << curHand << "\n";
+	}
 	
+	cout << "Best hand was: " << bestHand << "\n";
+	double winnings = pot / howManyWinners;	//divide pot to multiple players
+
+	//loops through players to award winnings (mainly for ties)
+	for(iter = playerList.begin(); iter != playerList.end();iter++)
+	{	
+		if(iter->DidFold() || iter->DidBust())	//if they fold or bust, they can't win
+			continue;
+		
+		curHand = iter->GetHand();
+		if(curHand == bestHand)
+		{
+			iter->AddMoney(winnings);
+			cout << iter->GetName() << " won " << winnings << "\n";
+		}
+	}
+
+	//checks to see if any players have busted and sets their busted flag
 	vector<Player>::iterator bustedI = playerList.begin();
 	for(int k=0; k!=numPlayers; k++,bustedI++)
 	{
@@ -444,7 +458,7 @@ void Table::DeclareWinner()
 		ChangePositions();
 		NewRound(); //starts the next round
 	}
-}
+}//DetermineWinner
 
 void Table::Eligible()
 {
