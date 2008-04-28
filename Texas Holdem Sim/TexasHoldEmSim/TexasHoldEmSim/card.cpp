@@ -97,3 +97,9 @@ bool operator== (card &card1, card &card2)
 {  
 	return (card1.whatcard() == card2.whatcard());  
 } 
+
+ostream& operator<< (ostream& output, card &printCard) 
+{  
+	output << printCard.whatcard();
+	return output;
+} 

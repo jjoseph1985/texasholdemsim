@@ -106,7 +106,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	int decision = (rand()%4)+1; //1=check;2=call;3=raise&call;4=fold
 	//cout << "D1:" << decision << " ";
 	//Can't raise if limited and can't check if they owe money
-	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1))
+	while((limitRaise && decision == 3) || (currentHighBet > myBet && decision == 1) || decision == 4)
 	{
 		decision = (rand()%4)+1;
 	}
@@ -169,6 +169,11 @@ void Player::ResetRaised()
     raised = false;
 } // ResetRaised()
 
+void Player::ResetMyBet()
+{
+    myBet = 0.0;
+} // ResetMyBet()
+
 void Player::SetBusted()
 {
     bust = true;
@@ -223,7 +228,7 @@ double Player::Call(double theHighBet)
         rval = (theHighBet - myBet);
 	    money -= rval;
 	    myBet = theHighBet; 
-	    cout << name << " called the bet of " << theHighBet << "\n";
+	    cout << name << " called(owed) the bet of " << rval << "\n";
     }
     
     return rval;
@@ -264,7 +269,7 @@ double Player::Raise(double theHighBet, double amnt)
 	{
         rval = (theHighBet - myBet + amnt);
 	    money -= rval;
-	    cout << name << " called the bet of " << (theHighBet - myBet) << " and raised " << amnt << "\n";
+	    cout << name << " called(owed) the bet of " << (theHighBet - myBet) << " and raised " << amnt << "\n";
 	    myBet += rval;
 	    raised = true;
 	}
