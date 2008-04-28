@@ -14,6 +14,7 @@
 #include "card.h"
 #include "hand.h"
 #include "deck.h"
+#include "shared.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ class Player
 {
 
   public:
-        enum { DEALER=0, SMALLBLIND=1, BIGBLIND=2};
+
         
         Player();
         Player(double m, map<string, double>& preFlop, string name);
