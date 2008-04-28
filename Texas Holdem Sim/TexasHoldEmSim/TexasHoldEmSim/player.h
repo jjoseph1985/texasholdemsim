@@ -22,8 +22,6 @@ class Player
 {
 
   public:
-
-        
         Player();
         Player(double m, map<string, double>& preFlop, string name);
         
@@ -55,6 +53,7 @@ class Player
 		void   SetJob(int theJob);		
 		void   SetSkillLvl();
         int    GetSkillLvl();
+        void   SortHoleCards();
 
  
   private:

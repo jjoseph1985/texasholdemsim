@@ -98,10 +98,10 @@ void Table::OddsTable()
     string w;
     double weight = 0;
 
-    /*
-    ofstream outFile;
-    outFile.open("temp.txt");
-    */
+    
+    //ofstream outFile;
+    //outFile.open("temp.txt");
+    
 
     ifstream inFile;
     inFile.open("preflopodds.txt", ifstream::in);
@@ -134,14 +134,14 @@ void Table::OddsTable()
         AddToMap(cardStr, weight);
     }
 
-
+/*
     // Print out the map
     map<string,double>::iterator iter;
 
     for( iter = preFlopOdds.begin(); iter != preFlopOdds.end(); iter++ )
-        cout << (*iter).first << " => " << (*iter).second << endl;
+        outFile << (*iter).first << " => " << (*iter).second << endl;
     
-
+*/
     inFile.close();
 }
 
@@ -246,12 +246,20 @@ void Table::NewRound()
 void Table::DealCards(int type)
 {
     FindJob(SMALLBLIND);
+ 
+    vector<Player>::iterator sorter;
+ 
     switch(type)
     {	        
         case HOLECARDS:
             for(int i = 1; i < 3; i++)
                 DealCardHelper(HOLECARDS);
-                       
+            
+            // Put hole cards in order low-high so can find them in map
+            for(sorter=playerList.begin(); sorter!=playerList.end(); sorter++)
+            {
+                sorter->SortHoleCards();
+            }
             cout << "Dealt HOLECARDS.\n";            
             break;
             
@@ -323,8 +331,6 @@ void Table::NextAction()
 	DealCards(RIVER);
 	Eligible();
 	NextActionHelper(highBet, false);
-	
-	DetermineWinner();
 } 
 
 void Table::NextActionHelper(double theHighBet, bool thisIsHole)
