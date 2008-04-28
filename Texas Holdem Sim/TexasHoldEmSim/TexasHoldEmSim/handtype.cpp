@@ -7,7 +7,7 @@ handType::handType(): label(BLANK), kick1(0),  kick2(0), kick3(0),  kick4(0),  k
 
 }
 
-void handType::setType( enum typeName tn, int a, int b, int c, int d, int e )
+void handType::setType( int tn, int a, int b, int c, int d, int e )
 {
     label = tn;
     kick1 = a;
