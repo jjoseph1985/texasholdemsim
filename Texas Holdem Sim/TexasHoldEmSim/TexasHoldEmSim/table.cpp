@@ -558,6 +558,16 @@ void Table::GetHighBet()
 	cout << "High bet " << highBet << "\n";
 }
 
+void Table::UpdatePlayerOddsTable()
+{
+    vector<Player>::iterator updater;
+    
+    for(updater=playerList.begin(); updater!=playerList.end(); updater++)
+    {
+        updater->SetPreFlopOdds(preFlopOdds);
+    }
+}
+
 void Table::FindJob(int desiredJob)
 {
     for(iter=playerList.begin(); iter!=playerList.end(); iter++)
