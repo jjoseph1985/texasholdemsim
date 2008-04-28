@@ -16,6 +16,8 @@ string ParseCmdLine( int argc, char* argv[], vector<string>& vKeys, AnyOption& a
 void MapKeys(map<string,string>& mPairs, vector<string>& vKeys, AnyOption& anyOpt);
 void InitKeys(vector<string>& vKeys);
 
+ofstream fout;
+ofstream& simOut = fout;
 
 
 int main( int argc, char ** argv )
@@ -26,9 +28,6 @@ int main( int argc, char ** argv )
 
     AnyOption anyOpt;
     string outPutFile = "";
-    ofstream fout;
-    
-
     
     // Starting things off:
     // 1. Parse the command line
@@ -46,6 +45,7 @@ int main( int argc, char ** argv )
         exit(0);
     }
     
+	simOut << "Welcome to the Texas Hold 'Em Simulation!!!\n\n";
 
 	Table table(strtod((mPairs.find("Money")->second).c_str(), NULL),
 		        atoi((mPairs.find("Players")->second).c_str()),

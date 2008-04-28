@@ -17,7 +17,7 @@
 #include "shared.h"
 
 using namespace std;
-
+extern ofstream& simOut;
 
 
 class Table

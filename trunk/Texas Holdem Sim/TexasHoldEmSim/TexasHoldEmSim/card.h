@@ -7,6 +7,7 @@
 #include <iostream>
 
 using namespace std;
+extern ofstream& simOut;
 
 class card
 {

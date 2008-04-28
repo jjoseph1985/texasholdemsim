@@ -8,6 +8,7 @@
 #include "card.h"
 
 using namespace std;
+extern ofstream& simOut;
 
 class Deck
 {
