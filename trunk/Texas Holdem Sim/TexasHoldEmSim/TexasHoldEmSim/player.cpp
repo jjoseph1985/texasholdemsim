@@ -10,7 +10,8 @@ Player::Player()
 }
 
 
-Player::Player(double m, map<string, double>& preFlop, string Name): job(-1), fold(false), bust(false), allIn(false), raised(false), myBet(0)
+Player::Player(double m, map<string, double>& preFlop, string Name): job(-1), fold(false), 
+  bust(false), allIn(false), raised(false), myBet(0), decision(-1), dealHighBet(0), odds(-1)
 { 
     money = m;
 	preFlopOdds = preFlop;
@@ -75,6 +76,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	possibleRiverCards.ShuffleCard();
 	
 	dealHighBet = currentHighBet;
+	playersLeft = numPlay;
 	
 	if(job==SMALLBLIND && amFirstIter && amHole)
 	{
@@ -114,7 +116,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	}
 	
 	if(amHole)
-	    PreFlopDec(numPlay, limitRaise);
+	    PreFlopDec(limitRaise);
 	
 	else
 	    PostFlopDec(limitRaise);
@@ -305,16 +307,16 @@ void Player::SetJob(int theJob)
     job = theJob;
 } // SetJob()
 
-void Player::PreFlopDec(int howMany, bool limitRaise)
+void Player::PreFlopDec(bool limitRaise)
 {
-    double odds = 0.0;
+
     string lookup = holeCards[0].whatcard() + holeCards[1].whatcard();
 
     map<string, double>::iterator it;
     odds = preFlopOdds.find(lookup)->second;
 
     // See excel file for magic numbers
-    switch(howMany)
+    switch(playersLeft)
     {
     
         case 2:
@@ -387,7 +389,7 @@ void Player::PreFlopDec(int howMany, bool limitRaise)
                 break;
                 
                 case EXPERT:
-                  if(odds >= 19.4)
+                  if(odds >= 28.0)
                     BetHelper(limitRaise);
                   else
                     FoldHelper();                
@@ -399,21 +401,21 @@ void Player::PreFlopDec(int howMany, bool limitRaise)
             switch(GetSkillLvl())
             {
                 case BEGINNER:
-                  if(odds >= 41)
+                  if(odds >= 15.4)
                     BetHelper(limitRaise);
                   else
                     FoldHelper();
                 break;
                 
                 case INTERMEDIATE:
-                  if(odds >= 49)
+                  if(odds >= 18.7)
                     BetHelper(limitRaise);
                   else
                     FoldHelper();                
                 break;
                 
                 case EXPERT:
-                  if(odds >= 55)
+                  if(odds >= 22.5)
                     BetHelper(limitRaise);
                   else
                     FoldHelper();                
@@ -599,6 +601,11 @@ void Player::FoldHelper()
         cout << "FoldHelper thinks it can check.\n";
         decision = CHECK;
     }
+    else if(playersLeft <= 3)
+    {
+        cout << "FoldHelper was going to fold, but is now calling.\n";
+        decision = CALL;
+    }
     else
     {
         cout << "FoldHelper thinks it can Fold.\n";    
@@ -617,7 +624,7 @@ void Player::BetHelper(bool limitRaise)
     {
         cout << "BetHelper thinks it can Raise.\n";      
         int mod = rand() % 5;                         
-        raiseAmt = (double)bigBlind * mod;
+        raiseAmt = (double)smallBlind * mod;
         decision = RAISE;
     }
 }

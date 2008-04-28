@@ -65,7 +65,7 @@ class Player
 		double Check();
 		double Raise(double amnt);
 		double AllIn();
-		void   PreFlopDec(int n, bool limited);
+		void   PreFlopDec(bool limited);
 		void   FoldHelper();
 		void   BetHelper(bool limitAction);
 		void   PostFlopDec(bool limitRaise);
@@ -96,6 +96,8 @@ class Player
         int  skillLvl;
         int  decision;
         int  raiseAmt;
+        int  playersLeft;
+        double odds;        
 
      /* Unimplemented AI Stuff
         enum actionNames makeDec();     
