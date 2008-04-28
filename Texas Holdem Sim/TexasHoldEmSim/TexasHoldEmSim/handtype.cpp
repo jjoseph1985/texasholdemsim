@@ -1,7 +1,6 @@
 // handtype.cpp
 
 #include "handtype.h"
-#include "hand.h"
 
 handType::handType(): label(BLANK), kick1(0),  kick2(0), kick3(0),  kick4(0),  kick5(0)
 {
@@ -18,39 +17,49 @@ void handType::setType( enum typeName tn, int a, int b, int c, int d, int e )
     kick5 = e;
 }
 
-bool handType::beats( handType& other )
+void handType::clear()
 {
-    if( label > other.label )
+    label = BLANK;
+    kick1 = 0;
+    kick2 = 0;
+    kick3 = 0;
+    kick4 = 0;
+    kick5 = 0;
+} // clear()
+
+bool operator> (handType& handType1, handType& handType2)   
+{  
+    if( handType1.label > handType2.label )
     {
         return true;
     } 
-    else if( label == other.label )
+    else if( handType1.label == handType2.label )
     {
-        if( kick1 > other.kick1 )
+        if( handType1.kick1 > handType2.kick1 )
         {
             return true;
         }
-        else if( kick1 == other.kick1 )
+        else if( handType1.kick1 == handType2.kick1 )
         {
-            if( kick2 > other.kick2 )
+            if( handType1.kick2 > handType2.kick2 )
             {
                 return true;
             } 
-            else if( kick2 == other.kick2 )
+            else if( handType1.kick2 == handType2.kick2 )
             {
-                if( kick3 > other.kick3 )
+                if( handType1.kick3 > handType2.kick3 )
                 {
                     return true;
                 }
-                else if( kick3 == other.kick3 )
+                else if( handType1.kick3 == handType2.kick3 )
                 {
-                    if( kick4 > other.kick4 )
+                    if( handType1.kick4 > handType2.kick4 )
                     {
                         return true;
                     } 
-                    else if( kick4 == other.kick4 )
+                    else if( handType1.kick4 == handType2.kick4 )
                     {
-                        if( kick5 > other.kick5 )
+                        if( handType1.kick5 > handType2.kick5 )
                         {
                             return true;
                         }
@@ -82,42 +91,17 @@ bool handType::beats( handType& other )
     else
     {
         return false;
-    } 
-}
-
-bool handType::ties( handType& other )
-{
-    bool rval = false;
+    }
+} 
+bool operator== (handType& handType1, handType& handType2)  
+{ 
+	bool rval = false;
     
-    if( label == other.label && kick1 == other.kick1 && kick2 == other.kick2 
-        && kick3 == other.kick3 && kick4 == other.kick4 && kick5 == other.kick5 )
+    if( handType1.label == handType2.label && handType1.kick1 == handType2.kick1 && handType1.kick2 == handType2.kick2 
+        && handType1.kick3 == handType2.kick3 && handType1.kick4 == handType2.kick4 && handType1.kick5 == handType2.kick5 )
     {
         rval = true;
     }
     
     return rval;
-} // ties
-
-void handType::clear()
-{
-    label = BLANK;
-    kick1 = 0;
-    kick2 = 0;
-    kick3 = 0;
-    kick4 = 0;
-    kick5 = 0;
-} // clear()
-
-ostream& operator<< (ostream& output, hand &printHand) 
-{ 
-	vector<card>::iterator printer;
-	for(printer=printHand.cards.begin(); printer!=printHand.cards.end(); ++printer)
-	{
-		output << *printer << " ";
-	}
-
-	handType& printType = printHand.getType();
-
-	output << printType.getType();
-	return output;
 } 
