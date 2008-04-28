@@ -134,7 +134,9 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 			return Fold();
 			break;
 	    default:
+	        cout << "did not make a decision";
 	        return -1;
+	        
 	}
 } // Action()
 
@@ -312,6 +314,7 @@ void Player::PreFlopDec(int howMany, bool limitRaise, double currBet)
     // See excel file for magic numbers
     switch(howMany)
     {
+    
         case 2:
             switch(GetSkillLvl())
             {
@@ -567,7 +570,7 @@ void Player::PostFlopDec(bool limitRaise, double currHighBet)
 
 void Player::SetSkillLvl()
 {
-    skillLvl = rand() % 4; // 0-3
+    skillLvl = rand() % 3; // 0-2
 } // SetSkillLvl()
 
 int Player::GetSkillLvl()
@@ -590,7 +593,7 @@ void Player::SortHoleCards()
 void Player::FoldHelper(double currentHighBet)
 {
     if(currentHighBet == myBet)
-        decision = CALL;
+        decision = CHECK;
     else
         decision = FOLD;
 }
@@ -605,5 +608,6 @@ void Player::BetHelper(bool limitAction, double currentHighBet)
     {
         int mod = rand() % 5;                         
         raiseAmt = (double)bigBlind * mod;
+        decision = RAISE;
     }
 }
