@@ -70,7 +70,7 @@ void Player::SetPreFlopOdds(map<string, double>& oddTbl)
 }
 
 
-double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numPlay)
+double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool amFirstIter, int numPlay, int numLeftInRound)
 {
 	possibleTurnCards.ShuffleCard();
 	possibleRiverCards.ShuffleCard();
@@ -78,6 +78,12 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	dealHighBet = currentHighBet;
 	playersLeft = numPlay;
 	
+	if(numLeftInRound == 1)
+		return 0.0;
+
+	cout << "Current High Bet: " << currentHighBet << "\n";
+	simOut << "Current High Bet: " << currentHighBet << "\n";
+
 	if(job==SMALLBLIND && amFirstIter && amHole)
 	{
 	    if(smallBlind > money)
@@ -87,12 +93,14 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	        myBet += money;
 	        money = 0.0;
 	        cout << name << " is the small blind but not enough $$$, so allIn with" << temp << "\n";
+			simOut << name << " is the small blind but not enough $$$, so allIn with" << temp << "\n";
 	        return temp;
 	    }else
 	    {
 	        money -= smallBlind;
 	        myBet += smallBlind;
 	        cout << name << " is the small blind and is forced to bet " << smallBlind << "\n";
+			simOut << name << " is the small blind and is forced to bet " << smallBlind << "\n";
 	        return smallBlind;
 	    }
 	}
@@ -105,12 +113,14 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 	        myBet += money;
 	        money = 0.0;
 	        cout << name << " is the big blind but not enough $$$, so allIn with" << temp << "\n";
+			simOut << name << " is the big blind but not enough $$$, so allIn with" << temp << "\n";
 	        return temp;
 	    }else
 	    {
 	        money -= bigBlind;
 	        myBet += bigBlind;
 	        cout << name << " is the big blind and is forced to bet " << bigBlind << "\n";
+			simOut << name << " is the big blind and is forced to bet " << bigBlind << "\n";
 	        return bigBlind;
 	    }
 	}
@@ -139,6 +149,7 @@ double Player::Action(bool limitRaise, double currentHighBet, bool amHole, bool 
 			break;
 	    default:
 	        cout << "did not make a decision";
+			simOut << "did not make a decision";
 	        return -1;
 	        
 	}
@@ -234,6 +245,7 @@ double Player::Call()
 		rval = money;
 		money = 0.0;
 	    cout << name << " went all in with " << rval << "\n";
+		simOut << name << " went all in with " << rval << "\n";
 	}
 	else
 	{
@@ -241,6 +253,7 @@ double Player::Call()
 	    money -= rval;
 	    myBet = dealHighBet; 
 	    cout << name << " called(owed) the bet of " << rval << "\n";
+		simOut << name << " called(owed) the bet of " << rval << "\n";
     }
     
     return rval;
@@ -251,12 +264,14 @@ double Player::Fold()
 {
 	fold = true;
 	cout << name << " folded -- loser!\n";
+	simOut << name << " folded -- loser!\n";
 	return 0.0;
 }//Fold
 
 double Player::Check()
 {
 	cout << name << " checked (knock-knock)\n";
+	simOut << name << " checked (knock-knock)\n";
 	return 0.0;
 }//Check
 
@@ -275,6 +290,7 @@ double Player::Raise(double amnt)
 		rval = money;
 		money = 0.0;
 		cout << name << " went all in with " << rval << "\n";
+		simOut << name << " went all in with " << rval << "\n";
 		raised = true;
 	}
 	else
@@ -282,6 +298,7 @@ double Player::Raise(double amnt)
         rval = (dealHighBet - myBet + amnt);
 	    money -= rval;
 	    cout << name << " called(owed) the bet of " << (dealHighBet - myBet) << " and raised " << amnt << "\n";
+		simOut << name << " called(owed) the bet of " << (dealHighBet - myBet) << " and raised " << amnt << "\n";
 	    myBet += rval;
 	    raised = true;
 	}
@@ -561,16 +578,31 @@ void Player::PreFlopDec(bool limitRaise)
 
 void Player::PostFlopDec(bool limitRaise)
 {
-	decision = (rand()%4); 
+	decision = PostFlopDecHelper(); 
 	
 	//Can't raise if limited and can't check if they owe money
 	
-	while((limitRaise && decision == RAISE) || (dealHighBet > myBet && decision == CHECK) || decision == FOLD)
+	while((limitRaise && decision == RAISE) || (dealHighBet > myBet && decision == CHECK))
 	{
-		decision = (rand()%4);
-		raiseAmt = 2*bigBlind;
+		decision = PostFlopDecHelper();
 	}
+	raiseAmt = 2*bigBlind;
 } // PostFlopDec()
+
+int Player::PostFlopDecHelper()
+{	//make certain things happen more than others
+	int dec = (rand()%11);
+	if(dec <= 3)
+		dec = CHECK;
+	else if(dec > 3 && dec <= 6)
+		dec = CALL;
+	else if(dec > 6 && dec <=8)
+		dec = RAISE;
+	else
+		dec = FOLD;
+
+	return dec;
+}//PostFlopDecHelper()
 
 void Player::SetSkillLvl()
 {
@@ -598,17 +630,17 @@ void Player::FoldHelper()
 {
     if(dealHighBet == myBet)
     {
-        cout << "FoldHelper thinks it can check.\n";
+        //cout << "FoldHelper thinks it can check.\n";
         decision = CHECK;
     }
     else if(playersLeft <= 3)
     {
-        cout << "FoldHelper was going to fold, but is now calling.\n";
+        //cout << "FoldHelper was going to fold, but is now calling.\n";
         decision = CALL;
     }
     else
     {
-        cout << "FoldHelper thinks it can Fold.\n";    
+        //cout << "FoldHelper thinks it can Fold.\n";    
         decision = FOLD;
     }
 }
@@ -617,12 +649,12 @@ void Player::BetHelper(bool limitRaise)
 {
     if(dealHighBet >= 2*bigBlind || limitRaise)
     {
-        cout << "BetHelper thinks it can Call.\n";        
+        //cout << "BetHelper thinks it can Call.\n";        
         decision = CALL;
     }
     else
     {
-        cout << "BetHelper thinks it can Raise.\n";      
+        //cout << "BetHelper thinks it can Raise.\n";      
         int mod = (rand() % 5) + 1;                         
         raiseAmt = (double)smallBlind * mod;
         decision = RAISE;

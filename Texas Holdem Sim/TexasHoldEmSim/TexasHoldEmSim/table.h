@@ -53,7 +53,7 @@ class Table
 		int numRaises;
 
 	    double pot, bigBlind, smallBlind, highBet;
-		int numPlayers, numOfRoundsPlayed, winner;
+		int numPlayers, numPlayersNotFolded, numOfRoundsPlayed, winner;
 		map<string, double> preFlopOdds;
 		vector<Player> playerList;
 		vector<Player> tempList10Players;

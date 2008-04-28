@@ -290,6 +290,7 @@ ostream& operator<< (ostream& output, hand &printHand)
 
 	handType& printType = printHand.getType();
 
+	switch(
 	output << printType.getType();
 	return output;
 } 
